@@ -2,6 +2,7 @@
 
 pin "application", preload: true
 pin "phaser", preload: true
+pin "dat.gui", to: "https://ga.jspm.io/npm:dat.gui@0.7.9/build/dat.gui.module.js"
 pin "@hotwired/turbo-rails", to: "turbo.min.js", preload: true
 pin "@hotwired/stimulus", to: "stimulus.min.js", preload: true
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js", preload: true
