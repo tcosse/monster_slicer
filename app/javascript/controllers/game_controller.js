@@ -2,10 +2,18 @@ import { Controller } from "@hotwired/stimulus"
 import * as Phaser from "phaser"
 // Connects to data-controller="game"
 export default class extends Controller {
-  static values = {playerImageUrl: String, bgImageUrl: String}
+  static values = {playerImageUrl: String,
+    bgImageUrl: String,
+    knightImageUrl: String,
+    knightRunImageUrl: String,
+    knightAttackImageUrl: String
+  }
   connect() {
     const bgImageUrl = this.bgImageUrlValue
     const playerImageUrl = this.playerImageUrlValue
+    const knightImageUrl = this.knightImageUrlValue
+    const knightRunImageUrl = this.knightRunImageUrlValue
+    const knightAttackImageUrl = this.knightAttackImageUrlValue
 
 // window.onload = function() {
 //   var game = new Phaser.Game();
@@ -15,10 +23,35 @@ export default class extends Controller {
       console.log(this.playerImageUrlValue)
       this.load.image('background', bgImageUrl);
       this.load.image('player', playerImageUrl);
-      this.load.image('enemy', playerImageUrl)
+      this.load.image('enemy', playerImageUrl);
+      this.load.spritesheet('knight_idle', knightImageUrl, { frameWidth: 128 , frameHeight: 128 })
+      this.load.spritesheet('knight_run', knightRunImageUrl, { frameWidth: 128 , frameHeight: 128 })
+      this.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 128 , frameHeight: 128 })
     };
 
     gameScene.create = function(){
+      this.knight = this.add.sprite(100,100,'knight_idle')
+      this.anims.create({
+        key: "idle",
+        frameRate: 10,
+        frames: this.anims.generateFrameNumbers("knight_idle", { start: 0, end: 4 }),
+        repeat: -1
+    });
+    this.anims.create({
+      key: "run",
+      frameRate: 10,
+      frames: this.anims.generateFrameNumbers("knight_run", { start: 0, end: 6 }),
+      repeat: -1
+    });
+    this.anims.create({
+      key: "attack",
+      frameRate: 10,
+      frames: this.anims.generateFrameNumbers("knight_attack", { start: 0, end: 4 }),
+      repeat: 0
+    });
+      this.knight.depth = 1;
+
+
 
       this.bg = this.add.sprite(0,0, 'background');
 
@@ -36,27 +69,45 @@ export default class extends Controller {
       this.enemy.depth = 1;
       this.enemy.setScale(0.5,0.5)
       this.cameras.main.setBounds(0, 0, 2000, 4000)
-      this.cameras.main.startFollow(this.player);
+      this.cameras.main.startFollow(this.knight);
 
     };
 
     gameScene.update = function() {
       var keyW = gameScene.input.keyboard.addKey('W')
+      var keyZ = gameScene.input.keyboard.addKey('Z')
       var keyS = gameScene.input.keyboard.addKey('S')
       var keyA = gameScene.input.keyboard.addKey('A')
+      var keyQ = gameScene.input.keyboard.addKey('Q')
       var keyD = gameScene.input.keyboard.addKey('D')
-      if(keyW.isDown) {
-        this.player.y -= 1;
+      var keyV = gameScene.input.keyboard.addKey('V')
+
+      if(keyW.isDown || keyZ.isDown) {
+        this.knight.y -= 1;
+        this.knight.play('run', true)
       }
       else if(keyS.isDown) {
-        this.player.y += 1;
+        this.knight.y += 1;
+        this.knight.play('run', true)
       }
-      else if(keyA.isDown) {
-        this.player.x -= 1;
+      else if(keyA.isDown || keyQ.isDown) {
+        this.knight.x -= 1;
+        this.knight.play('run', true)
+        this.knight.flipX = true
       }
       else if(keyD.isDown) {
-        this.player.x += 1;
+        this.knight.x += 1;
+        this.knight.play('run', true)
+        this.knight.flipX = false
       }
+      else if(keyV.isDown) {
+        this.knight.play('attack', true)
+      }
+      else {
+        this.knight.play('idle', true)
+      }
+
+
       var enemy_speed = 30
       var distance_between = Math.sqrt((this.player.x-this.enemy.x)**2 + (this.player.y-this.enemy.y)**2)
       if(distance_between < 100) {
