@@ -2,27 +2,46 @@ import { Controller } from "@hotwired/stimulus"
 import * as Phaser from "phaser"
 // Connects to data-controller="game"
 export default class extends Controller {
-  static values = {playerImageUrl: String, bgImageUrl: String}
+  static values = {playerImageUrl: String, bgImageUrl: String, basicTiles: String, keyboardType: String, tilemapUrl: String}
   connect() {
     const bgImageUrl = this.bgImageUrlValue
     const playerImageUrl = this.playerImageUrlValue
+    const basicTiles = this.basicTilesValue
+    const keyboardType = this.keyboardTypeValue
+    const tilemapUrl = this.tilemapUrlValue
 
 // window.onload = function() {
 //   var game = new Phaser.Game();
 // }
     let gameScene = new Phaser.Scene('Game');
     gameScene.preload = function() {
-      console.log(this.playerImageUrlValue)
       this.load.image('background', bgImageUrl);
       this.load.image('player', playerImageUrl);
       this.load.image('enemy', playerImageUrl)
+      this.load.image('tiles', basicTiles)
+      this.load.tilemapTiledJSON('dungeon', tilemapUrl)
+      console.log(tilemapUrl)
     };
 
     gameScene.create = function(){
 
-      this.bg = this.add.sprite(0,0, 'background');
+      // this.bg = this.add.sprite(0,0, 'background');
+      // this.bg.setOrigin(0,0);
 
-      this.bg.setOrigin(0,0);
+      // Add tileset to the scene
+      const map = this.make.tilemap( {key:'dungeon'} )
+      const tileset = map.addTilesetImage('basictiles','tiles')
+      map.createLayer('Ground', tileset)
+      const wallLayer = map.createLayer('Walls', tileset)
+      wallLayer.setCollisionByProperty( {collision: true} )
+
+      const debugGraphics = this.add.graphics().setAlpha(0.7)
+
+      wallLayer.renderDebug(debugGraphics, {
+        tileColor: null, // Color of non-colliding tiles
+        collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+        faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+      });
 
       this.player = this.physics.add.image(10,180, 'player').setCollideWorldBounds(true);
       this.enemy = this.physics.add.image(350, 180, 'enemy').setCollideWorldBounds(true);
@@ -37,24 +56,30 @@ export default class extends Controller {
       this.enemy.setScale(0.5,0.5)
       this.cameras.main.setBounds(0, 0, 2000, 4000)
       this.cameras.main.startFollow(this.player);
-
     };
 
     gameScene.update = function() {
-      var keyW = gameScene.input.keyboard.addKey('W')
-      var keyS = gameScene.input.keyboard.addKey('S')
-      var keyA = gameScene.input.keyboard.addKey('A')
-      var keyD = gameScene.input.keyboard.addKey('D')
-      if(keyW.isDown) {
+      if (keyboardType === 'fr') {
+        var keyUp = gameScene.input.keyboard.addKey('Z')
+        var keyDown = gameScene.input.keyboard.addKey('S')
+        var KeyLeft = gameScene.input.keyboard.addKey('Q')
+        var KeyRight = gameScene.input.keyboard.addKey('D')
+      } else {
+        var keyUp = gameScene.input.keyboard.addKey('W')
+        var keyDown = gameScene.input.keyboard.addKey('S')
+        var KeyLeft = gameScene.input.keyboard.addKey('A')
+        var KeyRight = gameScene.input.keyboard.addKey('D')
+      }
+      if(keyUp.isDown) {
         this.player.y -= 1;
       }
-      else if(keyS.isDown) {
+      else if(keyDown.isDown) {
         this.player.y += 1;
       }
-      else if(keyA.isDown) {
+      else if(KeyLeft.isDown) {
         this.player.x -= 1;
       }
-      else if(keyD.isDown) {
+      else if(KeyRight.isDown) {
         this.player.x += 1;
       }
       var enemy_speed = 30
