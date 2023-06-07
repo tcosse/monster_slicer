@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import * as Phaser from "phaser"
 // Connects to data-controller="game"
 export default class extends Controller {
-  static values = {playerImageUrl: String, bgImageUrl: String, skeletonImageUrl: String,
+  static values = {playerImageUrl: String, bgImageUrl: String, skeletonImageUrl: String, basicTiles: String, keyboardType: String, tilemapUrl: String,
     knightImageUrl: String,
     knightRunImageUrl: String,
     knightAttackImageUrl: String}
@@ -13,6 +13,10 @@ export default class extends Controller {
     const knightImageUrl = this.knightImageUrlValue
     const knightRunImageUrl = this.knightRunImageUrlValue
     const knightAttackImageUrl = this.knightAttackImageUrlValue
+    const basicTiles = this.basicTilesValue
+    const keyboardType = this.keyboardTypeValue
+    const tilemapUrl = this.tilemapUrlValue
+
 
 // window.onload = function() {
 //   var game = new Phaser.Game();
@@ -20,16 +24,21 @@ export default class extends Controller {
     let gameScene = new Phaser.Scene('Game');
 
     gameScene.preload = function() {
-      console.log(this.playerImageUrlValue)
       this.load.image('background', bgImageUrl);
       this.load.image('player', playerImageUrl);
       this.load.image('enemy', playerImageUrl)
+
+      this.load.image('tiles', basicTiles)
+      this.load.tilemapTiledJSON('dungeon', tilemapUrl)
+      console.log(tilemapUrl)
+
       this.load.spritesheet('enemy_skeleton', skeletonImageUrl, {frameWidth: 16, frameHeight: 16})
       this.load.spritesheet('knight_idle', knightImageUrl, { frameWidth: 128 , frameHeight: 128 })
       this.load.spritesheet('knight_run', knightRunImageUrl, { frameWidth: 128 , frameHeight: 128 })
       this.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 128 , frameHeight: 128 })
 
       console.log(skeletonImageUrl)
+
     };
 
 
@@ -59,7 +68,7 @@ export default class extends Controller {
         key: "run",
         frameRate: 10,
         frames: this.anims.generateFrameNumbers("knight_run", { start: 0, end: 6 }),
-        repeat: -1
+        repeat: 0
       });
       this.anims.create({
         key: "attack",
@@ -69,9 +78,23 @@ export default class extends Controller {
       });
 
 
-      this.bg = this.add.sprite(0,0, 'background');
+      // this.bg = this.add.sprite(0,0, 'background');
+      // this.bg.setOrigin(0,0);
 
-      this.bg.setOrigin(0,0);
+      // Add tileset to the scene
+      const map = this.make.tilemap( {key:'dungeon'} )
+      const tileset = map.addTilesetImage('basictiles','tiles')
+      map.createLayer('Ground', tileset)
+      const wallLayer = map.createLayer('Walls', tileset)
+      wallLayer.setCollisionByProperty( {collision: true} )
+
+      const debugGraphics = this.add.graphics().setAlpha(0.7)
+
+      wallLayer.renderDebug(debugGraphics, {
+        tileColor: null, // Color of non-colliding tiles
+        collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+        faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+      });
 
       //this.player = this.physics.add.image(10,180, 'player').setCollideWorldBounds(true);
       this.skeleton = this.physics.add.sprite(180, 180,'enemy_skeleton')
@@ -99,6 +122,7 @@ export default class extends Controller {
       // this.enemy.setScale(0.5,0.5)
       this.skeleton.depth=1;
       this.knight.setScale(0.4,0.4)
+      this.skeleton.setScale(2,2)
       this.cameras.main.setBounds(0, 0, 2000, 4000)
       this.cameras.main.startFollow(this.knight);
 
@@ -113,29 +137,35 @@ export default class extends Controller {
       var keyQ = gameScene.input.keyboard.addKey('Q')
       var keyD = gameScene.input.keyboard.addKey('D')
       var keyV = gameScene.input.keyboard.addKey('V')
-      if(keyW.isDown || keyZ.isDown) {
-        this.knight.y -= 1;
-        this.knight.play('run', true)
-      }
-      else if(keyS.isDown) {
-        this.knight.y += 1;
-        this.knight.play('run', true)
-      }
-      else if(keyA.isDown || keyQ.isDown) {
-        this.knight.x -= 1;
-        this.knight.play('run', true)
-        this.knight.flipX = true
-      }
-      else if(keyD.isDown) {
-        this.knight.x += 1;
-        this.knight.play('run', true)
-        this.knight.flipX = false
-      }
-      else if(keyV.isDown) {
-        this.knight.play('attack',true)
+      if(keyW.isDown || keyA.isDown||keyS.isDown||keyD.isDown ||keyV.isDown ||keyZ.isDown||keyQ.isDown) {
+
+        if(keyW.isDown || keyZ.isDown) {
+          this.knight.y -= 1;
+          this.knight.play('run', true)
+        }
+        else if(keyS.isDown) {
+          this.knight.y += 1;
+          this.knight.play('run', true)
+        }
+
+        if(keyA.isDown || keyQ.isDown) {
+          this.knight.x -= 1;
+          this.knight.play('run', true)
+          this.knight.flipX = true
+        }
+        else if(keyD.isDown) {
+          this.knight.x += 1;
+          this.knight.play('run', true)
+          this.knight.flipX = false
+        }
+        else if(keyV.isDown) {
+          this.knight.play('attack', true)
+          console.log(this.anims.anims.entries.attack)
+          this.anims.anims.entries.attack.type
+        }
       }
       else {
-        this.knight.play('idle', true)
+        this.knight.chain('idle', true)
       }
 
       var skeleton_speed = 30;

@@ -1,8 +1,22 @@
 
+<div data-controller="game"
+  data-game-player-image-url-value="<%= image_path("slimey.png") %>"
+  data-game-bg-image-url-value="<%= image_path("dungeon_pre.png")%>"
+  data-game-basic-tiles-value="<%= image_path("basictiles.png")%>"
+  data-game-tilemap-url-value="<%=asset_path('dungeon-v4.json')%>"
+  data-game-keyboard-type-value='fr'
+  data-game-skeleton-image-url-value="<%= image_path("pixel-skeleton.png")%>"
+  data-game-knight-image-url-value="<%= image_path("Knight/Idle.png")%>"
+  data-game-knight-run-image-url-value="<%= image_path("Knight/Run.png")%>"
+  data-game-knight-attack-image-url-value="<%= image_path("Knight/Attack_1.png")%>"
+>
+</div>
+
 
 <div data-controller="game-map"
      data-game-map-tileset-image-url-value="<%= image_path("basictiles.png") %>"
      data-game-map-characters-image-url-value="<%= image_path("characters.png") %>"
+
     data-game-map-player-image-url-value="<%= image_path("slimey.png") %>"
     data-game-map-bg-image-url-value="<%= image_path("dungeon_pre.png")%>"
     data-game-map-skeleton-image-url-value="<%= image_path("pixel-skeleton.png")%>"
