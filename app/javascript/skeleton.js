@@ -37,11 +37,11 @@ export class Skeleton {
     }
     this.object.depth=1;
     this.object.setScale(2,2)
-    console.log(knight.object)
+    console.log(knight)
     //this.gameScene.physics.add.existing(this.object)
 
     // this.gameScene.enemy = this.gameScene.physics.add.image(enemy_start[0], enemy_start[1], 'enemy').setCollideWorldBounds(true);
-    this.gameScene.physics.add.overlap(knight.object, this.object, (gameObject1, gameObject2) =>
+    this.gameScene.physics.add.overlap(knight, this.object, (gameObject1, gameObject2) =>
     {
         if (this.gameScene.input.keyboard.addKey("V").isDown) {
           this.object.play("skeleton_dead", true)

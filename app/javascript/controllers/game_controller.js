@@ -2,13 +2,25 @@ import { Controller } from "@hotwired/stimulus"
 import * as Phaser from "phaser"
 import {Skeleton} from "../skeleton.js"
 import {Knight} from "../knight.js"
+import {HealthBar} from "../healthbar.js"
 import { loadAnimations } from "../game_loader.js"
+import PhaserHealth from 'phaser_health';
+
+var Health = PhaserHealth;
+Health.MixinTo(Knight);
+var Shuffle = Phaser.Utils.Array.Shuffle;
+
 // Connects to data-controller="game"
 export default class extends Controller {
-  static values = {playerImageUrl: String, bgImageUrl: String, skeletonImageUrl: String,
+  static values = {playerImageUrl: String,
+    bgImageUrl: String,
+    skeletonImageUrl: String,
     knightImageUrl: String,
     knightRunImageUrl: String,
-    knightAttackImageUrl: String}
+    knightAttackImageUrl: String,
+    basicTiles: String,
+    tilemapUrl: String
+  }
 
 
   connect() {
@@ -18,6 +30,8 @@ export default class extends Controller {
     const knightImageUrl = this.knightImageUrlValue
     const knightRunImageUrl = this.knightRunImageUrlValue
     const knightAttackImageUrl = this.knightAttackImageUrlValue
+    const basicTiles = this.basicTilesValue
+    const tilemapUrl = this.tilemapUrlValue
 
 
     this.skeleton_start =
@@ -75,17 +89,28 @@ export default class extends Controller {
       }
 
       this.knight = new Knight({x:100, y:100}, this.gameScene)
-      // this.knight.object = this.gameScene.physics.add.sprite(100,100,'knight_idle')
-      this.knight.object.depth = 1;
+      // this.knight = this.gameScene.physics.add.sprite(100,100,'knight_idle')
+      this.knight.depth = 1;
       this.skeletons.forEach(skeleton => skeleton.addPhysics(this.knight))
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
+      this.knight.setHealth(50, 0, 50);
 
-      this.knight.object.setScale(0.4,0.4)
-      this.knight.object.play("idle", true)
+      this.healthBar = new HealthBar(
+        this.gameScene,
+        this.knight.x,
+        this.knight.y + 75,
+        this.knight.getMaxHealth(),
+        20
+      );
+      this.healthBar.add(this.knight);
+
+
+      this.knight.setScale(0.4,0.4)
+      this.knight.play("idle", true)
 
       this.gameScene.cameras.main.setBounds(0, 0, 2000, 4000)
-      this.gameScene.cameras.main.startFollow(this.knight.object);
+      this.gameScene.cameras.main.startFollow(this.knight);
 
 
     };
@@ -101,35 +126,35 @@ export default class extends Controller {
       if(keyW.isDown || keyA.isDown||keyS.isDown||keyD.isDown ||keyV.isDown ||keyZ.isDown||keyQ.isDown) {
 
         if(keyW.isDown || keyZ.isDown) {
-          this.knight.object.y -= 1;
-          this.knight.object.play('run', true)
+          this.knight.y -= 1;
+          this.knight.play('run', true)
         }
         else if(keyS.isDown) {
-          this.knight.object.y += 1;
-          this.knight.object.play('run', true)
+          this.knight.y += 1;
+          this.knight.play('run', true)
         }
 
         if(keyA.isDown || keyQ.isDown) {
-          this.knight.object.x -= 1;
-          this.knight.object.play('run', true)
-          this.knight.object.flipX = true
+          this.knight.x -= 1;
+          this.knight.play('run', true)
+          this.knight.flipX = true
         }
         else if(keyD.isDown) {
-          this.knight.object.x += 1;
-          this.knight.object.play('run', true)
-          this.knight.object.flipX = false
+          this.knight.x += 1;
+          this.knight.play('run', true)
+          this.knight.flipX = false
         }
         else if(keyV.isDown) {
-          this.knight.object.play('attack', true)
+          this.knight.play('attack', true)
           console.log(this)
           console.log(this.gameScene)
 
         }
       }
       else {
-        this.knight.object.chain('idle', true)
+        this.knight.chain('idle', true)
       }
-      this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight.object))
+      this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
 
     };
 
