@@ -134,9 +134,7 @@ export default class extends Controller {
       else {
         this.knight.object.chain('idle', true)
       }
-
       this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight.object))
-
 
     };
 
