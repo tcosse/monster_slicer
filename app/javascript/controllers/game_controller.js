@@ -1,11 +1,16 @@
 import { Controller } from "@hotwired/stimulus"
 import * as Phaser from "phaser"
+import {Skeleton} from "../skeleton.js"
+import {Knight} from "../knight.js"
+import { loadAnimations } from "../game_loader.js"
 // Connects to data-controller="game"
 export default class extends Controller {
   static values = {playerImageUrl: String, bgImageUrl: String, skeletonImageUrl: String, basicTiles: String, keyboardType: String, tilemapUrl: String,
     knightImageUrl: String,
     knightRunImageUrl: String,
     knightAttackImageUrl: String}
+
+
   connect() {
     const bgImageUrl = this.bgImageUrlValue
     const playerImageUrl = this.playerImageUrlValue
@@ -18,170 +23,120 @@ export default class extends Controller {
     const tilemapUrl = this.tilemapUrlValue
 
 
+
+    this.skeleton_start =
 // window.onload = function() {
 //   var game = new Phaser.Game();
 // }
-    let gameScene = new Phaser.Scene('Game');
+    //let gameScene = new Phaser.Scene('Game'); //this.gameScene local
+    this.gameScene = new Phaser.Scene('Game'); //gameScene global (controller)
+    this.gameScene.preload = () => {
+      this.gameScene.load.image('background', bgImageUrl);
+      this.gameScene.load.image('player', playerImageUrl);
+      this.gameScene.load.image('enemy', playerImageUrl)
 
-    gameScene.preload = function() {
-      this.load.image('background', bgImageUrl);
-      this.load.image('player', playerImageUrl);
-      this.load.image('enemy', playerImageUrl)
-
-      this.load.image('tiles', basicTiles)
-      this.load.tilemapTiledJSON('dungeon', tilemapUrl)
+      this.gameScene.load.image('tiles', basicTiles)
+      this.gameScene.load.tilemapTiledJSON('dungeon', tilemapUrl)
       console.log(tilemapUrl)
 
-      this.load.spritesheet('enemy_skeleton', skeletonImageUrl, {frameWidth: 16, frameHeight: 16})
-      this.load.spritesheet('knight_idle', knightImageUrl, { frameWidth: 128 , frameHeight: 128 })
-      this.load.spritesheet('knight_run', knightRunImageUrl, { frameWidth: 128 , frameHeight: 128 })
-      this.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 128 , frameHeight: 128 })
+      this.gameScene.load.spritesheet('enemy_skeleton', skeletonImageUrl, {frameWidth: 16, frameHeight: 16})
+      this.gameScene.load.spritesheet('knight_idle', knightImageUrl, { frameWidth: 128 , frameHeight: 128 })
+      this.gameScene.load.spritesheet('knight_run', knightRunImageUrl, { frameWidth: 128 , frameHeight: 128 })
+      this.gameScene.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 128 , frameHeight: 128 })
 
       console.log(skeletonImageUrl)
 
     };
 
+    // const skeleton_start =
+    this.gameScene.create = () =>{
 
-    const enemy_start = [330, 180]
-    const skeleton_start = [180,180]
-    gameScene.create = function(){
-      this.anims.create({
-        key:"skeleton_idle",
-        frameRate: 6,
-        frames: this.anims.generateFrameNumbers("enemy_skeleton", {start: 0, end: 4}),
-        repeat: -1
-      })
+      loadAnimations(this.gameScene) //from game_loader
 
-      this.anims.create({
-        key:"skeleton_dead",
-        framerate:6,
-        frames:this.anims.generateFrameNumbers("enemy_skeleton", {start:5, end: 12}),
-        repeat: 0
-      })
-      this.anims.create({
-        key: "idle",
-        frameRate: 10,
-        frames: this.anims.generateFrameNumbers("knight_idle", { start: 0, end: 4 }),
-        repeat: -1
-      });
-      this.anims.create({
-        key: "run",
-        frameRate: 10,
-        frames: this.anims.generateFrameNumbers("knight_run", { start: 0, end: 6 }),
-        repeat: 0
-      });
-      this.anims.create({
-        key: "attack",
-        frameRate: 10,
-        frames: this.anims.generateFrameNumbers("knight_attack", { start: 0, end: 4 }),
-        repeat: 0
-      });
-
-
-      // this.bg = this.add.sprite(0,0, 'background');
-      // this.bg.setOrigin(0,0);
+      // this.gameScene.bg = this.gameScene.add.sprite(0,0, 'background');
+      // this.gameScene.bg.setOrigin(0,0);
 
       // Add tileset to the scene
-      const map = this.make.tilemap( {key:'dungeon'} )
+      const map = this.gameScene.make.tilemap( {key:'dungeon'} )
       const tileset = map.addTilesetImage('basictiles','tiles')
       map.createLayer('Ground', tileset)
       const wallLayer = map.createLayer('Walls', tileset)
       wallLayer.setCollisionByProperty( {collision: true} )
 
-      const debugGraphics = this.add.graphics().setAlpha(0.7)
+      // const debugGraphics = this.gameScene.add.graphics().setAlpha(0.7)
 
-      wallLayer.renderDebug(debugGraphics, {
-        tileColor: null, // Color of non-colliding tiles
-        collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-        faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-      });
+      // wallLayer.renderDebug(debugGraphics, {
+      //   tileColor: null, // Color of non-colliding tiles
+      //   collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+      //   faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+      // });
 
-      //this.player = this.physics.add.image(10,180, 'player').setCollideWorldBounds(true);
-      this.skeleton = this.physics.add.sprite(180, 180,'enemy_skeleton')
-      this.knight = this.physics.add.sprite(100,100,'knight_idle')
-      this.knight.depth = 1;
-      if(this.skeleton != null) {
-        this.skeleton.play('skeleton_idle');
+      //this.gameScene.player = this.gameScene.physics.add.image(10,180, 'player').setCollideWorldBounds(true);
+      this.skeletons = []
+      for(let i = 0; i <4; i++) {
+        let randX =  Math.floor(Math.random() * (340 - 20) + 20)
+        let randY =  Math.floor(Math.random() * (340 - 20) + 20)
+        this.skeletons.push(new Skeleton({x: randX,y:randY}, this.gameScene))
       }
 
-      //this.physics.add.existing(this.skeleton)
+      this.knight = new Knight({x:100, y:100}, this.gameScene)
+      // this.knight.object = this.gameScene.physics.add.sprite(100,100,'knight_idle')
+      this.knight.object.depth = 1;
+      this.skeletons.forEach(skeleton => skeleton.addPhysics(this.knight))
+      // this.gameScene.enemy.depth = 1;
+      // this.gameScene.enemy.setScale(0.5,0.5)
 
-      // this.enemy = this.physics.add.image(enemy_start[0], enemy_start[1], 'enemy').setCollideWorldBounds(true);
-      this.physics.add.overlap(this.knight, this.skeleton, (gameObject1, gameObject2) =>
-      {
-          if (gameScene.input.keyboard.addKey("V").isDown) {
-            this.skeleton.play("skeleton_dead", true)
-            this.skeleton.setVelocity(0,0)
-            this.skeleton.on('animationcomplete',()=> {
-            this.skeleton.destroy()
-            });
-          }
-      });
+      this.knight.object.setScale(0.4,0.4)
+      this.knight.object.play("idle", true)
 
-      // this.enemy.depth = 1;
-      // this.enemy.setScale(0.5,0.5)
-      this.skeleton.depth=1;
-      this.knight.setScale(0.4,0.4)
-      this.skeleton.setScale(2,2)
-      this.cameras.main.setBounds(0, 0, 2000, 4000)
-      this.cameras.main.startFollow(this.knight);
+      this.gameScene.cameras.main.setBounds(0, 0, 2000, 4000)
+      this.gameScene.cameras.main.startFollow(this.knight.object);
 
 
     };
 
-    gameScene.update = function() {
-      var keyW = gameScene.input.keyboard.addKey('W')
-      var keyZ = gameScene.input.keyboard.addKey('Z')
-      var keyS = gameScene.input.keyboard.addKey('S')
-      var keyA = gameScene.input.keyboard.addKey('A')
-      var keyQ = gameScene.input.keyboard.addKey('Q')
-      var keyD = gameScene.input.keyboard.addKey('D')
-      var keyV = gameScene.input.keyboard.addKey('V')
+    this.gameScene.update = () => {
+      var keyW = this.gameScene.input.keyboard.addKey('W')
+      var keyZ = this.gameScene.input.keyboard.addKey('Z')
+      var keyS = this.gameScene.input.keyboard.addKey('S')
+      var keyA = this.gameScene.input.keyboard.addKey('A')
+      var keyQ = this.gameScene.input.keyboard.addKey('Q')
+      var keyD = this.gameScene.input.keyboard.addKey('D')
+      var keyV = this.gameScene.input.keyboard.addKey('V')
       if(keyW.isDown || keyA.isDown||keyS.isDown||keyD.isDown ||keyV.isDown ||keyZ.isDown||keyQ.isDown) {
 
         if(keyW.isDown || keyZ.isDown) {
-          this.knight.y -= 1;
-          this.knight.play('run', true)
+          this.knight.object.y -= 1;
+          this.knight.object.play('run', true)
         }
         else if(keyS.isDown) {
-          this.knight.y += 1;
-          this.knight.play('run', true)
+          this.knight.object.y += 1;
+          this.knight.object.play('run', true)
         }
 
         if(keyA.isDown || keyQ.isDown) {
-          this.knight.x -= 1;
-          this.knight.play('run', true)
-          this.knight.flipX = true
+          this.knight.object.x -= 1;
+          this.knight.object.play('run', true)
+          this.knight.object.flipX = true
         }
         else if(keyD.isDown) {
-          this.knight.x += 1;
-          this.knight.play('run', true)
-          this.knight.flipX = false
+          this.knight.object.x += 1;
+          this.knight.object.play('run', true)
+          this.knight.object.flipX = false
         }
         else if(keyV.isDown) {
-          this.knight.play('attack', true)
-          console.log(this.anims.anims.entries.attack)
-          this.anims.anims.entries.attack.type
+          this.knight.object.play('attack', true)
+          console.log(this)
+          console.log(this.gameScene)
+
         }
       }
       else {
-        this.knight.chain('idle', true)
+        this.knight.object.chain('idle', true)
       }
 
-      var skeleton_speed = 30;
-      var distance_between = Math.sqrt((this.knight.x-this.skeleton.x)**2 + (this.knight.y-this.skeleton.y)**2)
-      var skeleton_start_distance = Math.sqrt((skeleton_start[0]-this.skeleton.x)**2 + (skeleton_start[1]-this.skeleton.y)**2)
-      if(this.skeleton.scene != undefined) {
-        if(distance_between < 100) {
-          this.skeleton.setVelocity(skeleton_speed*(this.knight.x-this.skeleton.x)/distance_between, skeleton_speed*(this.knight.y-this.skeleton.y)/distance_between);
-        }
-        else {
-          if(this.skeleton.x != skeleton_start[0] && this.skeleton.y != skeleton_start[1]) {
-            this.skeleton.setVelocity(skeleton_speed*(skeleton_start[0]-this.skeleton.x)/skeleton_start_distance, skeleton_speed*(skeleton_start[1]-this.skeleton.y)/distance_between);
-          }
-        }
+      this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight.object))
 
-      }
 
     };
 
@@ -189,10 +144,10 @@ export default class extends Controller {
       type: Phaser.AUTO,
       width: 360,
       height: 360,
-      scene: gameScene,
+      scene: this.gameScene,
       physics: {
         default: 'arcade',
-        arcade: { debug: false }
+        arcade: { debug: true }
       }
     };
 
@@ -201,6 +156,7 @@ export default class extends Controller {
     let game = new Phaser.Game(config);
 
   }
+
 
 
 }
