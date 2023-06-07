@@ -173,7 +173,9 @@ export default class extends Controller {
       var skeleton_start_distance = Math.sqrt((skeleton_start[0]-this.skeleton.x)**2 + (skeleton_start[1]-this.skeleton.y)**2)
       if(this.skeleton.scene != undefined) {
         if(distance_between < 100) {
-          this.skeleton.setVelocity(skeleton_speed*(this.knight.x-this.skeleton.x)/distance_between, skeleton_speed*(this.knight.y-this.skeleton.y)/distance_between);
+          this.skeleton.setVelocity(
+            skeleton_speed*(this.knight.x-this.skeleton.x)/distance_between,
+            skeleton_speed*(this.knight.y-this.skeleton.y)/distance_between);
         }
         else {
           if(this.skeleton.x != skeleton_start[0] && this.skeleton.y != skeleton_start[1]) {
