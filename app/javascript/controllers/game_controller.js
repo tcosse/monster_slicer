@@ -95,7 +95,7 @@ export default class extends Controller {
         collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
         faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       });
-      
+
 
       //this.player = this.physics.add.image(10,180, 'player').setCollideWorldBounds(true);
       this.skeleton = this.physics.add.sprite(180, 180,'enemy_skeleton')
@@ -128,10 +128,12 @@ export default class extends Controller {
       this.cameras.main.setBounds(0, 0, 2000, 4000)
       this.cameras.main.startFollow(this.knight);
 
-      console.log(this.physics)
       console.log(wallLayer)
       // this.knight.setCollideWorldBounds(true)
-      this.physics.add.collider = (this.knight, wallLayer)
+      // this.physics.world.addCollider(this.knight, wallLayer)
+      const collider = this.physics.add.collider(this.knight, wallLayer)
+      console.log(collider)
+      this.physics.add.collider(this.knight, this.skeleton)
 
     };
 
@@ -143,28 +145,42 @@ export default class extends Controller {
       var keyQ = gameScene.input.keyboard.addKey('Q')
       var keyD = gameScene.input.keyboard.addKey('D')
       var keyV = gameScene.input.keyboard.addKey('V')
+      // var keySpace = gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+      var keyShift = gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT)
       if(keyW.isDown || keyA.isDown||keyS.isDown||keyD.isDown ||keyV.isDown ||keyZ.isDown||keyQ.isDown) {
 
+        let speed = 50;
+        const highSpeed = 200;
+        
+        if (keyShift.isDown) { speed = highSpeed}
+        //if shiftkey is pressed, the knight speed will be higher
+
         if(keyW.isDown || keyZ.isDown) {
-          this.knight.y -= 1;
+          // User wants to go up (presses W if english keyboard, Z for french)
           this.knight.play('run', true)
+          this.knight.setVelocity(0, -speed);
         }
         else if(keyS.isDown) {
-          this.knight.y += 1;
+          // User wants to go down (presses S)
+          // console.log(this.knight)
+          this.knight.setVelocity(0, speed);
           this.knight.play('run', true)
         }
 
         if(keyA.isDown || keyQ.isDown) {
-          this.knight.x -= 1;
+          // User wants to go left (presses Q in french keyboard, or A if english)
           this.knight.play('run', true)
+          this.knight.setVelocity(-speed, 0);
           this.knight.flipX = true
         }
         else if(keyD.isDown) {
-          this.knight.x += 1;
+          // User wants to go right (presses D)
           this.knight.play('run', true)
+          this.knight.setVelocity(speed, 0);
           this.knight.flipX = false
         }
         else if(keyV.isDown) {
+          // User wants to go attack (presses V)
           this.knight.play('attack', true)
           console.log(this.anims.anims.entries.attack)
           this.anims.anims.entries.attack.type
@@ -172,6 +188,7 @@ export default class extends Controller {
       }
       else {
         this.knight.chain('idle', true)
+        this.knight.setVelocity(0,0)
       }
 
       var skeleton_speed = 30;

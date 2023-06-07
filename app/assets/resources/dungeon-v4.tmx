@@ -7,42 +7,42 @@
   <image source="../images/basictiles.png" width="128" height="240"/>
   <tile id="0">
    <properties>
-    <property name="collision" type="bool" value="false"/>
+    <property name="collision" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="1">
    <properties>
-    <property name="collision" type="bool" value="false"/>
+    <property name="collision" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="2">
    <properties>
-    <property name="collision" type="bool" value="false"/>
+    <property name="collision" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="3">
    <properties>
-    <property name="collision" type="bool" value="false"/>
+    <property name="collision" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="4">
    <properties>
-    <property name="collision" type="bool" value="false"/>
+    <property name="collision" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="5">
    <properties>
-    <property name="collision" type="bool" value="false"/>
+    <property name="collision" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="6">
    <properties>
-    <property name="collision" type="bool" value="false"/>
+    <property name="collision" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="7">
    <properties>
-    <property name="collision" type="bool" value="false"/>
+    <property name="collision" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="8">
@@ -606,7 +606,7 @@
    </properties>
   </tile>
  </tileset>
- <layer id="1" name="Ground" width="16" height="16">
+ <layer id="1" name="Ground" width="16" height="16" visible="0">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,15,15,15,15,15,15,15,15,15,15,15,15,15,15,0,
