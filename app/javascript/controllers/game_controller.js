@@ -59,7 +59,7 @@ export default class extends Controller {
         key: "run",
         frameRate: 10,
         frames: this.anims.generateFrameNumbers("knight_run", { start: 0, end: 6 }),
-        repeat: -1
+        repeat: 0
       });
       this.anims.create({
         key: "attack",
@@ -99,6 +99,7 @@ export default class extends Controller {
       // this.enemy.setScale(0.5,0.5)
       this.skeleton.depth=1;
       this.knight.setScale(0.4,0.4)
+      this.skeleton.setScale(2,2)
       this.cameras.main.setBounds(0, 0, 2000, 4000)
       this.cameras.main.startFollow(this.knight);
 
@@ -113,29 +114,35 @@ export default class extends Controller {
       var keyQ = gameScene.input.keyboard.addKey('Q')
       var keyD = gameScene.input.keyboard.addKey('D')
       var keyV = gameScene.input.keyboard.addKey('V')
-      if(keyW.isDown || keyZ.isDown) {
-        this.knight.y -= 1;
-        this.knight.play('run', true)
-      }
-      else if(keyS.isDown) {
-        this.knight.y += 1;
-        this.knight.play('run', true)
-      }
-      else if(keyA.isDown || keyQ.isDown) {
-        this.knight.x -= 1;
-        this.knight.play('run', true)
-        this.knight.flipX = true
-      }
-      else if(keyD.isDown) {
-        this.knight.x += 1;
-        this.knight.play('run', true)
-        this.knight.flipX = false
-      }
-      else if(keyV.isDown) {
-        this.knight.play('attack',true)
+      if(keyW.isDown || keyA.isDown||keyS.isDown||keyD.isDown ||keyV.isDown ||keyZ.isDown||keyQ.isDown) {
+
+        if(keyW.isDown || keyZ.isDown) {
+          this.knight.y -= 1;
+          this.knight.play('run', true)
+        }
+        else if(keyS.isDown) {
+          this.knight.y += 1;
+          this.knight.play('run', true)
+        }
+
+        if(keyA.isDown || keyQ.isDown) {
+          this.knight.x -= 1;
+          this.knight.play('run', true)
+          this.knight.flipX = true
+        }
+        else if(keyD.isDown) {
+          this.knight.x += 1;
+          this.knight.play('run', true)
+          this.knight.flipX = false
+        }
+        else if(keyV.isDown) {
+          this.knight.play('attack', true)
+          console.log(this.anims.anims.entries.attack)
+          this.anims.anims.entries.attack.type
+        }
       }
       else {
-        this.knight.play('idle', true)
+        this.knight.chain('idle', true)
       }
 
       var skeleton_speed = 30;
