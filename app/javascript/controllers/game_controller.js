@@ -95,6 +95,7 @@ export default class extends Controller {
         collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
         faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       });
+      
 
       //this.player = this.physics.add.image(10,180, 'player').setCollideWorldBounds(true);
       this.skeleton = this.physics.add.sprite(180, 180,'enemy_skeleton')
@@ -107,8 +108,7 @@ export default class extends Controller {
       //this.physics.add.existing(this.skeleton)
 
       // this.enemy = this.physics.add.image(enemy_start[0], enemy_start[1], 'enemy').setCollideWorldBounds(true);
-      this.physics.add.overlap(this.knight, this.skeleton, (gameObject1, gameObject2) =>
-      {
+      this.physics.add.overlap(this.knight, this.skeleton, (gameObject1, gameObject2) => {
           if (gameScene.input.keyboard.addKey("V").isDown) {
             this.skeleton.play("skeleton_dead", true)
             this.skeleton.setVelocity(0,0)
@@ -122,10 +122,16 @@ export default class extends Controller {
       // this.enemy.setScale(0.5,0.5)
       this.skeleton.depth=1;
       this.knight.setScale(0.4,0.4)
+      // this.knight.body.setSize(this.knight.width, this.knight.height * 0.8)
+      this.knight.body.offset.y = 32
       this.skeleton.setScale(2,2)
       this.cameras.main.setBounds(0, 0, 2000, 4000)
       this.cameras.main.startFollow(this.knight);
 
+      console.log(this.physics)
+      console.log(wallLayer)
+      // this.knight.setCollideWorldBounds(true)
+      this.physics.add.collider = (this.knight, wallLayer)
 
     };
 
@@ -192,7 +198,7 @@ export default class extends Controller {
       scene: gameScene,
       physics: {
         default: 'arcade',
-        arcade: { debug: false }
+        arcade: { debug: true }
       }
     };
 
