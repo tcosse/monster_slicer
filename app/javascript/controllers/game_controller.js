@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import * as Phaser from "phaser"
 // Connects to data-controller="game"
 export default class extends Controller {
-  static values = {playerImageUrl: String, bgImageUrl: String, skeletonImageUrl: String,
+  static values = {playerImageUrl: String, bgImageUrl: String, skeletonImageUrl: String, basicTiles: String, keyboardType: String, tilemapUrl: String,
     knightImageUrl: String,
     knightRunImageUrl: String,
     knightAttackImageUrl: String}
@@ -13,6 +13,10 @@ export default class extends Controller {
     const knightImageUrl = this.knightImageUrlValue
     const knightRunImageUrl = this.knightRunImageUrlValue
     const knightAttackImageUrl = this.knightAttackImageUrlValue
+    const basicTiles = this.basicTilesValue
+    const keyboardType = this.keyboardTypeValue
+    const tilemapUrl = this.tilemapUrlValue
+
 
 // window.onload = function() {
 //   var game = new Phaser.Game();
@@ -20,16 +24,21 @@ export default class extends Controller {
     let gameScene = new Phaser.Scene('Game');
 
     gameScene.preload = function() {
-      console.log(this.playerImageUrlValue)
       this.load.image('background', bgImageUrl);
       this.load.image('player', playerImageUrl);
       this.load.image('enemy', playerImageUrl)
+
+      this.load.image('tiles', basicTiles)
+      this.load.tilemapTiledJSON('dungeon', tilemapUrl)
+      console.log(tilemapUrl)
+
       this.load.spritesheet('enemy_skeleton', skeletonImageUrl, {frameWidth: 16, frameHeight: 16})
       this.load.spritesheet('knight_idle', knightImageUrl, { frameWidth: 128 , frameHeight: 128 })
       this.load.spritesheet('knight_run', knightRunImageUrl, { frameWidth: 128 , frameHeight: 128 })
       this.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 128 , frameHeight: 128 })
 
       console.log(skeletonImageUrl)
+
     };
 
 
@@ -69,9 +78,23 @@ export default class extends Controller {
       });
 
 
-      this.bg = this.add.sprite(0,0, 'background');
+      // this.bg = this.add.sprite(0,0, 'background');
+      // this.bg.setOrigin(0,0);
 
-      this.bg.setOrigin(0,0);
+      // Add tileset to the scene
+      const map = this.make.tilemap( {key:'dungeon'} )
+      const tileset = map.addTilesetImage('basictiles','tiles')
+      map.createLayer('Ground', tileset)
+      const wallLayer = map.createLayer('Walls', tileset)
+      wallLayer.setCollisionByProperty( {collision: true} )
+
+      const debugGraphics = this.add.graphics().setAlpha(0.7)
+
+      wallLayer.renderDebug(debugGraphics, {
+        tileColor: null, // Color of non-colliding tiles
+        collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+        faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+      });
 
       //this.player = this.physics.add.image(10,180, 'player').setCollideWorldBounds(true);
       this.skeleton = this.physics.add.sprite(180, 180,'enemy_skeleton')
