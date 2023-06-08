@@ -9,7 +9,6 @@ import PhaserHealth from 'phaser_health';
 
 var Health = PhaserHealth;
 Health.MixinTo(Knight);
-var Shuffle = Phaser.Utils.Array.Shuffle;
 
 // Connects to data-controller="game"
 export default class extends Controller {
@@ -96,8 +95,10 @@ export default class extends Controller {
       this.#spawnSkeletons(this.skeleCount)
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
-      this.knight.setHealth(50, 0, 50);
 
+      // Ici je donne des HP au knight, je crée une barre de vie visuelle, je lie cette barre au knight (pour accéder a ses PV)
+      // puis j'attribue cette barre au knight pour pouvoir l'appeler dans la def de knight
+      this.knight.setHealth(50, 0, 50);
       this.healthBar = new HealthBar(
         this.gameScene,
         this.knight.x - 30,
@@ -105,9 +106,13 @@ export default class extends Controller {
         this.knight.getMaxHealth(),
         6
       );
-
       this.healthBar.add(this.knight);
+      this.knight.healthBar = this.healthBar;
 
+      // dégats gratuits
+      this.knight.damage(Phaser.Math.Between(8, 9))
+
+      // gestion de la caméra
       this.gameScene.cameras.main.setBounds(0, 0, 2000, 4000)
       this.gameScene.cameras.main.startFollow(this.knight);
 

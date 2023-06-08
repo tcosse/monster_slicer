@@ -17,6 +17,13 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
   }
 
   update () {
+
+    // on recolle la barre de vie au knight
+    this.healthBar.bg.setX(this.x - 25)
+    this.healthBar.bg.setY(this.y - 15)
+    this.healthBar.bar.setX(this.x - 25)
+    this.healthBar.bar.setY(this.y - 15)
+
     var keyW = this.gameScene.input.keyboard.addKey('W')
     var keyZ = this.gameScene.input.keyboard.addKey('Z')
     var keyS = this.gameScene.input.keyboard.addKey('S')
