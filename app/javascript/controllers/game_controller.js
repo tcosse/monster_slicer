@@ -79,19 +79,9 @@ export default class extends Controller {
       // });
 
       //this.gameScene.player = this.gameScene.physics.add.image(10,180, 'player').setCollideWorldBounds(true);
-      this.skeletons = []
-
-      for(let i = 0; i <4; i++) {
-        let randX =  Math.floor(Math.random() * (340 - 20) + 20)
-        let randY =  Math.floor(Math.random() * (340 - 20) + 20)
-        this.skeletons.push(new Skeleton({x: randX,y:randY}, this.gameScene))
-      }
-
-      this.knight = new Knight({x:100, y:100}, this.gameScene)
-
-
-      // this.knight = this.gameScene.physics.add.sprite(100,100,'knight_idle')
-      this.skeletons.forEach(skeleton => skeleton.addPhysics(this.knight))
+      this.skeleCount = 4
+      this.skelesKilled = 0
+      this.#spawnSkeletons(this.skeleCount)
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
       this.knight.setHealth(50, 0, 50);
@@ -118,6 +108,7 @@ export default class extends Controller {
     this.gameScene.update = () => {
       this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
       this.knight.update()
+      tihs.#checkSkeleton()
       }
 
     let config = {
