@@ -60,7 +60,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
       else if(keyV.isDown) {
         // User wants to go attack (presses V)
         this.play('attack', true)
-        console.log(this.gameScene.anims.anims)
+        // console.log(this.gameScene.anims.anims)
         this.gameScene.anims.anims.entries.attack.type
       }
     }
