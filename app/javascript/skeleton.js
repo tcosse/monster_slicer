@@ -1,4 +1,8 @@
 import * as Phaser from "phaser"
+import {HealthBar} from "./healthbar.js" //"/healthbar.js"
+import PhaserHealth from 'phaser_health';
+var Health = PhaserHealth;
+
 
 export class Skeleton extends Phaser.Physics.Arcade.Sprite {
   constructor(start, gameScene) {
@@ -6,6 +10,16 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
     this.start = start
     this.gameScene = gameScene
     this.isDead = false
+    this.setHealth(30,0,30)
+    // const healthBar = new HealthBar(
+    //   gameScene,
+    //   this.x - 20,
+    //   this.y - 25,
+    //   this.getMaxHealth(),
+    //   6
+    // );
+    // healthBar.add(this);
+    // this.healthBar = healthBar;
 
     gameScene.physics.add.world.enableBody(this, 0);
     gameScene.add.existing(this);
@@ -51,14 +65,12 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
     // this.gameScene.enemy = this.gameScene.physics.add.image(enemy_start[0], enemy_start[1], 'enemy').setCollideWorldBounds(true);
     this.gameScene.physics.add.overlap(knight, this, (gameObject1, gameObject2) =>
     {
+        knight.damage(0.1)
         if (this.gameScene.input.keyboard.addKey("V").isDown) {
-          /* if (this.getHealth() > 0) {
-            this.damage(1)
+          if (this.getHealth() > 0) {
+            this.damage(3)
           }
           else {
-            // tout le reste sauf damage
-          } */
-          this.damage(1)
           this.play("skeleton_dead", true)
           this.setVelocity(0,0)
           this.on('animationcomplete',()=> {
@@ -74,7 +86,9 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
             // console.log(gameObject2)
             this.gameScene.physics.world.colliders.active
           });
+          }
         }
     });
   }
 }
+Health.MixinTo(Skeleton);
