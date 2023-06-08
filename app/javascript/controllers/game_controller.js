@@ -93,7 +93,7 @@ export default class extends Controller {
       this.skeleCount = 4
       this.skelesKilled = 0
 
-      this.#spawnSkeletons(this.skeleCount)
+      this.skeletons = this.#spawnSkeletons(this.skeleCount)
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
       this.knight.setHealth(50, 0, 50);
@@ -114,6 +114,8 @@ export default class extends Controller {
       // this.knight.setCollideWorldBounds(true)
       // this.physics.world.addCollider(this.knight, wallLayer)
       const collider = this.gameScene.physics.add.collider(this.knight, wallLayer)
+      // const collider = this.gameScene.physics.add.collider(this.skeletons, wallLayer)
+
       // this.physics.add.collider(this.knight, this.skeleton)
 
 
@@ -140,14 +142,14 @@ export default class extends Controller {
     let game = new Phaser.Game(config);
   }
   #spawnSkeletons(skeleCount){
-    this.skeletons = []
+    let skeletons = []
     for(let i = 0; i < skeleCount; i++) {
       let randX =  Math.floor(Math.random() * (340 - 20) + 20)
       let randY =  Math.floor(Math.random() * (340 - 20) + 20)
-      this.skeletons.push(new Skeleton({x: randX,y:randY}, this.gameScene))
+      skeletons.push(new Skeleton({x: randX,y:randY}, this.gameScene))
     }
-    this.skeletons.forEach(skeleton => skeleton.addPhysics(this.knight))
-    return this.skeletons
+    skeletons.forEach(skeleton => skeleton.addPhysics(this.knight))
+    return skeletons
   }
   #checkSkeleton(){
     let newSkeletons = []
