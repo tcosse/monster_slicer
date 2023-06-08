@@ -19,6 +19,7 @@ export class Skeleton {
         this.object.setVelocity(0,0)
       }
       else {
+
         if(distance_between < 100) {
           this.object.setVelocity(skeleton_speed*(knight.x-this.object.x)/distance_between, skeleton_speed*(knight.y-this.object.y)/distance_between);
         }
@@ -37,7 +38,6 @@ export class Skeleton {
     }
     this.object.depth=1;
     this.object.setScale(2,2)
-    console.log(knight)
     //this.gameScene.physics.add.existing(this.object)
 
     // this.gameScene.enemy = this.gameScene.physics.add.image(enemy_start[0], enemy_start[1], 'enemy').setCollideWorldBounds(true);
