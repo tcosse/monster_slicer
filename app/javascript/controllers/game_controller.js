@@ -141,8 +141,8 @@ export default class extends Controller {
 
     let config = {
       type: Phaser.AUTO,
-      width: 800,
-      height: 800,
+      width: 700,
+      height: 500,
       scene: this.gameScene,
       physics: {
         default: 'arcade',
@@ -155,8 +155,8 @@ export default class extends Controller {
   #spawnSkeletons(skeleCount){
     let skeletons = []
     for(let i = 0; i < skeleCount; i++) {
-      let randX =  Math.floor(Math.random() * (340 - 20) + 20)
-      let randY =  Math.floor(Math.random() * (340 - 20) + 20)
+      let randX =  Math.floor(Math.random() * (720 - 360) + 360)
+      let randY =  Math.floor(Math.random() * (720 - 360) + 360)
       let skeleton = new Skeleton({x: randX,y:randY}, this.gameScene)
       skeletons.push(skeleton)
     }
@@ -166,8 +166,8 @@ export default class extends Controller {
   #checkSkeleton(){
     let newSkeletons = []
     while(this.skeletons.length < this.skeleCount + this.knight.skeleKilled*2) {
-      let randX =  Math.floor(Math.random() * (340 - 20) + 20)
-      let randY =  Math.floor(Math.random() * (340 - 20) + 20)
+      let randX =  Math.floor(Math.random() * (720 - 360) + 360)
+      let randY =  Math.floor(Math.random() * (720 - 360) + 360)
       newSkeletons.push(new Skeleton({x: randX,y:randY}, this.gameScene))
       newSkeletons.forEach(skeleton => {
         skeleton.addPhysics(this.knight)
