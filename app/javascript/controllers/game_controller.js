@@ -74,16 +74,18 @@ export default class extends Controller {
       // Add tileset to the scene
       const map = this.gameScene.make.tilemap( {key:'dungeon'} )
       const tileset = map.addTilesetImage('basictiles','tiles')
-      map.createLayer('Ground', tileset)
-      map.createLayer('Path', tileset)
-      const wallsLayer = map.createLayer('Walls', tileset)
-      const upperWallsLayer = map.createLayer('Upper_walls', tileset)
-      const treesLayer = map.createLayer('Trees', tileset)
-      const furnituresLayer = map.createLayer('Furnitures', tileset)
+      console.log(map.width, map.height)
+      map.createLayer('Ground', tileset).setScale(2)
+      map.createLayer('Path', tileset).setScale(2)
+      const wallsLayer = map.createLayer('Walls', tileset).setScale(2)
+      const upperWallsLayer = map.createLayer('Upper_walls', tileset).setScale(2)
+      const treesLayer = map.createLayer('Trees', tileset).setScale(2)
+      const furnituresLayer = map.createLayer('Furnitures', tileset).setScale(2)
       wallsLayer.setCollisionByProperty( {collision: true} )
       upperWallsLayer.setCollisionByProperty( {collision: true} )
       treesLayer.setCollisionByProperty( {collision: true} )
       furnituresLayer.setCollisionByProperty( {collision: true} )
+
 
       // const debugGraphics = this.gameScene.add.graphics().setAlpha(0.7)
       // Uncomment to display collision debug graphics
@@ -97,7 +99,7 @@ export default class extends Controller {
 
       //this.gameScene.player = this.gameScene.physics.add.image(10,180, 'player').setCollideWorldBounds(true);
 
-      this.knight = new Knight({x:(35 * 16), y: (12 * 16)}, this.gameScene)
+      this.knight = new Knight({x:(35 * 16 * 2), y: (12 * 16 * 2)}, this.gameScene)
       this.knight.depth = 5
       this.skeleCount = 4
       this.skelesKilled = 0
