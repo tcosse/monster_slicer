@@ -98,10 +98,10 @@ export default class extends Controller {
 
       this.healthBar = new HealthBar(
         this.gameScene,
-        this.knight.x,
-        this.knight.y + 75,
+        this.knight.x - 30,
+        this.knight.y - 15,
         this.knight.getMaxHealth(),
-        20
+        6
       );
       this.healthBar.add(this.knight);
 
