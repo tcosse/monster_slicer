@@ -56,9 +56,9 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('enemy_skeleton', skeletonImageUrl, {frameWidth: 16, frameHeight: 16})
       this.gameScene.load.spritesheet('enemy_skeleton_idle', skeletonIdleImageUrl, {frameWidth: 32, frameHeight: 32})
       this.gameScene.load.spritesheet('enemy_skeleton_death', skeletonDeathImageUrl, {frameWidth: 96, frameHeight: 64})
-      this.gameScene.load.spritesheet('knight_idle', knightImageUrl, { frameWidth: 128 , frameHeight: 128 })
-      this.gameScene.load.spritesheet('knight_run', knightRunImageUrl, { frameWidth: 128 , frameHeight: 128 })
-      this.gameScene.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 128 , frameHeight: 128 })
+      this.gameScene.load.spritesheet('knight_idle', knightImageUrl, { frameWidth: 32 , frameHeight: 64 })
+      this.gameScene.load.spritesheet('knight_run', knightRunImageUrl, { frameWidth: 64 , frameHeight: 64 })
+      this.gameScene.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 48 , frameHeight: 64 })
 
     };
 
