@@ -9,6 +9,7 @@ import PhaserHealth from 'phaser_health';
 
 var Health = PhaserHealth;
 Health.MixinTo(Knight);
+Health.MixinTo(Skeleton);
 
 // Connects to data-controller="game"
 export default class extends Controller {
@@ -99,15 +100,15 @@ export default class extends Controller {
       // Ici je donne des HP au knight, je crée une barre de vie visuelle, je lie cette barre au knight (pour accéder a ses PV)
       // puis j'attribue cette barre au knight pour pouvoir l'appeler dans la def de knight
       this.knight.setHealth(50, 0, 50);
-      this.healthBar = new HealthBar(
+      const healthBar = new HealthBar(
         this.gameScene,
         this.knight.x - 30,
         this.knight.y - 15,
         this.knight.getMaxHealth(),
         6
       );
-      this.healthBar.add(this.knight);
-      this.knight.healthBar = this.healthBar;
+      healthBar.add(this.knight);
+      this.knight.healthBar = healthBar;
 
       // dégats gratuits
       this.knight.damage(Phaser.Math.Between(8, 9))
@@ -149,7 +150,18 @@ export default class extends Controller {
     for(let i = 0; i < skeleCount; i++) {
       let randX =  Math.floor(Math.random() * (340 - 20) + 20)
       let randY =  Math.floor(Math.random() * (340 - 20) + 20)
-      this.skeletons.push(new Skeleton({x: randX,y:randY}, this.gameScene))
+      let skeleton = new Skeleton({x: randX,y:randY}, this.gameScene)
+      skeleton.setHealth(120,0,120)
+      // const healthBar = new HealthBar(
+      //   this.gameScene,
+      //   skeleton.x - 30,
+      //   skeleton.y - 15,
+      //   skeleton.getMaxHealth(),
+      //   6
+      // );
+      // healthBar.add(skeleton);
+      // skeleton.healthBar = healthBar;
+      this.skeletons.push(skeleton)
     }
     this.skeletons.forEach(skeleton => skeleton.addPhysics(this.knight))
     return this.skeletons
