@@ -39,32 +39,32 @@ export default class extends Controller {
 
     // Tile index mapping to make the code more readable
 
-    const TILES = {
-      TOP_LEFT_WALL: 3,
-      TOP_RIGHT_WALL: 3,
-      BOTTOM_RIGHT_WALL: 2,
-      BOTTOM_LEFT_WALL: 2,
-      TOP_WALL: [
-        { index: 0, weight: 4 },
-        { index: 0, weight: 1 }
-      ],
-      LEFT_WALL: [
-        { index: 1, weight: 4 },
-        { index: 1, weight: 1 }
-      ],
-      RIGHT_WALL: [
-        { index: 1, weight: 4 },
-        { index: 1, weight: 1 }
-      ],
-      BOTTOM_WALL: [
-        { index: 0, weight: 4 },
-        { index: 0, weight: 1 }
-      ],
-      FLOOR: [
-        { index: 14, weight: 20 },
-        { index: 14, weight: 1 }
-      ]
-    };
+      const TILES = {
+        TOP_LEFT_WALL: 3,
+        TOP_RIGHT_WALL: 3,
+        BOTTOM_RIGHT_WALL: 2,
+        BOTTOM_LEFT_WALL: 2,
+        TOP_WALL: [
+          { index: 0, weight: 4 },
+          { index: 0, weight: 1 }
+        ],
+        LEFT_WALL: [
+          { index: 1, weight: 4 },
+          { index: 1, weight: 1 }
+        ],
+        RIGHT_WALL: [
+          { index: 1, weight: 4 },
+          { index: 1, weight: 1 }
+        ],
+        BOTTOM_WALL: [
+          { index: 0, weight: 4 },
+          { index: 0, weight: 1 }
+        ],
+        FLOOR: [
+          { index: 14, weight: 20 },
+          { index: 14, weight: 1 }
+        ]
+      };
 
 
 

@@ -3,9 +3,16 @@ import * as Phaser from "phaser"
 import {Skeleton} from "../skeleton.js"
 import {Knight} from "../knight.js"
 import { loadAnimations } from "../game_loader.js"
+import { DungeonMap } from "../dungeon_map.js"
+
 // Connects to data-controller="game"
 export default class extends Controller {
-  static values = {playerImageUrl: String, bgImageUrl: String, skeletonImageUrl: String, basicTiles: String, keyboardType: String, tilemapUrl: String,
+  static values = {playerImageUrl: String,
+    bgImageUrl: String,
+    skeletonImageUrl: String,
+    basicTiles: String,
+    keyboardType: String,
+    tilemapUrl: String,
     knightImageUrl: String,
     knightRunImageUrl: String,
     knightAttackImageUrl: String}
@@ -63,6 +70,7 @@ export default class extends Controller {
       const wallLayer = map.createLayer('Walls', tileset)
       wallLayer.setCollisionByProperty( {collision: true} )
 
+
       // const debugGraphics = this.gameScene.add.graphics().setAlpha(0.7)
 
       // wallLayer.renderDebug(debugGraphics, {
@@ -115,7 +123,7 @@ export default class extends Controller {
 
         let speed = 50;
         const highSpeed = 200;
-        
+
         if (keyShift.isDown) { speed = highSpeed}
         //if shiftkey is pressed, the knight speed will be higher
 
