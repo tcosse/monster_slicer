@@ -60,7 +60,7 @@ export class Skeleton {
     // this.object.setScale(2,2)
     // console.log(knight.object)
     //this.gameScene.physics.add.existing(this.object)
-
+    console.log(this.gameScene.physics.add)
     // this.gameScene.enemy = this.gameScene.physics.add.image(enemy_start[0], enemy_start[1], 'enemy').setCollideWorldBounds(true);
     this.gameScene.physics.add.overlap(knight.object, this.object, (gameObject1, gameObject2) =>
     {
