@@ -95,6 +95,7 @@ export default class extends Controller {
       //this.gameScene.player = this.gameScene.physics.add.image(10,180, 'player').setCollideWorldBounds(true);
 
       this.knight = new Knight({x:100, y:100}, this.gameScene)
+      this.knight.depth = 5
       this.skeleCount = 4
       this.skelesKilled = 0
 
