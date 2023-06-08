@@ -89,6 +89,7 @@ export default class extends Controller {
       }
 
       this.knight = new Knight({x:100, y:100}, this.gameScene)
+      console.log("first:", this.knight)
       // this.knight = this.gameScene.physics.add.sprite(100,100,'knight_idle')
       this.knight.depth = 1;
       this.skeletons.forEach(skeleton => skeleton.addPhysics(this.knight))
@@ -115,21 +116,22 @@ export default class extends Controller {
       // console.log(wallLayer)
       // this.knight.setCollideWorldBounds(true)
       // this.physics.world.addCollider(this.knight, wallLayer)
-      const collider = this.physics.add.collider(this.knight, wallLayer)
+      const collider = this.gameScene.physics.add.collider(this.knight, wallLayer)
       // console.log(collider)
       this.gameScene.physics.add.collider(this.knight, this.skeleton)
 
     };
 
     this.gameScene.update = function() {
-      var keyW = gameScene.input.keyboard.addKey('W')
-      var keyZ = gameScene.input.keyboard.addKey('Z')
-      var keyS = gameScene.input.keyboard.addKey('S')
-      var keyA = gameScene.input.keyboard.addKey('A')
-      var keyQ = gameScene.input.keyboard.addKey('Q')
-      var keyD = gameScene.input.keyboard.addKey('D')
-      var keyV = gameScene.input.keyboard.addKey('V')
-      var keyShift = gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT)
+      console.log(this.knight)
+      var keyW = this.input.keyboard.addKey('W')
+      var keyZ = this.input.keyboard.addKey('Z')
+      var keyS = this.input.keyboard.addKey('S')
+      var keyA = this.input.keyboard.addKey('A')
+      var keyQ = this.input.keyboard.addKey('Q')
+      var keyD = this.input.keyboard.addKey('D')
+      var keyV = this.input.keyboard.addKey('V')
+      var keyShift = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT)
 
       if(keyW.isDown || keyA.isDown||keyS.isDown||keyD.isDown ||keyV.isDown ||keyZ.isDown||keyQ.isDown) {
 
@@ -171,6 +173,7 @@ export default class extends Controller {
         }
       }
       else {
+
         this.knight.chain('idle', true)
         this.knight.setVelocity(0,0)
       }

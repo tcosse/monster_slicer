@@ -37,7 +37,7 @@ export class Skeleton {
     }
     this.object.depth=1;
     this.object.setScale(2,2)
-    console.log(knight)
+    // console.log(knight)
     //this.gameScene.physics.add.existing(this.object)
 
     // this.gameScene.enemy = this.gameScene.physics.add.image(enemy_start[0], enemy_start[1], 'enemy').setCollideWorldBounds(true);

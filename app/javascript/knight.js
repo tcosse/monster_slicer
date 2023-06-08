@@ -6,7 +6,7 @@ export class Knight extends Phaser.GameObjects.Sprite {
     this.start = start
     this.gameScene = gameScene
     gameScene.add.existing(this);
-    this.setSize(50, 80)
+   // this.setSize(50, 80)
     // this.setOffset(40,50)
   }
 }
