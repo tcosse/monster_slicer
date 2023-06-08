@@ -75,12 +75,15 @@ export default class extends Controller {
       const map = this.gameScene.make.tilemap( {key:'dungeon'} )
       const tileset = map.addTilesetImage('basictiles','tiles')
       map.createLayer('Ground', tileset)
-      map.createLayer('Carpet', tileset)
-      const lampsLayer = map.createLayer('Lamps', tileset)
+      map.createLayer('Path', tileset)
       const wallsLayer = map.createLayer('Walls', tileset)
+      const upperWallsLayer = map.createLayer('Upper_walls', tileset)
+      const treesLayer = map.createLayer('Trees', tileset)
+      const furnituresLayer = map.createLayer('Furnitures', tileset)
       wallsLayer.setCollisionByProperty( {collision: true} )
-      lampsLayer.setCollisionByProperty( {collision: true} )
-
+      upperWallsLayer.setCollisionByProperty( {collision: true} )
+      treesLayer.setCollisionByProperty( {collision: true} )
+      furnituresLayer.setCollisionByProperty( {collision: true} )
 
       // const debugGraphics = this.gameScene.add.graphics().setAlpha(0.7)
       // Uncomment to display collision debug graphics
@@ -94,7 +97,8 @@ export default class extends Controller {
 
       //this.gameScene.player = this.gameScene.physics.add.image(10,180, 'player').setCollideWorldBounds(true);
 
-      this.knight = new Knight({x:100, y:100}, this.gameScene)
+      this.knight = new Knight({x:(35 * 16), y: (12 * 16)}, this.gameScene)
+      this.knight.depth = 5
       this.skeleCount = 4
       this.skelesKilled = 0
 
@@ -116,7 +120,7 @@ export default class extends Controller {
       const characters = this.skeletons.concat(this.knight)
       console.log(characters)
 
-      const WallsCollider = this.gameScene.physics.add.collider(characters, [wallsLayer, lampsLayer])
+      const WallsCollider = this.gameScene.physics.add.collider(characters, [wallsLayer, upperWallsLayer, furnituresLayer, treesLayer])
 
 
       // console.log(this.skeletons)
@@ -137,8 +141,8 @@ export default class extends Controller {
 
     let config = {
       type: Phaser.AUTO,
-      width: 360,
-      height: 360,
+      width: 800,
+      height: 800,
       scene: this.gameScene,
       physics: {
         default: 'arcade',
