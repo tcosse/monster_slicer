@@ -12,7 +12,6 @@ Health.MixinTo(Knight);
 Health.MixinTo(Skeleton);
 // Fin de commentaire
 
-
 // Connects to data-controller="game"
 export default class extends Controller {
   static values = {playerImageUrl: String,
@@ -85,7 +84,6 @@ export default class extends Controller {
       treesLayer.setCollisionByProperty( {collision: true} )
       furnituresLayer.setCollisionByProperty( {collision: true} )
 
-      // const debugGraphics = this.gameScene.add.graphics().setAlpha(0.7)
       // Uncomment to display collision debug graphics
 
       // const debugGraphics = this.gameScene.add.graphics().setAlpha(0.7)
@@ -94,8 +92,6 @@ export default class extends Controller {
       //   collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
       //   faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       // });
-
-      //this.gameScene.player = this.gameScene.physics.add.image(10,180, 'player').setCollideWorldBounds(true);
 
       this.knight = new Knight({x:(35 * 16), y: (12 * 16)}, this.gameScene)
       this.knight.depth = 5
@@ -111,8 +107,10 @@ export default class extends Controller {
       // this.knight.damage(Phaser.Math.Between(8, 9))
 
       // gestion de la caméra
-      this.gameScene.cameras.main.setBounds(0, 0, 2000, 4000)
+      // this.gameScene.cameras.main.setBounds(0, 0, 2000, 4000)
       this.gameScene.cameras.main.startFollow(this.knight);
+      this.gameScene.cameras.main.setZoom(2)
+
 
       // this.knight.setCollideWorldBounds(true)
       // this.physics.world.addCollider(this.knight, wallLayer)
@@ -141,12 +139,21 @@ export default class extends Controller {
 
     let config = {
       type: Phaser.AUTO,
-      width: 700,
-      height: 500,
+      parent: 'game',
+      // scale: {
+        // mode: Phaser.Scale.RESIZE,
+      //   mode: Phaser.Scale.FIT,
+      // //   // zoom : 3,
+        // width: 500,
+        // height: 500,
+      // },
+      width: 800,
+      height: 650,
       scene: this.gameScene,
+      autoCenter: Phaser.Scale.CENTER_BOTH,
       physics: {
         default: 'arcade',
-        arcade: { debug: true }
+        arcade: { debug: false }
       }
     };
 
