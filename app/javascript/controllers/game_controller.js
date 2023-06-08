@@ -19,7 +19,9 @@ export default class extends Controller {
     knightRunImageUrl: String,
     knightAttackImageUrl: String,
     basicTiles: String,
-    tilemapUrl: String
+    tilemapUrl: String,
+    skeletonIdleImageUrl: String,
+    skeletonDeathImageUrl: String
   }
 
 
@@ -32,8 +34,10 @@ export default class extends Controller {
     const knightAttackImageUrl = this.knightAttackImageUrlValue
     const basicTiles = this.basicTilesValue
     const tilemapUrl = this.tilemapUrlValue
+    const skeletonIdleImageUrl = this.skeletonIdleImageUrlValue
+    const skeletonDeathImageUrl = this.skeletonDeathImageUrlValue
 
-    // this.skeleton_start =
+
 // window.onload = function() {
 //   var game = new Phaser.Game();
 // }
