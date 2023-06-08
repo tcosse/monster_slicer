@@ -8,7 +8,10 @@ export default class extends Controller {
   static values = {playerImageUrl: String, bgImageUrl: String, skeletonImageUrl: String, basicTiles: String, keyboardType: String, tilemapUrl: String,
     knightImageUrl: String,
     knightRunImageUrl: String,
-    knightAttackImageUrl: String}
+    knightAttackImageUrl: String,
+    skeletonIdleImageUrl: String,
+    skeletonDeathImageUrl: String
+  }
 
 
   connect() {
@@ -21,6 +24,8 @@ export default class extends Controller {
     const basicTiles = this.basicTilesValue
     const keyboardType = this.keyboardTypeValue
     const tilemapUrl = this.tilemapUrlValue
+    const skeletonIdleImageUrl = this.skeletonIdleImageUrlValue
+    const skeletonDeathImageUrl = this.skeletonDeathImageUrlValue
 
 
 
@@ -37,14 +42,16 @@ export default class extends Controller {
 
       this.gameScene.load.image('tiles', basicTiles)
       this.gameScene.load.tilemapTiledJSON('dungeon', tilemapUrl)
-      console.log(tilemapUrl)
+      // console.log(tilemapUrl)
 
       this.gameScene.load.spritesheet('enemy_skeleton', skeletonImageUrl, {frameWidth: 16, frameHeight: 16})
+      this.gameScene.load.spritesheet('enemy_skeleton_idle', skeletonIdleImageUrl, {frameWidth: 32, frameHeight: 32})
+      this.gameScene.load.spritesheet('enemy_skeleton_death', skeletonDeathImageUrl, {frameWidth: 96, frameHeight: 64})
       this.gameScene.load.spritesheet('knight_idle', knightImageUrl, { frameWidth: 128 , frameHeight: 128 })
       this.gameScene.load.spritesheet('knight_run', knightRunImageUrl, { frameWidth: 128 , frameHeight: 128 })
       this.gameScene.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 128 , frameHeight: 128 })
 
-      console.log(skeletonImageUrl)
+      // console.log(skeletonImageUrl)
 
     };
 
@@ -72,20 +79,16 @@ export default class extends Controller {
       // });
 
       //this.gameScene.player = this.gameScene.physics.add.image(10,180, 'player').setCollideWorldBounds(true);
-      this.skeletons = []
-      for(let i = 0; i <4; i++) {
-        let randX =  Math.floor(Math.random() * (340 - 20) + 20)
-        let randY =  Math.floor(Math.random() * (340 - 20) + 20)
-        this.skeletons.push(new Skeleton({x: randX,y:randY}, this.gameScene))
-      }
 
       this.knight = new Knight({x:100, y:100}, this.gameScene)
       // this.knight.object = this.gameScene.physics.add.sprite(100,100,'knight_idle')
       this.knight.object.depth = 1;
-      this.skeletons.forEach(skeleton => skeleton.addPhysics(this.knight))
+
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
-
+      this.skeleCount = 4
+      this.skelesKilled = 0
+      this.#spawnSkeletons(this.skeleCount)
       this.knight.object.setScale(0.4,0.4)
       this.knight.object.play("idle", true)
 
@@ -124,10 +127,9 @@ export default class extends Controller {
           this.knight.object.play('run', true)
           this.knight.object.flipX = false
         }
-        else if(keyV.isDown) {
+        if(keyV.isDown) {
           this.knight.object.play('attack', true)
-          console.log(this)
-          console.log(this.gameScene)
+          console.log(this.knight)
 
         }
       }
@@ -136,6 +138,7 @@ export default class extends Controller {
       }
 
       this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight.object))
+      this.skeletons = this.#checkSkeleton()
 
 
     };
@@ -147,7 +150,7 @@ export default class extends Controller {
       scene: this.gameScene,
       physics: {
         default: 'arcade',
-        arcade: { debug: true }
+        arcade: { debug: false }
       }
     };
 
@@ -157,6 +160,31 @@ export default class extends Controller {
 
   }
 
+  #spawnSkeletons(skeleCount){
+    this.skeletons = []
+    for(let i = 0; i < skeleCount; i++) {
+      let randX =  Math.floor(Math.random() * (340 - 20) + 20)
+      let randY =  Math.floor(Math.random() * (340 - 20) + 20)
+      this.skeletons.push(new Skeleton({x: randX,y:randY}, this.gameScene))
+    }
+    this.skeletons.forEach(skeleton => skeleton.addPhysics(this.knight))
+    return this.skeletons
+  }
+  #checkSkeleton(){
+    let newSkeletons = []
+    while(this.skeletons.length < this.skeleCount + this.knight.skeleKilled*2) {
+      let randX =  Math.floor(Math.random() * (340 - 20) + 20)
+      let randY =  Math.floor(Math.random() * (340 - 20) + 20)
+      newSkeletons.push(new Skeleton({x: randX,y:randY}, this.gameScene))
+      newSkeletons.forEach(skeleton => {
+        skeleton.addPhysics(this.knight)
+        this.skeletons.push(skeleton)
+      });
+    }
 
 
+    // console.log(this.skeletons)
+    return this.skeletons
+
+  }
 }

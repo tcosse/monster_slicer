@@ -36,8 +36,8 @@ export class Skeleton {
       this.object.play('skeleton_idle');
     }
     this.object.depth=1;
-    this.object.setScale(2,2)
-    console.log(knight.object)
+    // this.object.setScale(2,2)
+    // console.log(knight.object)
     //this.gameScene.physics.add.existing(this.object)
 
     // this.gameScene.enemy = this.gameScene.physics.add.image(enemy_start[0], enemy_start[1], 'enemy').setCollideWorldBounds(true);
@@ -47,7 +47,16 @@ export class Skeleton {
           this.object.play("skeleton_dead", true)
           this.object.setVelocity(0,0)
           this.object.on('animationcomplete',()=> {
-          this.object.destroy()
+            this.gameScene.physics.world.colliders._active.forEach(collider => {
+              if(collider.object2 == gameObject2) {
+                collider.destroy()
+                  knight.skeleKilled += 1
+                // console.log(gameObject1)
+              }
+            })
+            // console.log(this.gameScene.physics.world.colliders._active)
+            // console.log(gameObject2)
+            this.gameScene.physics.world.colliders.active
           });
         }
     });

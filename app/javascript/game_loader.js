@@ -1,15 +1,30 @@
 const loadAnimations = (gameScene) => {
+  // gameScene.anims.create({
+  //   key:"skeleton_idle",
+  //   frameRate: 6,
+  //   frames: gameScene.anims.generateFrameNumbers("enemy_skeleton", {start: 0, end: 4}),
+  //   repeat: -1,
+  // })
+
   gameScene.anims.create({
     key:"skeleton_idle",
     frameRate: 6,
-    frames: gameScene.anims.generateFrameNumbers("enemy_skeleton", {start: 0, end: 4}),
+    frames: gameScene.anims.generateFrameNumbers("enemy_skeleton_idle", {start: 0, end: 3}),
     repeat: -1,
   })
 
+  // gameScene.anims.create({
+  //   key:"skeleton_dead",
+  //   framerate:6,
+  //   frames:gameScene.anims.generateFrameNumbers("enemy_skeleton", {start:5, end: 12}),
+  //   repeat: 0,
+  //   delay: 100
+  // })
+
   gameScene.anims.create({
     key:"skeleton_dead",
-    framerate:6,
-    frames:gameScene.anims.generateFrameNumbers("enemy_skeleton", {start:5, end: 12}),
+    framerate:4,
+    frames:gameScene.anims.generateFrameNumbers("enemy_skeleton_death", {start:0, end: 7}),
     repeat: 0,
     delay: 100
   })
