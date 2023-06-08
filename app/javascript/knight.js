@@ -5,22 +5,27 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
     super(gameScene, start.x, start.y, 'knight_idle')
     this.start = start
     this.gameScene = gameScene
+    gameScene.physics.add.world.enableBody(this, 0);
     this.setScale(0.4,0.4)
     this.play("idle", true)
     this.depth = 1;
+    this.setSize(50, 80)
+    this.setOffset(40,50)
+    this.depth = 1;
+    gameScene.add.existing(this);
+  }
 
-    var keyW = gameScene.input.keyboard.addKey('W')
-    var keyZ = gameScene.input.keyboard.addKey('Z')
-    var keyS = gameScene.input.keyboard.addKey('S')
-    var keyA = gameScene.input.keyboard.addKey('A')
-    var keyQ = gameScene.input.keyboard.addKey('Q')
-    var keyD = gameScene.input.keyboard.addKey('D')
-    var keyV = gameScene.input.keyboard.addKey('V')
-    // var keyShift = this.gameScene.input.keyboard.addKey("shiftKey")
-    console.log(keyW)
+  update () {
+    var keyW = this.gameScene.input.keyboard.addKey('W')
+    var keyZ = this.gameScene.input.keyboard.addKey('Z')
+    var keyS = this.gameScene.input.keyboard.addKey('S')
+    var keyA = this.gameScene.input.keyboard.addKey('A')
+    var keyQ = this.gameScene.input.keyboard.addKey('Q')
+    var keyD = this.gameScene.input.keyboard.addKey('D')
+    var keyV = this.gameScene.input.keyboard.addKey('V')
+    // var keyShift = this.this.gameScene.input.keyboard.addKey("shiftKey")
 
     if(keyW.isDown || keyA.isDown || keyS.isDown || keyD.isDown || keyV.isDown || keyZ.isDown || keyQ.isDown) {
-      console.log(keyW.isDown)
       const defaultSpeed = 50;
       const highSpeed = 200;
       let speed = defaultSpeed ;
@@ -31,7 +36,6 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
       if(keyW.isDown || keyZ.isDown) {
         // User wants to go up (presses W if english keyboard, Z for french)
         this.play('run', true)
-        console.log(this)
         this.setVelocity(0, -speed);
       }
       else if(keyS.isDown) {
@@ -60,16 +64,8 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
       }
     }
     else {
-      // console.log(this)
       this.chain('idle', true)
-      // this.setVelocity(0,0)
+      this.setVelocity(0,0)
     }
-
-    console.log(this)
-    this.setSize(50, 80)
-    this.setOffset(40,50)
-    this.knight.depth = 1;
-    gameScene.add.existing(this);
-
   }
 }

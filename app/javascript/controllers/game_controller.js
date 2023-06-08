@@ -89,6 +89,7 @@ export default class extends Controller {
 
       this.knight = new Knight({x:100, y:100}, this.gameScene)
 
+
       // this.knight = this.gameScene.physics.add.sprite(100,100,'knight_idle')
       this.skeletons.forEach(skeleton => skeleton.addPhysics(this.knight))
       // this.gameScene.enemy.depth = 1;
@@ -109,14 +110,15 @@ export default class extends Controller {
 
       // this.knight.setCollideWorldBounds(true)
       // this.physics.world.addCollider(this.knight, wallLayer)
-      const collider = this.gameScene.physics.add.collider(this.knight.object, wallLayer)
+      const collider = this.gameScene.physics.add.collider(this.knight, wallLayer)
       // this.physics.add.collider(this.knight, this.skeleton)
 
     };
 
     this.gameScene.update = () => {
-      this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight.object))
-    };
+      this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
+      this.knight.update()
+      }
 
     let config = {
       type: Phaser.AUTO,
@@ -129,12 +131,7 @@ export default class extends Controller {
       }
     };
 
-
-
     let game = new Phaser.Game(config);
-
   }
-
-
 
 }
