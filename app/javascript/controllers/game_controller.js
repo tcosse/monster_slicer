@@ -63,7 +63,7 @@ export default class extends Controller {
 
     // const skeleton_start =
     this.gameScene.create = () =>{
-
+      this.count = 0
       loadAnimations(this.gameScene) //from game_loader
 
       // this.gameScene.bg = this.gameScene.add.sprite(0,0, 'background');
@@ -103,6 +103,7 @@ export default class extends Controller {
         this.knight.getMaxHealth(),
         6
       );
+
       this.healthBar.add(this.knight);
 
       this.gameScene.cameras.main.setBounds(0, 0, 2000, 4000)
@@ -113,12 +114,18 @@ export default class extends Controller {
       const collider = this.gameScene.physics.add.collider(this.knight, wallLayer)
       // this.physics.add.collider(this.knight, this.skeleton)
 
+
+
     };
 
     this.gameScene.update = () => {
+      this.count+=1;
+      console.log("start ",this.count)
+      console.log(this.skeletons)
       this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
       this.knight.update()
       this.#checkSkeleton()
+      console.log("end ",this.count)
       }
 
     let config = {
