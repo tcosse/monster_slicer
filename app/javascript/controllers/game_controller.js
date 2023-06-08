@@ -135,4 +135,30 @@ export default class extends Controller {
   }
 
 }
-  
+#spawnSkeletons(skeleCount){
+  this.skeletons = []
+  for(let i = 0; i < skeleCount; i++) {
+    let randX =  Math.floor(Math.random() * (340 - 20) + 20)
+    let randY =  Math.floor(Math.random() * (340 - 20) + 20)
+    this.skeletons.push(new Skeleton({x: randX,y:randY}, this.gameScene))
+  }
+  this.skeletons.forEach(skeleton => skeleton.addPhysics(this.knight))
+  return this.skeletons
+}
+#checkSkeleton(){
+  let newSkeletons = []
+  while(this.skeletons.length < this.skeleCount + this.knight.skeleKilled*2) {
+    let randX =  Math.floor(Math.random() * (340 - 20) + 20)
+    let randY =  Math.floor(Math.random() * (340 - 20) + 20)
+    newSkeletons.push(new Skeleton({x: randX,y:randY}, this.gameScene))
+    newSkeletons.forEach(skeleton => {
+      skeleton.addPhysics(this.knight)
+      this.skeletons.push(skeleton)
+    });
+  }
+
+
+  // console.log(this.skeletons)
+  return this.skeletons
+
+}
