@@ -31,27 +31,6 @@ export class Skeleton {
       }
     }
   }
-
-  // addPhysics(knight) {
-  //   if(this.object != null) {
-  //     this.object.play('skeleton_idle');
-  //   }
-  //   this.object.depth=1;
-  //   this.object.setScale(2,2)
-  //   //this.gameScene.physics.add.existing(this.object)
-
-  //   // this.gameScene.enemy = this.gameScene.physics.add.image(enemy_start[0], enemy_start[1], 'enemy').setCollideWorldBounds(true);
-  //   this.gameScene.physics.add.overlap(knight, this.object, (gameObject1, gameObject2) =>
-  //   {
-  //       if (this.gameScene.input.keyboard.addKey("V").isDown) {
-  //         this.object.play("skeleton_dead", true)
-  //         this.object.setVelocity(0,0)
-  //         this.object.on('animationcomplete',()=> {
-  //         this.object.destroy()
-  //         });
-  //       }
-  //   });
-  // }
   addPhysics(knight) {
     if(this.object != null) {
       this.object.play('skeleton_idle');
