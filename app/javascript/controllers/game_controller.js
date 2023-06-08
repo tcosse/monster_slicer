@@ -122,7 +122,7 @@ export default class extends Controller {
 
     };
 
-    this.gameScene.update = function() {
+    this.gameScene.update = () => {
       console.log(this.knight)
       var keyW = this.input.keyboard.addKey('W')
       var keyZ = this.input.keyboard.addKey('Z')
