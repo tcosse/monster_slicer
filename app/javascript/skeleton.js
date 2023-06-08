@@ -5,6 +5,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
     super(gameScene, start.x, start.y, 'enemy_skeleton_idle')
     this.start = start
     this.gameScene = gameScene
+    this.isDead = false
 
     gameScene.physics.add.world.enableBody(this, 0);
     gameScene.add.existing(this);
@@ -61,6 +62,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
           this.play("skeleton_dead", true)
           this.setVelocity(0,0)
           this.on('animationcomplete',()=> {
+            this.isDead = true
             this.gameScene.physics.world.colliders._active.forEach(collider => {
               if(collider.object2 == gameObject2) {
                 collider.destroy()

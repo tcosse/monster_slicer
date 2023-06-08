@@ -123,7 +123,7 @@ export default class extends Controller {
       // this.knight.setCollideWorldBounds(true)
       // this.physics.world.addCollider(this.knight, wallLayer)
       let skeletonsArray = []
-      this.skeletons.forEach(skeleton => skeletonsArray.push(skeleton.object))
+      this.skeletons.forEach(skeleton => skeletonsArray.push(skeleton))
       const characters = skeletonsArray.concat(this.knight)
       console.log(characters)
       const WallsCollider = this.gameScene.physics.add.collider(characters, [wallsLayer, lampsLayer])
@@ -174,7 +174,7 @@ export default class extends Controller {
       // );
       // healthBar.add(skeleton);
       // skeleton.healthBar = healthBar;
-      this.skeletons.push(skeleton)
+      skeletons.push(skeleton)
     }
     skeletons.forEach(skeleton => skeleton.addPhysics(this.knight))
     return skeletons
