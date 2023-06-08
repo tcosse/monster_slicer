@@ -112,47 +112,81 @@ export default class extends Controller {
       this.gameScene.cameras.main.setBounds(0, 0, 2000, 4000)
       this.gameScene.cameras.main.startFollow(this.knight);
 
+      console.log(wallLayer)
+      // this.knight.setCollideWorldBounds(true)
+      // this.physics.world.addCollider(this.knight, wallLayer)
+      const collider = this.physics.add.collider(this.knight, wallLayer)
+      console.log(collider)
+      this.physics.add.collider(this.knight, this.skeleton)
 
     };
 
-    this.gameScene.update = () => {
-      var keyW = this.gameScene.input.keyboard.addKey('W')
-      var keyZ = this.gameScene.input.keyboard.addKey('Z')
-      var keyS = this.gameScene.input.keyboard.addKey('S')
-      var keyA = this.gameScene.input.keyboard.addKey('A')
-      var keyQ = this.gameScene.input.keyboard.addKey('Q')
-      var keyD = this.gameScene.input.keyboard.addKey('D')
-      var keyV = this.gameScene.input.keyboard.addKey('V')
+    gameScene.update = function() {
+      var keyW = gameScene.input.keyboard.addKey('W')
+      var keyZ = gameScene.input.keyboard.addKey('Z')
+      var keyS = gameScene.input.keyboard.addKey('S')
+      var keyA = gameScene.input.keyboard.addKey('A')
+      var keyQ = gameScene.input.keyboard.addKey('Q')
+      var keyD = gameScene.input.keyboard.addKey('D')
+      var keyV = gameScene.input.keyboard.addKey('V')
+      var keyShift = gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT)
+
       if(keyW.isDown || keyA.isDown||keyS.isDown||keyD.isDown ||keyV.isDown ||keyZ.isDown||keyQ.isDown) {
 
+        let speed = 50;
+        const highSpeed = 200;
+        
+        if (keyShift.isDown) { speed = highSpeed}
+        //if shiftkey is pressed, the knight speed will be higher
+
         if(keyW.isDown || keyZ.isDown) {
-          this.knight.y -= 1;
+          // User wants to go up (presses W if english keyboard, Z for french)
           this.knight.play('run', true)
+          this.knight.setVelocity(0, -speed);
         }
         else if(keyS.isDown) {
-          this.knight.y += 1;
+          // User wants to go down (presses S)
+          // console.log(this.knight)
+          this.knight.setVelocity(0, speed);
           this.knight.play('run', true)
         }
 
         if(keyA.isDown || keyQ.isDown) {
-          this.knight.x -= 1;
+          // User wants to go left (presses Q in french keyboard, or A if english)
           this.knight.play('run', true)
+          this.knight.setVelocity(-speed, 0);
           this.knight.flipX = true
         }
         else if(keyD.isDown) {
-          this.knight.x += 1;
+          // User wants to go right (presses D)
           this.knight.play('run', true)
+          this.knight.setVelocity(speed, 0);
           this.knight.flipX = false
         }
         else if(keyV.isDown) {
+          // User wants to go attack (presses V)
           this.knight.play('attack', true)
-          console.log(this)
-          console.log(this.gameScene)
-
+          console.log(this.anims.anims.entries.attack)
+          this.anims.anims.entries.attack.type
         }
       }
       else {
         this.knight.chain('idle', true)
+        this.knight.setVelocity(0,0)
+      }
+
+      var skeleton_speed = 30;
+      var distance_between = Math.sqrt((this.knight.x-this.skeleton.x)**2 + (this.knight.y-this.skeleton.y)**2)
+      var skeleton_start_distance = Math.sqrt((skeleton_start[0]-this.skeleton.x)**2 + (skeleton_start[1]-this.skeleton.y)**2)
+      if(this.skeleton.scene != undefined) {
+        if(distance_between < 100) {
+          this.skeleton.setVelocity(skeleton_speed*(this.knight.x-this.skeleton.x)/distance_between, skeleton_speed*(this.knight.y-this.skeleton.y)/distance_between);
+        }
+        else {
+          if(this.skeleton.x != skeleton_start[0] && this.skeleton.y != skeleton_start[1]) {
+            this.skeleton.setVelocity(skeleton_speed*(skeleton_start[0]-this.skeleton.x)/skeleton_start_distance, skeleton_speed*(skeleton_start[1]-this.skeleton.y)/distance_between);
+          }
+        }
       }
       this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
 
