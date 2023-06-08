@@ -1,21 +1,21 @@
-// import { Phaser } from "phaser"
+import * as Phaser from "phaser"
 
-export class Knight {
+export class Knight extends Phaser.GameObjects.Sprite {
   constructor(start, gameScene) {
+    super(gameScene, start.x, start.y, 'knight_idle')
     this.start = start
     this.gameScene = gameScene
-    this.object = this.gameScene.physics.add.sprite(start.x, start.y, 'knight_idle').setSize(50, 80).setOffset(40,50)
-    this.object.setScale(0.4,0.4)
-    this.object.play("idle", true)
-    this.object.depth = 1;
-    
-    var keyW = this.gameScene.input.keyboard.addKey('W')
-    var keyZ = this.gameScene.input.keyboard.addKey('Z')
-    var keyS = this.gameScene.input.keyboard.addKey('S')
-    var keyA = this.gameScene.input.keyboard.addKey('A')
-    var keyQ = this.gameScene.input.keyboard.addKey('Q')
-    var keyD = this.gameScene.input.keyboard.addKey('D')
-    var keyV = this.gameScene.input.keyboard.addKey('V')
+    this.setScale(0.4,0.4)
+    this.play("idle", true)
+    this.depth = 1;
+
+    var keyW = gameScene.input.keyboard.addKey('W')
+    var keyZ = gameScene.input.keyboard.addKey('Z')
+    var keyS = gameScene.input.keyboard.addKey('S')
+    var keyA = gameScene.input.keyboard.addKey('A')
+    var keyQ = gameScene.input.keyboard.addKey('Q')
+    var keyD = gameScene.input.keyboard.addKey('D')
+    var keyV = gameScene.input.keyboard.addKey('V')
     // var keyShift = this.gameScene.input.keyboard.addKey("shiftKey")
     console.log(keyW)
 
@@ -30,39 +30,41 @@ export class Knight {
 
       if(keyW.isDown || keyZ.isDown) {
         // User wants to go up (presses W if english keyboard, Z for french)
-        this.object.play('run', true)
-        console.log(this.object)
-        this.object.setVelocity(0, -speed);
+        this.play('run', true)
+        console.log(this)
+        this.setVelocity(0, -speed);
       }
       else if(keyS.isDown) {
         // User wants to go down (presses S)
-        this.object.setVelocity(0, speed);
-        this.object.play('run', true)
+        this.setVelocity(0, speed);
+        this.play('run', true)
       }
 
       if(keyA.isDown || keyQ.isDown) {
         // User wants to go left (presses Q in french keyboard, or A if english)
-        this.object.play('run', true)
-        this.object.setVelocity(-speed, 0);
-        this.object.flipX = true
+        this.play('run', true)
+        this.setVelocity(-speed, 0);
+        this.flipX = true
       }
       else if(keyD.isDown) {
         // User wants to go right (presses D)
-        this.object.play('run', true)
-        this.object.setVelocity(speed, 0);
-        this.object.flipX = false
+        this.play('run', true)
+        this.setVelocity(speed, 0);
+        this.flipX = false
       }
       else if(keyV.isDown) {
         // User wants to go attack (presses V)
-        this.object.play('attack', true)
+        this.play('attack', true)
         // console.log(this.anims.anims.entries.attack)
         this.anims.anims.entries.attack.type
       }
     }
     else {
-      this.object.chain('idle', true)
-      this.object.setVelocity(0,0)
+      this.chain('idle', true)
+      this.setVelocity(0,0)
     }
-
+    gameScene.add.existing(this);
+    this.setSize(50, 80)
+    this.body.setOffset(40,50)
   }
 }

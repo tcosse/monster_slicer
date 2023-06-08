@@ -2,13 +2,25 @@ import { Controller } from "@hotwired/stimulus"
 import * as Phaser from "phaser"
 import {Skeleton} from "../skeleton.js"
 import {Knight} from "../knight.js"
+import {HealthBar} from "../healthbar.js"
 import { loadAnimations } from "../game_loader.js"
+import PhaserHealth from 'phaser_health';
+
+var Health = PhaserHealth;
+Health.MixinTo(Knight);
+var Shuffle = Phaser.Utils.Array.Shuffle;
+
 // Connects to data-controller="game"
 export default class extends Controller {
-  static values = {playerImageUrl: String, bgImageUrl: String, skeletonImageUrl: String, basicTiles: String, keyboardType: String, tilemapUrl: String,
+  static values = {playerImageUrl: String,
+    bgImageUrl: String,
+    skeletonImageUrl: String,
     knightImageUrl: String,
     knightRunImageUrl: String,
-    knightAttackImageUrl: String}
+    knightAttackImageUrl: String,
+    basicTiles: String,
+    tilemapUrl: String
+  }
 
 
   connect() {
@@ -19,9 +31,13 @@ export default class extends Controller {
     const knightRunImageUrl = this.knightRunImageUrlValue
     const knightAttackImageUrl = this.knightAttackImageUrlValue
     const basicTiles = this.basicTilesValue
-    const keyboardType = this.keyboardTypeValue
     const tilemapUrl = this.tilemapUrlValue
 
+    // this.skeleton_start =
+// window.onload = function() {
+//   var game = new Phaser.Game();
+// }
+    //let gameScene = new Phaser.Scene('Game'); //this.gameScene local
 
     this.gameScene = new Phaser.Scene('Game'); //gameScene global (controller)
     this.gameScene.preload = () => {
@@ -72,14 +88,29 @@ export default class extends Controller {
       }
 
       this.knight = new Knight({x:100, y:100}, this.gameScene)
-      // this.knight.object = this.gameScene.physics.add.sprite(100,100,'knight_idle')
+
+      // this.knight = this.gameScene.physics.add.sprite(100,100,'knight_idle')
+      this.knight.depth = 1;
       this.skeletons.forEach(skeleton => skeleton.addPhysics(this.knight))
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
+      this.knight.setHealth(50, 0, 50);
+
+      this.healthBar = new HealthBar(
+        this.gameScene,
+        this.knight.x - 30,
+        this.knight.y - 15,
+        this.knight.getMaxHealth(),
+        6
+      );
+      this.healthBar.add(this.knight);
 
 
-<      this.gameScene.cameras.main.setBounds(0, 0, 2000, 4000)
->      this.gameScene.cameras.main.startFollow(this.knight.object);
+      this.knight.setScale(0.4,0.4)
+      this.knight.play("idle", true)
+
+      this.gameScene.cameras.main.setBounds(0, 0, 2000, 4000)
+      this.gameScene.cameras.main.startFollow(this.knight);
 
       // this.knight.setCollideWorldBounds(true)
       // this.physics.world.addCollider(this.knight, wallLayer)
@@ -89,9 +120,7 @@ export default class extends Controller {
     };
 
     this.gameScene.update = () => {
-
       this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight.object))
-
     };
 
     let config = {
