@@ -33,7 +33,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
 
   update () {
     // On check si on est pas mort
-    if (this.getHealth() = 0) {
+    if (this.getHealth() == 0) {
       // je suis mort
       this.setVelocity(0,0);
       // this.play('dead', true)
