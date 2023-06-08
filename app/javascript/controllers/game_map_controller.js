@@ -423,8 +423,8 @@ export default class extends Controller {
 
       var skeleton_speed = 70;
       var distance_between = Math.sqrt((this.player.x-this.skeleton.x)**2 + (this.player.y-this.skeleton.y)**2)
-      console.log("distance between", distance_between);
-      console.log(this.skeleton)
+      // console.log("distance between", distance_between);
+      // console.log(this.skeleton)
       var skeleton_start_distance = Math.sqrt((skeleton_start[0]-this.skeleton.x)**2 + (skeleton_start[1]-this.skeleton.y)**2)
 
       if(this.skeleton.body != undefined) {

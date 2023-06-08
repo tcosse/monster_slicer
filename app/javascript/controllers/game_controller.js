@@ -112,16 +112,16 @@ export default class extends Controller {
       this.gameScene.cameras.main.setBounds(0, 0, 2000, 4000)
       this.gameScene.cameras.main.startFollow(this.knight);
 
-      console.log(wallLayer)
+      // console.log(wallLayer)
       // this.knight.setCollideWorldBounds(true)
       // this.physics.world.addCollider(this.knight, wallLayer)
       const collider = this.physics.add.collider(this.knight, wallLayer)
-      console.log(collider)
-      this.physics.add.collider(this.knight, this.skeleton)
+      // console.log(collider)
+      this.gameScene.physics.add.collider(this.knight, this.skeleton)
 
     };
 
-    gameScene.update = function() {
+    this.gameScene.update = function() {
       var keyW = gameScene.input.keyboard.addKey('W')
       var keyZ = gameScene.input.keyboard.addKey('Z')
       var keyS = gameScene.input.keyboard.addKey('S')
@@ -135,7 +135,7 @@ export default class extends Controller {
 
         let speed = 50;
         const highSpeed = 200;
-        
+
         if (keyShift.isDown) { speed = highSpeed}
         //if shiftkey is pressed, the knight speed will be higher
 
@@ -166,7 +166,7 @@ export default class extends Controller {
         else if(keyV.isDown) {
           // User wants to go attack (presses V)
           this.knight.play('attack', true)
-          console.log(this.anims.anims.entries.attack)
+          // console.log(this.anims.anims.entries.attack)
           this.anims.anims.entries.attack.type
         }
       }
