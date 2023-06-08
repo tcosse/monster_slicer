@@ -124,14 +124,14 @@ export default class extends Controller {
 
     this.gameScene.update = () => {
       console.log(this.knight)
-      var keyW = this.input.keyboard.addKey('W')
-      var keyZ = this.input.keyboard.addKey('Z')
-      var keyS = this.input.keyboard.addKey('S')
-      var keyA = this.input.keyboard.addKey('A')
-      var keyQ = this.input.keyboard.addKey('Q')
-      var keyD = this.input.keyboard.addKey('D')
-      var keyV = this.input.keyboard.addKey('V')
-      var keyShift = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT)
+      var keyW = this.gameScene.input.keyboard.addKey('W')
+      var keyZ = this.gameScene.input.keyboard.addKey('Z')
+      var keyS = this.gameScene.input.keyboard.addKey('S')
+      var keyA = this.gameScene.input.keyboard.addKey('A')
+      var keyQ = this.gameScene.input.keyboard.addKey('Q')
+      var keyD = this.gameScene.input.keyboard.addKey('D')
+      var keyV = this.gameScene.input.keyboard.addKey('V')
+      var keyShift = this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT)
 
       if(keyW.isDown || keyA.isDown||keyS.isDown||keyD.isDown ||keyV.isDown ||keyZ.isDown||keyQ.isDown) {
 
