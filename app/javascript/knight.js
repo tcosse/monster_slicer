@@ -24,15 +24,15 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
     var keyQ = this.gameScene.input.keyboard.addKey('Q')
     var keyD = this.gameScene.input.keyboard.addKey('D')
     var keyV = this.gameScene.input.keyboard.addKey('V')
-    // var keyShift = this.this.gameScene.input.keyboard.addKey("shiftKey")
+    var keyShift = this.gameScene.input.keyboard.addKey("SHIFT")
 
     if(keyW.isDown || keyA.isDown || keyS.isDown || keyD.isDown || keyV.isDown || keyZ.isDown || keyQ.isDown) {
       const defaultSpeed = 50;
       const highSpeed = 200;
       let speed = defaultSpeed ;
 
-      // if (keyShift.isDown) { speed = highSpeed} else { speed = defaultSpeed}
       //if shiftkey is pressed, the knight speed will be higher
+      if (keyShift.isDown) { speed = highSpeed} else { speed = defaultSpeed}
 
       if(keyW.isDown || keyZ.isDown) {
         // User wants to go up (presses W if english keyboard, Z for french)

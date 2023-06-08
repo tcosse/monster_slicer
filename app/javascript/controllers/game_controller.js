@@ -73,8 +73,11 @@ export default class extends Controller {
       const map = this.gameScene.make.tilemap( {key:'dungeon'} )
       const tileset = map.addTilesetImage('basictiles','tiles')
       map.createLayer('Ground', tileset)
-      const wallLayer = map.createLayer('Walls', tileset)
-      wallLayer.setCollisionByProperty( {collision: true} )
+      map.createLayer('Carpet', tileset)
+      const lampsLayer = map.createLayer('Lamps', tileset)
+      const wallsLayer = map.createLayer('Walls', tileset)
+      wallsLayer.setCollisionByProperty( {collision: true} )
+      lampsLayer.setCollisionByProperty( {collision: true} )
 
 
       // const debugGraphics = this.gameScene.add.graphics().setAlpha(0.7)
@@ -113,7 +116,15 @@ export default class extends Controller {
 
       // this.knight.setCollideWorldBounds(true)
       // this.physics.world.addCollider(this.knight, wallLayer)
-      const collider = this.gameScene.physics.add.collider(this.knight, wallLayer)
+      let skeletonsArray = []
+      this.skeletons.forEach(skeleton => skeletonsArray.push(skeleton.object))
+      const characters = skeletonsArray.concat(this.knight)
+      console.log(characters)
+      const WallsCollider = this.gameScene.physics.add.collider(characters, [wallsLayer, lampsLayer])
+      const knightsVsSkeletonsCollider = this.gameScene.physics.add.collider(skeletonsArray, this.knight)
+
+      // console.log(this.skeletons)
+      // console.log(skeletonsCollider)
       // const collider = this.gameScene.physics.add.collider(this.skeletons, wallLayer)
 
       // this.physics.add.collider(this.knight, this.skeleton)
