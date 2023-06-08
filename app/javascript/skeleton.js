@@ -77,7 +77,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
             this.isDead = true
             this.gameScene.physics.world.colliders._active.forEach(collider => {
               if(collider.object2 == gameObject2) {
-                collider.destroy()
+                 collider.destroy()
                   knight.skeleKilled += 1
                 // console.log(gameObject1)
               }

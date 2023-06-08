@@ -99,6 +99,7 @@ export default class extends Controller {
       this.skelesKilled = 0
 
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
+
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
 
@@ -111,12 +112,12 @@ export default class extends Controller {
 
       // this.knight.setCollideWorldBounds(true)
       // this.physics.world.addCollider(this.knight, wallLayer)
-      let skeletonsArray = []
-      this.skeletons.forEach(skeleton => skeletonsArray.push(skeleton))
-      const characters = skeletonsArray.concat(this.knight)
+
+      const characters = this.skeletons.concat(this.knight)
       console.log(characters)
+
       const WallsCollider = this.gameScene.physics.add.collider(characters, [wallsLayer, lampsLayer])
-      const knightsVsSkeletonsCollider = this.gameScene.physics.add.collider(skeletonsArray, this.knight)
+
 
       // console.log(this.skeletons)
       // console.log(skeletonsCollider)
@@ -141,7 +142,7 @@ export default class extends Controller {
       scene: this.gameScene,
       physics: {
         default: 'arcade',
-        arcade: { debug: true }
+        arcade: { debug: false }
       }
     };
 
