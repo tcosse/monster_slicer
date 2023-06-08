@@ -2,7 +2,7 @@ export class Skeleton {
   constructor(start, gameScene) {
     this.start = start
     this.gameScene = gameScene
-    this.object = this.gameScene.physics.add.sprite(start.x, start.y,'enemy_skeleton')
+    this.object = this.gameScene.physics.add.sprite(start.x, start.y,'enemy_skeleton_idle')
   }
   #calculateDistance(objectA, objectB) {
     return Math.sqrt((objectA.x-objectB.x)**2 + (objectA.y-objectB.y)**2)
