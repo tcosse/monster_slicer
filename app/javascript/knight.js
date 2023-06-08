@@ -60,6 +60,7 @@ export class Knight extends Phaser.GameObjects.Sprite {
       }
     }
     else {
+      console.log(this)
       this.chain('idle', true)
       this.setVelocity(0,0)
     }
