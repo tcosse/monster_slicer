@@ -13,6 +13,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
     this.setOffset(40,50)
     this.depth = 1;
     gameScene.add.existing(this);
+    this.skeleKilled = 0
   }
 
   update () {
