@@ -1,10 +1,26 @@
 import * as Phaser from "phaser"
+import {HealthBar} from "./healthbar.js" //"/healthbar.js"
+import PhaserHealth from 'phaser_health';
+var Health = PhaserHealth;
 
 export class Knight extends Phaser.Physics.Arcade.Sprite {
   constructor(start, gameScene) {
     super(gameScene, start.x, start.y, 'idle')
     this.start = start
     this.gameScene = gameScene
+
+    // Ici je donne des HP au knight, je crée une barre de vie visuelle, je lie cette barre au knight (pour accéder a ses PV)
+    // puis j'attribue cette barre au knight pour pouvoir l'appeler dans la def de knight
+    this.setHealth(50, 0, 50);
+    const healthBar = new HealthBar(
+      gameScene,
+      this.x - 30,
+      this.y - 15,
+      this.getMaxHealth(),
+      6
+    );
+    healthBar.add(this);
+    this.healthBar = healthBar;
     gameScene.physics.add.world.enableBody(this, 0);
     this.play("idle", true)
     this.depth = 1;
@@ -96,3 +112,4 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
     }
   }
 }
+Health.MixinTo(Knight);
