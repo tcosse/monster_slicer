@@ -15,19 +15,19 @@ const loadAnimations = (gameScene) => {
   gameScene.anims.create({
     key: "idle",
     frameRate: 10,
-    frames: gameScene.anims.generateFrameNumbers("knight_idle", { start: 0, end: 4 }),
+    frames: gameScene.anims.generateFrameNumbers("knight_idle", { start: 0, end: 3 }),
     repeat: -1
   });
   gameScene.anims.create({
     key: "run",
     frameRate: 10,
-    frames: gameScene.anims.generateFrameNumbers("knight_run", { start: 0, end: 2 }),
+    frames: gameScene.anims.generateFrameNumbers("knight_run", { start: 0, end: 5}),
     repeat: 0
   });
   gameScene.anims.create({
     key: "attack",
     frameRate: 10,
-    frames: gameScene.anims.generateFrameNumbers("knight_attack", { start: 0, end: 4 }),
+    frames: gameScene.anims.generateFrameNumbers("knight_attack", { start: 0, end: 3 }),
     repeat: 0
   });
 

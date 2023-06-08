@@ -2,15 +2,14 @@ import * as Phaser from "phaser"
 
 export class Knight extends Phaser.Physics.Arcade.Sprite {
   constructor(start, gameScene) {
-    super(gameScene, start.x, start.y, 'knight_idle')
+    super(gameScene, start.x, start.y, 'idle')
     this.start = start
     this.gameScene = gameScene
     gameScene.physics.add.world.enableBody(this, 0);
-    this.setScale(0.4,0.4)
     this.play("idle", true)
     this.depth = 1;
-    this.setSize(50, 80)
-    this.setOffset(40,50)
+    this.setSize(25, 40)
+    this.setOffset(20,25)
     this.depth = 1;
     gameScene.add.existing(this);
     this.skeleKilled = 0
@@ -31,44 +30,64 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
     var keyQ = this.gameScene.input.keyboard.addKey('Q')
     var keyD = this.gameScene.input.keyboard.addKey('D')
     var keyV = this.gameScene.input.keyboard.addKey('V')
-    // var keyShift = this.this.gameScene.input.keyboard.addKey("shiftKey")
+    var keyShift = this.gameScene.input.keyboard.addKey("SHIFT")
 
     if(keyW.isDown || keyA.isDown || keyS.isDown || keyD.isDown || keyV.isDown || keyZ.isDown || keyQ.isDown) {
       const defaultSpeed = 50;
       const highSpeed = 200;
       let speed = defaultSpeed ;
 
-      // if (keyShift.isDown) { speed = highSpeed} else { speed = defaultSpeed}
       //if shiftkey is pressed, the knight speed will be higher
+      if (keyShift.isDown) { speed = highSpeed} else { speed = defaultSpeed}
 
       if(keyW.isDown || keyZ.isDown) {
         // User wants to go up (presses W if english keyboard, Z for french)
-        this.play('run', true)
-        this.setVelocityY(-speed);
+        if(this.anims.currentAnim.key != "attack") {
+          this.play('run', true)
+          this.setVelocityY(-speed);
+        }
+        // if(this.anims.currentAnim.key == "skeleton_dead")
+
       }
       else if(keyS.isDown) {
         // User wants to go down (presses S)
+        if(this.anims.currentAnim.key != "attack") {
         this.setVelocityY(speed);
         this.play('run', true)
+        }
+      }
+      else
+      {
+        this.setVelocityY(0)
       }
 
       if(keyA.isDown || keyQ.isDown) {
         // User wants to go left (presses Q in french keyboard, or A if english)
+        if(this.anims.currentAnim.key != "attack") {
         this.play('run', true)
         this.setVelocityX(-speed);
         this.flipX = true
+        }
       }
       else if(keyD.isDown) {
         // User wants to go right (presses D)
+        if(this.anims.currentAnim.key != "attack") {
         this.play('run', true)
         this.setVelocityX(speed);
         this.flipX = false
+        }
       }
-      else if(keyV.isDown) {
+      else
+      {
+        this.setVelocityX(0)
+      }
+      if(keyV.isDown) {
         // User wants to go attack (presses V)
+        this.setVelocity(0,0)
         this.play('attack', true)
         // console.log(this.gameScene.anims.anims)
-        this.gameScene.anims.anims.entries.attack.type
+        // this.gameScene.anims.anims.entries.attack.type
+
       }
     }
     else {

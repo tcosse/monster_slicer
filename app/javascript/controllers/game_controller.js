@@ -56,9 +56,9 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('enemy_skeleton', skeletonImageUrl, {frameWidth: 16, frameHeight: 16})
       this.gameScene.load.spritesheet('enemy_skeleton_idle', skeletonIdleImageUrl, {frameWidth: 32, frameHeight: 32})
       this.gameScene.load.spritesheet('enemy_skeleton_death', skeletonDeathImageUrl, {frameWidth: 96, frameHeight: 64})
-      this.gameScene.load.spritesheet('knight_idle', knightImageUrl, { frameWidth: 128 , frameHeight: 128 })
-      this.gameScene.load.spritesheet('knight_run', knightRunImageUrl, { frameWidth: 128 , frameHeight: 128 })
-      this.gameScene.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 128 , frameHeight: 128 })
+      this.gameScene.load.spritesheet('knight_idle', knightImageUrl, { frameWidth: 64 , frameHeight: 64 })
+      this.gameScene.load.spritesheet('knight_run', knightRunImageUrl, { frameWidth: 64 , frameHeight: 64 })
+      this.gameScene.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 64 , frameHeight: 64 })
 
     };
 
@@ -73,8 +73,11 @@ export default class extends Controller {
       const map = this.gameScene.make.tilemap( {key:'dungeon'} )
       const tileset = map.addTilesetImage('basictiles','tiles')
       map.createLayer('Ground', tileset)
-      const wallLayer = map.createLayer('Walls', tileset)
-      wallLayer.setCollisionByProperty( {collision: true} )
+      map.createLayer('Carpet', tileset)
+      const lampsLayer = map.createLayer('Lamps', tileset)
+      const wallsLayer = map.createLayer('Walls', tileset)
+      wallsLayer.setCollisionByProperty( {collision: true} )
+      lampsLayer.setCollisionByProperty( {collision: true} )
 
 
       // const debugGraphics = this.gameScene.add.graphics().setAlpha(0.7)
@@ -93,7 +96,7 @@ export default class extends Controller {
       this.skeleCount = 4
       this.skelesKilled = 0
 
-      this.#spawnSkeletons(this.skeleCount)
+      this.skeletons = this.#spawnSkeletons(this.skeleCount)
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
 
@@ -119,7 +122,17 @@ export default class extends Controller {
 
       // this.knight.setCollideWorldBounds(true)
       // this.physics.world.addCollider(this.knight, wallLayer)
-      const collider = this.gameScene.physics.add.collider(this.knight, wallLayer)
+      let skeletonsArray = []
+      this.skeletons.forEach(skeleton => skeletonsArray.push(skeleton.object))
+      const characters = skeletonsArray.concat(this.knight)
+      console.log(characters)
+      const WallsCollider = this.gameScene.physics.add.collider(characters, [wallsLayer, lampsLayer])
+      const knightsVsSkeletonsCollider = this.gameScene.physics.add.collider(skeletonsArray, this.knight)
+
+      // console.log(this.skeletons)
+      // console.log(skeletonsCollider)
+      // const collider = this.gameScene.physics.add.collider(this.skeletons, wallLayer)
+
       // this.physics.add.collider(this.knight, this.skeleton)
 
 
@@ -146,7 +159,7 @@ export default class extends Controller {
     let game = new Phaser.Game(config);
   }
   #spawnSkeletons(skeleCount){
-    this.skeletons = []
+    let skeletons = []
     for(let i = 0; i < skeleCount; i++) {
       let randX =  Math.floor(Math.random() * (340 - 20) + 20)
       let randY =  Math.floor(Math.random() * (340 - 20) + 20)
@@ -163,8 +176,8 @@ export default class extends Controller {
       // skeleton.healthBar = healthBar;
       this.skeletons.push(skeleton)
     }
-    this.skeletons.forEach(skeleton => skeleton.addPhysics(this.knight))
-    return this.skeletons
+    skeletons.forEach(skeleton => skeleton.addPhysics(this.knight))
+    return skeletons
   }
   #checkSkeleton(){
     let newSkeletons = []

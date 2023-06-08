@@ -92,9 +92,9 @@ export default class extends Controller {
         this.load.image('player', playerImageUrl);
         this.load.image('enemy', playerImageUrl)
         this.load.spritesheet('enemy_skeleton', skeletonImageUrl, {frameWidth: 16, frameHeight: 16})
-        this.load.spritesheet('knight_idle', knightImageUrl, { frameWidth: 128 , frameHeight: 128 })
-        this.load.spritesheet('knight_run', knightRunImageUrl, { frameWidth: 128 , frameHeight: 128 })
-        this.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 128 , frameHeight: 128 })
+        this.load.spritesheet('knight_idle', knightImageUrl, { frameWidth: 32 , frameHeight: 64 })
+        this.load.spritesheet('knight_run', knightRunImageUrl, { frameWidth: 64 , frameHeight: 64 })
+        this.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 48 , frameHeight: 64 })
         this.load.spritesheet('enemy_skeleton_idle', skeletonIdleImageUrl, { frameWidth: 32, frameHeight: 32 })
         this.load.spritesheet('hands', handsImageUrl, { frameWidth: 32, frameHeight: 32 })
         console.log('preload ok')
