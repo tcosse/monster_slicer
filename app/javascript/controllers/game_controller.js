@@ -121,7 +121,7 @@ export default class extends Controller {
       const characters = skeletonsArray.concat(this.knight)
       console.log(characters)
       const WallsCollider = this.gameScene.physics.add.collider(characters, [wallsLayer, lampsLayer])
-      const knightsVsSkeletonsCollider = this.gameScene.physics.add.collider(skeletonsArray, this.knight)
+      // const knightsVsSkeletonsCollider = this.gameScene.physics.add.collider(skeletonsArray, this.knight)
 
       // console.log(this.skeletons)
       // console.log(skeletonsCollider)
