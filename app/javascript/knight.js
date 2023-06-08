@@ -1,5 +1,5 @@
 import * as Phaser from "phaser"
-import {HealthBar} from "./healthbar.js" //"/healthbar.js"
+import {HealthBar} from "healthbar" //"/healthbar.js"
 import PhaserHealth from 'phaser_health';
 var Health = PhaserHealth;
 
