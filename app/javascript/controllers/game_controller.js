@@ -79,8 +79,11 @@ export default class extends Controller {
       // });
 
       //this.gameScene.player = this.gameScene.physics.add.image(10,180, 'player').setCollideWorldBounds(true);
+
+      this.knight = new Knight({x:100, y:100}, this.gameScene)
       this.skeleCount = 4
       this.skelesKilled = 0
+
       this.#spawnSkeletons(this.skeleCount)
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
@@ -108,7 +111,7 @@ export default class extends Controller {
     this.gameScene.update = () => {
       this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
       this.knight.update()
-      tihs.#checkSkeleton()
+      this.#checkSkeleton()
       }
 
     let config = {
