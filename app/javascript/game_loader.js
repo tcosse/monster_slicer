@@ -5,7 +5,6 @@ const loadAnimations = (gameScene) => {
     frames: gameScene.anims.generateFrameNumbers("enemy_skeleton_idle", {start: 0, end: 3}),
     repeat: -1,
   })
-
   gameScene.anims.create({
     key:"skeleton_dead",
     framerate:6,
