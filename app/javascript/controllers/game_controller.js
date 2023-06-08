@@ -140,13 +140,6 @@ export default class extends Controller {
     let config = {
       type: Phaser.AUTO,
       parent: 'game',
-      // scale: {
-        // mode: Phaser.Scale.RESIZE,
-      //   mode: Phaser.Scale.FIT,
-      // //   // zoom : 3,
-        // width: 500,
-        // height: 500,
-      // },
       width: 800,
       height: 650,
       scene: this.gameScene,
