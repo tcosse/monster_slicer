@@ -4,6 +4,7 @@ import {Skeleton} from "../skeleton.js"
 import {Knight} from "../knight.js"
 import {HealthBar} from "../healthbar.js"
 import { loadAnimations } from "../game_loader.js"
+
 import PhaserHealth from 'phaser_health';
 
 var Health = PhaserHealth;
@@ -69,6 +70,8 @@ export default class extends Controller {
       const wallLayer = map.createLayer('Walls', tileset)
       wallLayer.setCollisionByProperty( {collision: true} )
 
+
+      // const debugGraphics = this.gameScene.add.graphics().setAlpha(0.7)
       // Uncomment to display collision debug graphics
 
       // const debugGraphics = this.gameScene.add.graphics().setAlpha(0.7)

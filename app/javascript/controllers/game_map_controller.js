@@ -14,7 +14,8 @@ export default class extends Controller {
     skeletonImageUrl: String,
     knightImageUrl: String,
     knightRunImageUrl: String,
-    knightAttackImageUrl: String
+    knightAttackImageUrl: String,
+    skeletonIdleImageUrl: String
   }
 
   connect() {
@@ -30,6 +31,10 @@ export default class extends Controller {
     const knightRunImageUrl = this.knightRunImageUrlValue
     const knightAttackImageUrl = this.knightAttackImageUrlValue
 
+    const skeletonIdleImageUrl = this.skeletonIdleImageUrlValue
+    const handsImageUrl = this.handsImageUrlValue
+
+
     const skeleton_start = []
 
     //  Toggle this to disable the room hiding / layer scale, so you can see the extent of the map easily!
@@ -37,32 +42,32 @@ export default class extends Controller {
 
     // Tile index mapping to make the code more readable
 
-    const TILES = {
-      TOP_LEFT_WALL: 3,
-      TOP_RIGHT_WALL: 3,
-      BOTTOM_RIGHT_WALL: 2,
-      BOTTOM_LEFT_WALL: 2,
-      TOP_WALL: [
-        { index: 0, weight: 4 },
-        { index: 0, weight: 1 }
-      ],
-      LEFT_WALL: [
-        { index: 1, weight: 4 },
-        { index: 1, weight: 1 }
-      ],
-      RIGHT_WALL: [
-        { index: 1, weight: 4 },
-        { index: 1, weight: 1 }
-      ],
-      BOTTOM_WALL: [
-        { index: 0, weight: 4 },
-        { index: 0, weight: 1 }
-      ],
-      FLOOR: [
-        { index: 14, weight: 20 },
-        { index: 14, weight: 1 }
-      ]
-    };
+      const TILES = {
+        TOP_LEFT_WALL: 3,
+        TOP_RIGHT_WALL: 3,
+        BOTTOM_RIGHT_WALL: 2,
+        BOTTOM_LEFT_WALL: 2,
+        TOP_WALL: [
+          { index: 0, weight: 4 },
+          { index: 0, weight: 1 }
+        ],
+        LEFT_WALL: [
+          { index: 1, weight: 4 },
+          { index: 1, weight: 1 }
+        ],
+        RIGHT_WALL: [
+          { index: 1, weight: 4 },
+          { index: 1, weight: 1 }
+        ],
+        BOTTOM_WALL: [
+          { index: 0, weight: 4 },
+          { index: 0, weight: 1 }
+        ],
+        FLOOR: [
+          { index: 14, weight: 20 },
+          { index: 14, weight: 1 }
+        ]
+      };
 
 
 
@@ -90,6 +95,8 @@ export default class extends Controller {
         this.load.spritesheet('knight_idle', knightImageUrl, { frameWidth: 128 , frameHeight: 128 })
         this.load.spritesheet('knight_run', knightRunImageUrl, { frameWidth: 128 , frameHeight: 128 })
         this.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 128 , frameHeight: 128 })
+        this.load.spritesheet('enemy_skeleton_idle', skeletonIdleImageUrl, { frameWidth: 32, frameHeight: 32 })
+        this.load.spritesheet('hands', handsImageUrl, { frameWidth: 32, frameHeight: 32 })
         console.log('preload ok')
       }
 
@@ -195,60 +202,6 @@ export default class extends Controller {
             this.map.putTileAt(14, x + doors[i].x, y + doors[i].y);
           }
 
-
-          // JE PENSE QU'IL FAUT PALCAER DES COFFRES AUTREMENT 'ENO'
-          // Place some random stuff in rooms occasionally
-          // var rand = Math.random();
-          // if (rand <= 0.99)
-          // {
-          //       this.stuff.putTileAt(36, cx, cy, true, 'Layer 2'); // Chest
-          //   }
-          // else if (rand <= 0.3)
-          // {
-          //     this.layer.putTileAt(81, cx, cy); // Stairs
-          // }
-          // else if (rand <= 0.4)
-          // {
-          //     this.layer.putTileAt(167, cx, cy); // Trap door
-          // }
-          // else if (rand <= 0.6)
-          // {
-          //     if (room.height >= 9)
-          //     {
-          //         // We have room for 4 towers
-          //         this.layer.putTilesAt([
-          //             [ 186 ],
-          //             [ 205 ]
-          //         ], cx - 1, cy + 1);
-
-          //         this.layer.putTilesAt([
-          //             [ 186 ],
-          //             [ 205 ]
-          //         ], cx + 1, cy + 1);
-
-          //         this.layer.putTilesAt([
-          //             [ 186 ],
-          //             [ 205 ]
-          //         ], cx - 1, cy - 2);
-
-          //         this.layer.putTilesAt([
-          //             [ 186 ],
-          //             [ 205 ]
-          //         ], cx + 1, cy - 2);
-          //     }
-          //     else
-          //     {
-          //         this.layer.putTilesAt([
-          //             [ 186 ],
-          //             [ 205 ]
-          //         ], cx - 1, cy - 1);
-
-          //         this.layer.putTilesAt([
-          //             [ 186 ],
-          //             [ 205 ]
-          //         ], cx + 1, cy - 1);
-          //     }
-          // }
         }, this);
 
       // Not exactly correct for the tileset since there are more possible floor tiles, but this will
@@ -285,27 +238,40 @@ export default class extends Controller {
         repeat: 0
       });
 
+      // this.anims.create({
+      //   key:"skeleton_idle",
+      //   frameRate: 6,
+      //   frames: this.anims.generateFrameNumbers("enemy_skeleton", {start: 0, end: 4}),
+      //   repeat: -1
+      // });
+      // this.anims.create({
+      //   key:"skeleton_dead",
+      //   framerate:6,
+      //   frames:this.anims.generateFrameNumbers("enemy_skeleton", {start:5, end: 12}),
+      //   repeat: 0
+      // });
       this.anims.create({
-        key:"skeleton_idle",
-        frameRate: 6,
-        frames: this.anims.generateFrameNumbers("enemy_skeleton", {start: 0, end: 4}),
+        key: "enemy_idle",
+        frames: this.anims.generateFrameNumbers("enemy_skeleton_idle", { start: 0, end:3 }),
+        frameRate: 3,
         repeat: -1
       })
-      this.anims.create({
-        key:"skeleton_dead",
-        framerate:6,
-        frames:this.anims.generateFrameNumbers("enemy_skeleton", {start:5, end: 12}),
-        repeat: 0
-      })
+
+
 
       // emplacement depart du player
       // this.player = this.add.graphics({ fillStyle: { color: 0xedca40, alpha: 1 } }).fillRect(0, 0, this.map.tileWidth * this.layer.scaleX, this.map.tileHeight * this.layer.scaleY);
       // ajout des physics
       this.player = this.physics.add.sprite(100, 100, 'knight_idle')
-      this.player.depth = 1;
+      this.player.depth = 10;
 
       this.skeleton = this.physics.add.sprite(0, 0, 'enemy_skeleton')
       this.skeleton.setScale(4, 4)
+
+      this.enemy_skeleton = this.physics.add.sprite(0, 0, 'enemy_skeleton_idle')
+      this.enemy_skeleton = this.physics.add.sprite(0, 0, 'hands')
+      this.enemy_skeleton.depth = 1;
+      this.enemy_skeleton.setScale(2, 2)
 
       this.player.x = this.map.tileToWorldX(playerRoom.x + 1);
       this.player.y = this.map.tileToWorldY(playerRoom.y + 1);
@@ -315,6 +281,9 @@ export default class extends Controller {
       this.skeleton.x = this.map.tileToWorldX(enemyRoom.x + 3);
       this.skeleton.y = this.map.tileToWorldY(enemyRoom.y + 3);
       skeleton_start.push(this.skeleton.x, this.skeleton.y)
+
+      this.enemy_skeleton.x = this.map.tileToWorldX(playerRoom.x + 5)
+      this.enemy_skeleton.y = this.map.tileToWorldY(playerRoom.y + 5)
 
       if (!debug)
       {
@@ -369,6 +338,7 @@ export default class extends Controller {
     {
       this.updatePlayerMovement(time);
       this.updateSkeletonMovement(skeleton_start);
+      this.enemy_skeleton.play('enemy_idle', true)
 
       var playerTileX = this.map.worldToTileX(this.player.x);
       var playerTileY = this.map.worldToTileY(this.player.y);
