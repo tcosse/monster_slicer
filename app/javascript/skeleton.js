@@ -2,7 +2,7 @@ export class Skeleton {
   constructor(start, gameScene) {
     this.start = start
     this.gameScene = gameScene
-    this.object = this.gameScene.physics.add.sprite(start.x, start.y,'enemy_skeleton')
+    this.object = this.gameScene.physics.add.sprite(start.x, start.y,'enemy_skeleton_idle')
   }
   #calculateDistance(objectA, objectB) {
     return Math.sqrt((objectA.x-objectB.x)**2 + (objectA.y-objectB.y)**2)
@@ -31,15 +31,15 @@ export class Skeleton {
       }
     }
   }
-
   addPhysics(knight) {
     if(this.object != null) {
       this.object.play('skeleton_idle');
     }
     this.object.depth=1;
-    this.object.setScale(2,2)
+    // this.object.setScale(2,2)
+    // console.log(knight.object)
     //this.gameScene.physics.add.existing(this.object)
-
+    // console.log(this.gameScene.physics.add)
     // this.gameScene.enemy = this.gameScene.physics.add.image(enemy_start[0], enemy_start[1], 'enemy').setCollideWorldBounds(true);
     this.gameScene.physics.add.overlap(knight, this.object, (gameObject1, gameObject2) =>
     {
@@ -47,7 +47,16 @@ export class Skeleton {
           this.object.play("skeleton_dead", true)
           this.object.setVelocity(0,0)
           this.object.on('animationcomplete',()=> {
-          this.object.destroy()
+            this.gameScene.physics.world.colliders._active.forEach(collider => {
+              if(collider.object2 == gameObject2) {
+                collider.destroy()
+                  knight.skeleKilled += 1
+                // console.log(gameObject1)
+              }
+            })
+            // console.log(this.gameScene.physics.world.colliders._active)
+            // console.log(gameObject2)
+            this.gameScene.physics.world.colliders.active
           });
         }
     });
