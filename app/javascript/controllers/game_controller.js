@@ -90,7 +90,6 @@ export default class extends Controller {
       this.knight = new Knight({x:100, y:100}, this.gameScene)
 
       // this.knight = this.gameScene.physics.add.sprite(100,100,'knight_idle')
-      this.knight.depth = 1;
       this.skeletons.forEach(skeleton => skeleton.addPhysics(this.knight))
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
@@ -104,10 +103,6 @@ export default class extends Controller {
         6
       );
       this.healthBar.add(this.knight);
-
-
-      this.knight.setScale(0.4,0.4)
-      this.knight.play("idle", true)
 
       this.gameScene.cameras.main.setBounds(0, 0, 2000, 4000)
       this.gameScene.cameras.main.startFollow(this.knight);

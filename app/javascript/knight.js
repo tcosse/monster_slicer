@@ -1,6 +1,6 @@
 import * as Phaser from "phaser"
 
-export class Knight extends Phaser.GameObjects.Sprite {
+export class Knight extends Phaser.Physics.Arcade.Sprite {
   constructor(start, gameScene) {
     super(gameScene, start.x, start.y, 'knight_idle')
     this.start = start
@@ -60,12 +60,16 @@ export class Knight extends Phaser.GameObjects.Sprite {
       }
     }
     else {
-      console.log(this)
+      // console.log(this)
       this.chain('idle', true)
-      this.setVelocity(0,0)
+      // this.setVelocity(0,0)
     }
-    gameScene.add.existing(this);
+
+    console.log(this)
     this.setSize(50, 80)
-    this.body.setOffset(40,50)
+    this.setOffset(40,50)
+    this.knight.depth = 1;
+    gameScene.add.existing(this);
+
   }
 }
