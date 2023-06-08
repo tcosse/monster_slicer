@@ -142,7 +142,7 @@ export default class extends Controller {
       scene: this.gameScene,
       physics: {
         default: 'arcade',
-        arcade: { debug: false }
+        arcade: { debug: true }
       }
     };
 

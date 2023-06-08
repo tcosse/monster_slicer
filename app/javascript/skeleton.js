@@ -67,8 +67,13 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
     {
         knight.damage(0.1)
         if (this.gameScene.input.keyboard.addKey("V").isDown) {
+          this.setTint(0xff6666)
           if (this.getHealth() > 0) {
-            this.damage(3)
+            knight.on('animationcomplete', () => {
+              this.damage(15)
+              this.clearTint()
+
+            });
           }
           else {
           this.play("skeleton_dead", true)
