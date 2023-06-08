@@ -9,7 +9,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
     this.play("idle", true)
     this.depth = 1;
     this.setSize(25, 40)
-    this.setOffset(0,25)
+    this.setOffset(20,25)
     this.depth = 1;
     gameScene.add.existing(this);
     this.skeleKilled = 0
