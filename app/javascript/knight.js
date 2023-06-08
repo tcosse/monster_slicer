@@ -36,31 +36,31 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
       if(keyW.isDown || keyZ.isDown) {
         // User wants to go up (presses W if english keyboard, Z for french)
         this.play('run', true)
-        this.setVelocity(0, -speed);
+        this.setVelocityY(-speed);
       }
       else if(keyS.isDown) {
         // User wants to go down (presses S)
-        this.setVelocity(0, speed);
+        this.setVelocityY(speed);
         this.play('run', true)
       }
 
       if(keyA.isDown || keyQ.isDown) {
         // User wants to go left (presses Q in french keyboard, or A if english)
         this.play('run', true)
-        this.setVelocity(-speed, 0);
+        this.setVelocityX(-speed);
         this.flipX = true
       }
       else if(keyD.isDown) {
         // User wants to go right (presses D)
         this.play('run', true)
-        this.setVelocity(speed, 0);
+        this.setVelocityX(speed);
         this.flipX = false
       }
       else if(keyV.isDown) {
         // User wants to go attack (presses V)
         this.play('attack', true)
-        // console.log(this.anims.anims.entries.attack)
-        this.anims.anims.entries.attack.type
+        console.log(this.gameScene.anims.anims)
+        this.gameScene.anims.anims.entries.attack.type
       }
     }
     else {
