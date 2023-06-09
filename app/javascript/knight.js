@@ -19,6 +19,8 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
     this.depth = 2;
     gameScene.add.existing(this);
     this.skeleKilled = 0
+    this.isDead = false
+
 
     // Ici je donne des HP au knight, je crée une barre de vie visuelle, je lie cette barre au knight (pour accéder a ses PV)
     // puis j'attribue cette barre au knight pour pouvoir l'appeler dans la def de knight
@@ -40,8 +42,6 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
     // On check si on est pas mort
     if (this.getHealth() == 0) {
       // je suis mort
-      this.setVelocity(0,0);
-      // this.play('dead', true)
     }
     else {
       // on recolle la barre de vie au knight
