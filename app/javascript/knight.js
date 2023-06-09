@@ -23,7 +23,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
     this.healthBar = healthBar;
     gameScene.physics.add.world.enableBody(this, 0);
     this.play("idle", true)
-    this.depth = 1;
+    this.depth = 2;
     this.setSize(25, 25)
 
     this.setOffset(20,40)
