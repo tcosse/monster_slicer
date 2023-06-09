@@ -126,10 +126,10 @@ export default class extends Controller {
     let config = {
       type: Phaser.AUTO,
       parent: 'game',
-      width: 850,
-      height: 650,
+      width: 800,
+      height: 600,
       scene: this.gameScene,
-      autoCenter: Phaser.Scale.CENTER_BOTH,
+      autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       physics: {
         default: 'arcade',
         arcade: { debug: false }
