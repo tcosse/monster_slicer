@@ -1,0 +1,47 @@
+.background {
+  background-color: black;
+  height: 100vh;
+  padding-top: 100px;
+}
+
+.wrapper-gameover {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 1200px;
+  margin: 0 auto;
+  padding: auto;
+  a {
+    text-decoration: none;
+    width: fit-content;
+    margin: auto;
+  }
+}
+
+.game-over-msg {
+  color: rgb(190, 8, 8);
+  font-size: 200px;
+  font-family: 'VT323', monospace;
+}
+
+.button-gold-large:hover {
+  width: 315px;
+  height: 147px;
+  font-size: 55px;
+}
+
+.button-gold-large {
+  width: 300px;
+  height: 135px;
+  background-size: 100% 100%;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  transition: 0.3s ease;
+  text-decoration: none;
+  color: black;
+  font-family: 'VT323', monospace;
+  font-weight: bold;
+}
