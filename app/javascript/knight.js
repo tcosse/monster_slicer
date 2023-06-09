@@ -1,7 +1,7 @@
 import * as Phaser from "phaser"
 import {HealthBar} from "healthbar" //"/healthbar.js"
 import PhaserHealth from 'phaser_health';
-import { Weapon } from "./weapon";
+import { Weapon } from "weapon";
 var Health = PhaserHealth;
 
 export class Knight extends Phaser.Physics.Arcade.Sprite {
