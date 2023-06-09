@@ -22,7 +22,8 @@ export default class extends Controller {
     basicTiles: String,
     tilemapUrl: String,
     skeletonIdleImageUrl: String,
-    skeletonDeathImageUrl: String
+    skeletonDeathImageUrl: String,
+    gameover: String
   }
 
 
@@ -37,6 +38,7 @@ export default class extends Controller {
     const tilemapUrl = this.tilemapUrlValue
     const skeletonIdleImageUrl = this.skeletonIdleImageUrlValue
     const skeletonDeathImageUrl = this.skeletonDeathImageUrlValue
+    this.gameoverUrl = this.gameoverValue
 
 
 // window.onload = function() {
@@ -118,6 +120,18 @@ export default class extends Controller {
       this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
       this.knight.update()
       this.#checkSkeleton()
+      if (this.knight.getHealth() == 0) {
+        // je suis mort
+        this.knight.isDead = true
+        this.knight.setVelocity(0,0);
+
+        // this.play('dead', true)
+        setTimeout(() => {
+          window.location.replace(this.gameoverUrl);
+        }, "1000");
+        this.gameScene.physics.world.disableUpdate()
+
+      }
       }
 
     let config = {
