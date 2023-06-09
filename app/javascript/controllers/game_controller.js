@@ -72,7 +72,7 @@ export default class extends Controller {
       // Add tileset to the scene
       const map = this.gameScene.make.tilemap( {key:'dungeon'} )
       const tileset = map.addTilesetImage('basictiles','tiles')
-      map.createLayer('Ground', tileset)
+      const groundLayer = map.createLayer('Ground', tileset)
       map.createLayer('Path', tileset)
       const wallsLayer = map.createLayer('Walls', tileset)
       const upperWallsLayer = map.createLayer('Upper_walls', tileset)
@@ -81,12 +81,12 @@ export default class extends Controller {
       wallsLayer.setCollisionByProperty( {collision: true} )
       upperWallsLayer.setCollisionByProperty( {collision: true} )
       treesLayer.setCollisionByProperty( {collision: true} )
-      furnituresLayer.setCollisionByProperty( {collision: true} )
+      // furnituresLayer.setCollisionByProperty( {collision: true} )
 
       // Uncomment the following lines to see which tiles collide
 
       // const debugGraphics = this.gameScene.add.graphics().setAlpha(0.7)
-      // wallLayer.renderDebug(debugGraphics, {
+      // groundLayer.renderDebug(debugGraphics, {
       //   tileColor: null, // Color of non-colliding tiles
       //   collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
       //   faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
@@ -110,7 +110,6 @@ export default class extends Controller {
       this.gameScene.cameras.main.setZoom(2)
 
       const characters = this.skeletons.concat(this.knight)
-      characters.forEach( character => character.setCollideWorldBounds(true) )
       const WallsCollider = this.gameScene.physics.add.collider(characters, [wallsLayer, upperWallsLayer, furnituresLayer, treesLayer])
 
     };
@@ -124,8 +123,8 @@ export default class extends Controller {
     let config = {
       type: Phaser.AUTO,
       parent: 'game',
-      width: 800,
-      height: 600,
+      width: 750,
+      height: 650,
       scene: this.gameScene,
       autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       physics: {
