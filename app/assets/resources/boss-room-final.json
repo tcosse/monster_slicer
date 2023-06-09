@@ -1,4 +1,12 @@
 { "compressionlevel":-1,
+ "editorsettings":
+    {
+     "export":
+        {
+         "format":"json",
+         "target":"boss-room-final.json"
+        }
+    },
  "height":32,
  "infinite":false,
  "layers":[
