@@ -1,1 +1,39 @@
 // Specific CSS for your home-page
+.home-page{
+  h1, h2 {
+  color: white;
+  text-align: center;
+  }
+  background-color: black;
+  h1 {
+    height: 300px;
+    font-size: 90px;
+  }
+}
+
+.banner {
+  width: 100%;
+  background-size: 100%;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-container {
+  text-align: center;
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.buttons-container {
+  display: flex;
+  width: 80%;
+  margin: 20px auto;
+  justify-content: space-around;
+  align-items: center;
+}
+
+label {
+  color: white;
+}
