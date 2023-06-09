@@ -137,6 +137,7 @@ export default class extends Controller {
     let config = {
       type: Phaser.AUTO,
       parent: 'game',
+      // mode: Phaser.Scale.RESIZE,
       width: 750,
       height: 650,
       scene: this.gameScene,
@@ -153,8 +154,8 @@ export default class extends Controller {
   #spawnSkeletons(skeleCount){
     let skeletons = []
     for(let i = 0; i < skeleCount; i++) {
-      let randX =  Math.floor(Math.random() * (720 - 360) + 360)
-      let randY =  Math.floor(Math.random() * (720 - 360) + 360)
+      let randX =  Math.floor(Math.random() * (42*16 - 27*16) + 27*16)
+      let randY =  Math.floor(Math.random() * (33*16 - 28*16) + 28*16)
       let skeleton = new Skeleton({x: randX,y:randY}, this.gameScene)
       skeletons.push(skeleton)
     }
@@ -164,8 +165,8 @@ export default class extends Controller {
   #checkSkeleton(){
     let newSkeletons = []
     while(this.skeletons.length < this.skeleCount + this.knight.skeleKilled*2) {
-      let randX =  Math.floor(Math.random() * (720 - 360) + 360)
-      let randY =  Math.floor(Math.random() * (720 - 360) + 360)
+      let randX =  Math.floor(Math.random() * (61*16 - 47*16) + 47*16)
+      let randY =  Math.floor(Math.random() * (58*16 - 37*16) + 37*16)
       newSkeletons.push(new Skeleton({x: randX,y:randY}, this.gameScene))
       newSkeletons.forEach(skeleton => {
         skeleton.addPhysics(this.knight)
