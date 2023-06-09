@@ -23,7 +23,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
     this.healthBar = healthBar;
     gameScene.physics.add.world.enableBody(this, 0);
     this.play("idle", true)
-    this.depth = 1;
+    this.depth = 2;
     this.setSize(25, 25)
 
     this.setOffset(20,40)
@@ -57,7 +57,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
 
       if(keyW.isDown || keyA.isDown || keyS.isDown || keyD.isDown || keyV.isDown || keyZ.isDown || keyQ.isDown) {
         const defaultSpeed = 50;
-        const highSpeed = 200;
+        const highSpeed = 150;
         let speed = defaultSpeed ;
 
         //if shiftkey is pressed, the knight speed will be higher
