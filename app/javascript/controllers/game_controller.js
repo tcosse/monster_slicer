@@ -123,6 +123,7 @@ export default class extends Controller {
     let config = {
       type: Phaser.AUTO,
       parent: 'game',
+      // mode: Phaser.Scale.RESIZE,
       width: 750,
       height: 650,
       scene: this.gameScene,
