@@ -9,9 +9,13 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 
     <%= javascript_importmap_tags %>
+
+    <%= favicon_link_tag "slime_icone.png", rel: "icon", type: "image/png" %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
     <link href="https://fonts.googleapis.com/css2?family=Braah+One&family=Roboto+Slab:wght@100;200;300;400;500;600&family=VT323&display=swap" rel="stylesheet">
+
   </head>
 
   <body><%= render "shared/navbar" %>
