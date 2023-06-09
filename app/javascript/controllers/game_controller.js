@@ -85,12 +85,12 @@ export default class extends Controller {
 
       // Uncomment the following lines to see which tiles collide
 
-      const debugGraphics = this.gameScene.add.graphics().setAlpha(0.7)
-      groundLayer.renderDebug(debugGraphics, {
-        tileColor: null, // Color of non-colliding tiles
-        collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-        faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-      });
+      // const debugGraphics = this.gameScene.add.graphics().setAlpha(0.7)
+      // groundLayer.renderDebug(debugGraphics, {
+      //   tileColor: null, // Color of non-colliding tiles
+      //   collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+      //   faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+      // });
 
       this.knight = new Knight({x:(35 * 16), y: (12 * 16)}, this.gameScene)
       this.skeleCount = 4
