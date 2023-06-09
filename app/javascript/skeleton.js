@@ -10,6 +10,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
     this.gameScene = gameScene
     this.isDead = false
     this.setHealth(30,0,30)
+
     // const healthBar = new HealthBar(
     //   gameScene,
     //   this.x - 20,
@@ -22,6 +23,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
 
     gameScene.physics.add.world.enableBody(this, 0);
     gameScene.add.existing(this);
+    this.setSize(17, 25)
     // this.object = this.gameScene.physics.add.sprite(start.x, start.y,'enemy_skeleton_idle')
   }
 
@@ -62,36 +64,40 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
     //this.gameScene.physics.add.existing(this.object)
     // console.log(this.gameScene.physics.add)
     // this.gameScene.enemy = this.gameScene.physics.add.image(enemy_start[0], enemy_start[1], 'enemy').setCollideWorldBounds(true);
+    this.gameScene.physics.add.overlap(knight.weapon, this, (gameObject1, gameObject2) =>
+    {
+      if (this.gameScene.input.keyboard.addKey("V").isDown || this.gameScene.input.keyboard.addKey("SPACE").isDown ) {
+        this.setTint(0xff6666)
+        if (this.getHealth() > 0) {
+          knight.on('animationcomplete', () => {
+            this.damage(15)
+            this.clearTint()
+
+          });
+        }
+        else {
+        this.play("skeleton_dead", true)
+        this.setVelocity(0,0)
+        this.on('animationcomplete',()=> {
+          this.isDead = true
+          this.gameScene.physics.world.colliders._active.forEach(collider => {
+            if(collider.object2 == gameObject2) {
+               collider.destroy()
+                knight.skeleKilled += 1
+              // console.log(gameObject1)
+            }
+          })
+          // console.log(this.gameScene.physics.world.colliders._active)
+          // console.log(gameObject2)
+          this.gameScene.physics.world.colliders.active
+        });
+        }
+      }
+    });
     this.gameScene.physics.add.overlap(knight, this, (gameObject1, gameObject2) =>
     {
         knight.damage(0.1)
-        if (this.gameScene.input.keyboard.addKey("V").isDown) {
-          this.setTint(0xff6666)
-          if (this.getHealth() > 0) {
-            knight.on('animationcomplete', () => {
-              this.damage(15)
-              this.clearTint()
 
-            });
-          }
-          else {
-          this.play("skeleton_dead", true)
-          this.setVelocity(0,0)
-          this.on('animationcomplete',()=> {
-            this.isDead = true
-            this.gameScene.physics.world.colliders._active.forEach(collider => {
-              if(collider.object2 == gameObject2) {
-                 collider.destroy()
-                  knight.skeleKilled += 1
-                // console.log(gameObject1)
-              }
-            })
-            // console.log(this.gameScene.physics.world.colliders._active)
-            // console.log(gameObject2)
-            this.gameScene.physics.world.colliders.active
-          });
-          }
-        }
     });
   }
 }
