@@ -23,7 +23,9 @@ export default class extends Controller {
     tilemapUrl: String,
     skeletonIdleImageUrl: String,
     skeletonDeathImageUrl: String,
+    emptyUrl: String,
     gameover: String
+
   }
 
 
@@ -38,6 +40,7 @@ export default class extends Controller {
     const tilemapUrl = this.tilemapUrlValue
     const skeletonIdleImageUrl = this.skeletonIdleImageUrlValue
     const skeletonDeathImageUrl = this.skeletonDeathImageUrlValue
+    const emptyUrl = this.emptyUrlValue
     this.gameoverUrl = this.gameoverValue
 
 
@@ -50,9 +53,9 @@ export default class extends Controller {
     this.gameScene.preload = () => {
       this.gameScene.load.image('background', bgImageUrl);
       this.gameScene.load.image('player', playerImageUrl);
-      this.gameScene.load.image('enemy', playerImageUrl)
-
-      this.gameScene.load.image('tiles', basicTiles)
+      this.gameScene.load.image('enemy', playerImageUrl);
+      this.gameScene.load.image('empty', emptyUrl);
+      this.gameScene.load.image('tiles', basicTiles);
       this.gameScene.load.tilemapTiledJSON('dungeon', tilemapUrl)
 
       this.gameScene.load.spritesheet('enemy_skeleton', skeletonImageUrl, {frameWidth: 16, frameHeight: 16})
@@ -66,6 +69,7 @@ export default class extends Controller {
 
     // const skeleton_start =
     this.gameScene.create = () =>{
+      console.log(this.gameScene)
       loadAnimations(this.gameScene) //from game_loader
 
       // this.gameScene.bg = this.gameScene.add.sprite(0,0, 'background');
