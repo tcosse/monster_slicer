@@ -1,0 +1,15 @@
+<div class = "background">
+  <div class="wrapper-gameover">
+    <div class="img-gameover">
+      <div class = "game-over-msg">
+        <p data-controller="gameovertyped"></p>
+      </div>
+    </div>
+    <%= link_to game_path do  %>
+      <div class = "button-gold-large" style="background-image: url('<%= asset_url 'gold-button-new.png' %>')">
+        <p>Try again !</p>
+      </div>
+    <% end %>
+
+  </div>
+</div>
