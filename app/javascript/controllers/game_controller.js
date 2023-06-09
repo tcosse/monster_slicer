@@ -1,11 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 import * as Phaser from "phaser"
-import {Skeleton} from "../skeleton.js"
-import {Knight} from "../knight.js"
-import { loadAnimations } from "../game_loader.js"
+import {Skeleton} from "skeleton"
+import {Knight} from "knight"
+import { loadAnimations } from "game_loader"
 
 // Pas sur que ce soit encore necessaire car present dans les fichiers skeleton et knight.js
-import {HealthBar} from "../healthbar.js"
 import PhaserHealth from 'phaser_health';
 var Health = PhaserHealth;
 Health.MixinTo(Knight);
@@ -94,7 +93,6 @@ export default class extends Controller {
       // });
 
       this.knight = new Knight({x:(35 * 16), y: (12 * 16)}, this.gameScene)
-      this.knight.depth = 5
       this.skeleCount = 4
       this.skelesKilled = 0
 

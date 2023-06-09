@@ -26,7 +26,7 @@ const loadAnimations = (gameScene) => {
   });
   gameScene.anims.create({
     key: "attack",
-    frameRate: 10,
+    frameRate: 15,
     frames: gameScene.anims.generateFrameNumbers("knight_attack", { start: 0, end: 3 }),
     repeat: 0
   });

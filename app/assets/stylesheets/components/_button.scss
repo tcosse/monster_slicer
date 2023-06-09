@@ -1,0 +1,52 @@
+.button-gold {
+  width: 100px;
+  height: 45px;
+  background-image: url('app/assets/images/gold-button-new.png');
+  background-size: 100% 100%;
+  text-decoration: none;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  font-size: 12px;
+  transition: 0.3s ease;
+}
+
+.buttons-container{
+  height: 90px;
+}
+
+#button-gold-input {
+  width: 50px;
+  height: 22.5px;
+  background: url(app/assets/images/gold-button-new.png) no-repeat;
+  background-size:100% 100%;
+}
+
+.button-gold-large:hover {
+  width: 210px;
+  height: 96px;
+  font-size: 45px;
+  color: black;
+  transition: 0.3s ease;
+}
+
+a {
+  text-decoration: none;
+}
+
+.button-gold-large {
+  width: 200px;
+  height: 90px;
+  background-size: 100% 100%;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  font-size: 45px;
+  font-weight: bold;
+  transition: 0.3s ease;
+  text-decoration: none;
+  color: black;
+
+}

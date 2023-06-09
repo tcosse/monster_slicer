@@ -1,5 +1,18 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
 
+<div class="home-page">
+  <div class = "banner" style="background-image: linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)), url('<%= asset_url 'background_image_2.jpg' %>'); min-height: 100vh; background-repeat: no-repeat;">
+    <div class="home-container">
+      <h1 data-controller="typed">
+      </h1>
+      <div class = "buttons-container">
+        <%= link_to game_path do  %>
+          <div class = "button-gold-large" style="background-image: url('<%= asset_url 'gold-button-new.png' %>')">
+            <p>Play!</p>
+          </div>
+        <% end %>
+        </div>
+      </div>
 
-<%= link_to "game", game_path %>
+    </div>
+  </div>
+</div>

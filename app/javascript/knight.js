@@ -1,5 +1,5 @@
 import * as Phaser from "phaser"
-import {HealthBar} from "./healthbar.js" //"/healthbar.js"
+import {HealthBar} from "healthbar" //"/healthbar.js"
 import PhaserHealth from 'phaser_health';
 var Health = PhaserHealth;
 
@@ -23,7 +23,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
     this.healthBar = healthBar;
     gameScene.physics.add.world.enableBody(this, 0);
     this.play("idle", true)
-    this.depth = 1;
+    this.depth = 2;
     this.setSize(25, 25)
 
     this.setOffset(20,40)
