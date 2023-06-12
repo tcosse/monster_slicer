@@ -88,7 +88,7 @@ export default class extends Controller {
 
       // Add tileset to the scene
       const map = this.gameScene.make.tilemap( {key:'dungeon'} )
-      const tileset = map.addTilesetImage('basictiles','tiles')
+      const tileset = map.addTilesetImage('basictiles', 'tiles', 16, 16, 1, 2)
       const groundLayer = map.createLayer('Ground', tileset)
       map.createLayer('Path', tileset)
       const wallsLayer = map.createLayer('Walls', tileset)
