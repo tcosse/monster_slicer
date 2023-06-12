@@ -2,8 +2,11 @@ import { Controller } from "@hotwired/stimulus"
 import * as Phaser from "phaser"
 import {Skeleton} from "skeleton"
 import {Knight} from "knight"
+import {Score} from "score"
 import { loadAnimations } from "game_loader"
 import { loadSounds } from "game_loader"
+
+
 
 // Pas sur que ce soit encore necessaire car present dans les fichiers skeleton et knight.js
 import PhaserHealth from 'phaser_health';
@@ -26,6 +29,7 @@ export default class extends Controller {
     skeletonDeathImageUrl: String,
     emptyUrl: String,
     gameover: String,
+    coinImageUrl: String,
     newPlayerUrl: String,
     deathSound: String,
     slashSound: String,
@@ -43,6 +47,7 @@ export default class extends Controller {
     const tilemapUrl = this.tilemapUrlValue
     const skeletonIdleImageUrl = this.skeletonIdleImageUrlValue
     const skeletonDeathImageUrl = this.skeletonDeathImageUrlValue
+    const coinImageUrl = this.coinImageUrlValue
     const emptyUrl = this.emptyUrlValue
     const newPlayerUrl = this.newPlayerUrlValue
     const deathSound = this.deathSoundValue
@@ -75,6 +80,8 @@ export default class extends Controller {
       this.gameScene.load.audio("death_sound", deathSound)
       this.gameScene.load.audio("slash_sound", slashSound)
       console.log(this.gameScene)
+
+      this.gameScene.load.spritesheet('coin', coinImageUrl, { frameWidth: 8 , frameHeight: 8 })
 
     };
 
@@ -129,6 +136,9 @@ export default class extends Controller {
       const characters = this.skeletons.concat(this.knight)
       const WallsCollider = this.gameScene.physics.add.collider(characters, [wallsLayer, upperWallsLayer, furnituresLayer, treesLayer])
 
+      // score
+
+      this.score = new Score(this.gameScene)
     };
 
     this.gameScene.update = () => {
@@ -147,6 +157,8 @@ export default class extends Controller {
         this.gameScene.physics.world.disableUpdate()
 
       }
+
+      // this.score.showScore()
       }
 
     let config = {

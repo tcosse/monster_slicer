@@ -1,5 +1,6 @@
 import * as Phaser from "phaser"
 import PhaserHealth from 'phaser_health';
+import { Coin } from "coin";
 var Health = PhaserHealth;
 
 
@@ -59,6 +60,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
       this.play('skeleton_idle');
     }
     this.depth=1;
+    console.log('skeleton x y :', this.x, this.y)
     // this.object.setScale(2,2)
     // console.log(knight.object)
     //this.gameScene.physics.add.existing(this.object)
@@ -77,6 +79,8 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
         }
         else {
         this.setVelocity(0,0)
+ 
+
         this.play("skeleton_dead", true)
 
         // this.on('animationcomplete',()=> {
@@ -93,6 +97,15 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
           // console.log(gameObject2)
           // this.gameScene.physics.world.colliders.active
 
+          if (Math.random() < 0.20) {
+            console.log('spawn coin')
+            const x = this.x
+            const y = this.y
+            console.log(x, y)
+            let coin = new Coin({ x, y } , this.gameScene)
+            coin.addPhysics(knight)
+            console.log(coin)
+          }
         }
       }
     });
