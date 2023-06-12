@@ -49,7 +49,6 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
       }
       else
       {
-          console.log("acceleration:", this.body.newVelocity)
           // console.log("rotation:", this.body.rotation)
           // if(this.body.acceleration["x"])
           if(this.body.newVelocity.x < 0){

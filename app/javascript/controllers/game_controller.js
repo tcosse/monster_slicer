@@ -4,7 +4,6 @@ import {Skeleton} from "skeleton"
 import {Knight} from "knight"
 import {CoinCount} from "coin_count"
 import {PauseScene} from "pause_scene"
-import {Score} from "score"
 import { loadAnimations } from "game_loader"
 import { loadSounds } from "game_loader"
 
@@ -105,7 +104,7 @@ export default class extends Controller {
       this.gameScene.scene.add('pauseScene', PauseScene, false, {gameScene: this.gameScene, bgUrl: bgpauseUrl, controller: this})
       // passer d'une scene à l'autre en appuyant sur echap
 
-      console.log(this.gameScene)
+
       loadAnimations(this.gameScene) //from game_loader
       // ajout du clic sur P pour mettre en Pause le jeu dans l'update
       this.gameScene.keyP = this.gameScene.input.keyboard.addKey('P')
