@@ -80,6 +80,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
         }
         else {
         this.setVelocity(0,0)
+
         this.play("skeleton_dead", true)
 
         // this.on('animationcomplete',()=> {
@@ -95,6 +96,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
           // console.log(this.gameScene.physics.world.colliders._active)
           // console.log(gameObject2)
           // this.gameScene.physics.world.colliders.active
+
 
           const x = this.x
           const y = this.y + 10
