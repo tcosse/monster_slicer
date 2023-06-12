@@ -60,7 +60,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
       var keyShift = this.gameScene.input.keyboard.addKey("SHIFT")
       var keySpace = this.gameScene.input.keyboard.addKey("SPACE")
 
-      if(keyW.isDown || keyA.isDown || keyS.isDown || keyD.isDown || keyV.isDown || keyZ.isDown || keyQ.isDown) {
+      if(keyW.isDown || keyA.isDown || keyS.isDown || keyD.isDown || keyV.isDown || keyZ.isDown || keyQ.isDown || this.gameScene.input.manager.activePointer.primaryDown) {
         const defaultSpeed = 50;
         const highSpeed = 150;
         let speed = defaultSpeed ;
@@ -71,7 +71,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
         if(keyW.isDown || keyZ.isDown) {
           // User wants to go up (presses W if english keyboard, Z for french)
           if(this.anims.currentAnim.key != "attack_up" && this.anims.currentAnim.key != "attack_side"&& this.anims.currentAnim.key != "attack_down") {
-            if(this.anims.currentAnim.key != "walk_side") {
+            if(keyA.isDown == false && keyD.isDown == false) {
               this.play('walk_up', true)
             }
             this.setVelocityY(-speed);
@@ -83,7 +83,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
         else if(keyS.isDown) {
           // User wants to go down (presses S)
           if(this.anims.currentAnim.key != "attack_up" && this.anims.currentAnim.key != "attack_side"&& this.anims.currentAnim.key != "attack_down") {
-            if(this.anims.currentAnim.key != "walk_side") {
+            if(keyA.isDown == false && keyD.isDown == false) {
               this.play('walk_down', true)
             }
             this.setVelocityY(speed);
@@ -117,7 +117,9 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
         {
           this.setVelocityX(0)
         }
-        if(keyV.isDown || keySpace.isDown) {
+        console.log(this.gameScene.input.manager.activePointer.primaryDown == true)
+        if(keyV.isDown || this.gameScene.input.manager.activePointer.primaryDown) {
+
           this.gameScene.slashSound.play()
           this.setVelocity(0,0)
           switch(this.anims.currentAnim.key) {
@@ -139,7 +141,17 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
             case "walk_up":
               this.play("attack_up", true)
               break;
+            case "attack_down":
+              this.chain("idle_down", true)
+              break;
+            case "attack_side":
+              this.chain("idle_side", true)
+              break;
+            case "attack_up":
+              this.chain("idle_up", true)
+              break;
             default:
+              console.log("default on hit")
               //this.play("attack_side", true)
           }
           // User wants to go attack (presses V)
@@ -150,6 +162,8 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
         }
       }
       else {
+       // console.log(this)
+        console.log("current anim null?: ", this.anims.currentAnim)
         switch(this.anims.currentAnim.key) {
           case "walk_side":
             this.play("idle_side", true)
@@ -161,20 +175,15 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
             this.play("idle_down", true)
             break;
           case "attack_side":
-            if(this.anims.nextAnimsQueue.length == 0){
               this.chain("idle_side", true)
-            }
             break;
           case "attack_up":
-            if(this.anims.nextAnimsQueue.length == 0){
               this.chain("idle_up", true)
-            }
             break;
           case "attack_down":
-            if(this.anims.nextAnimsQueue.length == 0){
               this.chain("idle_down", true)
-            }
             break;
+
           default:
             this.chain("idle_down", true)
         }

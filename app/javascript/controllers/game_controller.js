@@ -80,9 +80,9 @@ export default class extends Controller {
 
     // const skeleton_start =
     this.gameScene.create = () =>{
-      console.log(this.gameScene)
       loadAnimations(this.gameScene) //from game_loader
       loadSounds(this.gameScene)
+
       // this.gameScene.bg = this.gameScene.add.sprite(0,0, 'background');
       // this.gameScene.bg.setOrigin(0,0);
 
@@ -132,7 +132,6 @@ export default class extends Controller {
     };
 
     this.gameScene.update = () => {
-      console.log(this.gameScene)
       this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
       this.knight.update()
       this.#checkSkeleton()
@@ -160,7 +159,7 @@ export default class extends Controller {
       autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       physics: {
         default: 'arcade',
-        arcade: { debug: true }
+        arcade: { debug: false }
       }
     };
     let game = new Phaser.Game(config);
