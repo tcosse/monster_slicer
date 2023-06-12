@@ -79,7 +79,6 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
         }
         else {
         this.setVelocity(0,0)
- 
 
         this.play("skeleton_dead", true)
 
@@ -97,10 +96,11 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
           // console.log(gameObject2)
           // this.gameScene.physics.world.colliders.active
 
-          if (Math.random() < 0.20) {
+
+          if (Math.random() < 0.70) {
             console.log('spawn coin')
-            const x = this.x
-            const y = this.y
+            const x = this.x 
+            const y = this.y + 10
             console.log(x, y)
             let coin = new Coin({ x, y } , this.gameScene)
             coin.addPhysics(knight)
@@ -108,7 +108,8 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
           }
         }
       }
-    });
+      }
+    );
     this.gameScene.physics.add.overlap(knight, this, (gameObject1, gameObject2) =>
     {
         knight.damage(0.1)

@@ -17,5 +17,5 @@ pin 'phaser_health', preload: true
 pin 'weapon', preload: true
 pin 'pause_scene', preload: true
 pin 'coin', preload: true
-pin 'score', preload: true
+pin 'coin_count', preload: true
 pin "typed.js", to: "https://ga.jspm.io/npm:typed.js@2.0.16/dist/typed.module.js"

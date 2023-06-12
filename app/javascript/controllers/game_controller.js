@@ -2,6 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import * as Phaser from "phaser"
 import {Skeleton} from "skeleton"
 import {Knight} from "knight"
+import {CoinCount} from "coin_count"
 import {PauseScene} from "pause_scene"
 import {Score} from "score"
 import { loadAnimations } from "game_loader"
@@ -132,7 +133,8 @@ export default class extends Controller {
       //   faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       // });
 
-      this.knight = new Knight({x:(35 * 16), y: (12 * 16)}, this.gameScene)
+      this.coinCount = new CoinCount(this.gameScene)
+      this.knight = new Knight({x:(35 * 16), y: (12 * 16)}, this.gameScene, this.coinCount)
       this.skeleCount = 4
       this.skelesKilled = 0
 
@@ -152,9 +154,7 @@ export default class extends Controller {
       const characters = this.skeletons.concat(this.knight)
       const WallsCollider = this.gameScene.physics.add.collider(characters, [wallsLayer, upperWallsLayer, furnituresLayer, treesLayer])
 
-      // score
 
-      this.score = new Score(this.gameScene)
     };
 
     this.gameScene.update = () => {
@@ -178,7 +178,7 @@ export default class extends Controller {
 
       }
 
-      // this.score.showScore()
+      this.coinCount.showScore()
     }
 
     let config = {

@@ -5,7 +5,7 @@ import { Weapon } from "weapon";
 var Health = PhaserHealth;
 
 export class Knight extends Phaser.Physics.Arcade.Sprite {
-  constructor(start, gameScene) {
+  constructor(start, gameScene, coinCount) {
     super(gameScene, start.x, start.y, 'idle_down')
     this.start = start
     this.gameScene = gameScene
@@ -20,6 +20,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
     gameScene.add.existing(this);
     this.skeleKilled = 0
     this.isDead = false
+    this.coinCount = coinCount
 
 
     // Ici je donne des HP au knight, je crée une barre de vie visuelle, je lie cette barre au knight (pour accéder a ses PV)
@@ -190,6 +191,9 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
         this.setVelocity(0,0)
       }
     }
+
+    this.coinCount.x = this.x
+    this.coinCount.y = this.y
   }
 }
 Health.MixinTo(Knight);
