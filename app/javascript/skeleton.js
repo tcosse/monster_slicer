@@ -78,19 +78,19 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
         else {
         this.play("skeleton_dead", true)
         this.setVelocity(0,0)
-        this.on('animationcomplete',()=> {
-          this.isDead = true
-          this.gameScene.physics.world.colliders._active.forEach(collider => {
-            if(collider.object2 == gameObject2) {
-               collider.destroy()
-                knight.skeleKilled += 1
-              // console.log(gameObject1)
-            }
-          })
+        // this.on('animationcomplete',()=> {
+        this.isDead = true
+        this.gameScene.physics.world.colliders._active.forEach(collider => {
+          if(collider.object2 == gameObject2) {
+              collider.destroy()
+              knight.skeleKilled += 1
+            // console.log(gameObject1)
+          }
+        })
           // console.log(this.gameScene.physics.world.colliders._active)
           // console.log(gameObject2)
-          this.gameScene.physics.world.colliders.active
-        });
+          // this.gameScene.physics.world.colliders.active
+
         }
       }
     });

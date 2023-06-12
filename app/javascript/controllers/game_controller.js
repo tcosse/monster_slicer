@@ -24,7 +24,8 @@ export default class extends Controller {
     skeletonIdleImageUrl: String,
     skeletonDeathImageUrl: String,
     emptyUrl: String,
-    gameover: String
+    gameover: String,
+    newPlayerUrl: String
 
   }
 
@@ -42,6 +43,7 @@ export default class extends Controller {
     const skeletonDeathImageUrl = this.skeletonDeathImageUrlValue
     const emptyUrl = this.emptyUrlValue
     this.gameoverUrl = this.gameoverValue
+    const newPlayerUrl = this.newPlayerUrlValue
 
 
 // window.onload = function() {
@@ -64,7 +66,7 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('knight_idle', knightImageUrl, { frameWidth: 64 , frameHeight: 64 })
       this.gameScene.load.spritesheet('knight_run', knightRunImageUrl, { frameWidth: 64 , frameHeight: 64 })
       this.gameScene.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 64 , frameHeight: 64 })
-
+      this.gameScene.load.spritesheet('player_all', newPlayerUrl, {frameWidth: 48, frameHeight:48})
     };
 
     // const skeleton_start =
@@ -148,7 +150,7 @@ export default class extends Controller {
       autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       physics: {
         default: 'arcade',
-        arcade: { debug: false }
+        arcade: { debug: true }
       }
     };
     let game = new Phaser.Game(config);
