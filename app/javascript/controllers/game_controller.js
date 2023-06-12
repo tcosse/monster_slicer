@@ -2,7 +2,10 @@ import { Controller } from "@hotwired/stimulus"
 import * as Phaser from "phaser"
 import {Skeleton} from "skeleton"
 import {Knight} from "knight"
+import {Score} from "score"
 import { loadAnimations } from "game_loader"
+
+
 
 // Pas sur que ce soit encore necessaire car present dans les fichiers skeleton et knight.js
 import PhaserHealth from 'phaser_health';
@@ -24,7 +27,8 @@ export default class extends Controller {
     skeletonIdleImageUrl: String,
     skeletonDeathImageUrl: String,
     emptyUrl: String,
-    gameover: String
+    gameover: String,
+    coinImageUrl: String
 
   }
 
@@ -40,6 +44,7 @@ export default class extends Controller {
     const tilemapUrl = this.tilemapUrlValue
     const skeletonIdleImageUrl = this.skeletonIdleImageUrlValue
     const skeletonDeathImageUrl = this.skeletonDeathImageUrlValue
+    const coinImageUrl = this.coinImageUrlValue
     const emptyUrl = this.emptyUrlValue
     this.gameoverUrl = this.gameoverValue
 
@@ -64,6 +69,8 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('knight_idle', knightImageUrl, { frameWidth: 64 , frameHeight: 64 })
       this.gameScene.load.spritesheet('knight_run', knightRunImageUrl, { frameWidth: 64 , frameHeight: 64 })
       this.gameScene.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 64 , frameHeight: 64 })
+
+      this.gameScene.load.spritesheet('coin', coinImageUrl, { frameWidth: 8 , frameHeight: 8 })
 
     };
 
@@ -118,6 +125,9 @@ export default class extends Controller {
       const characters = this.skeletons.concat(this.knight)
       const WallsCollider = this.gameScene.physics.add.collider(characters, [wallsLayer, upperWallsLayer, furnituresLayer, treesLayer])
 
+      // score
+
+      this.score = new Score(this.gameScene)
     };
 
     this.gameScene.update = () => {
@@ -136,6 +146,8 @@ export default class extends Controller {
         this.gameScene.physics.world.disableUpdate()
 
       }
+
+      // this.score.showScore()
       }
 
     let config = {
