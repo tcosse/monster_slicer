@@ -4,6 +4,7 @@ import {Skeleton} from "skeleton"
 import {Knight} from "knight"
 import {Score} from "score"
 import { loadAnimations } from "game_loader"
+import { loadSounds } from "game_loader"
 
 
 
@@ -28,8 +29,10 @@ export default class extends Controller {
     skeletonDeathImageUrl: String,
     emptyUrl: String,
     gameover: String,
-    coinImageUrl: String
-
+    coinImageUrl: String,
+    newPlayerUrl: String,
+    deathSound: String,
+    slashSound: String,
   }
 
 
@@ -46,8 +49,11 @@ export default class extends Controller {
     const skeletonDeathImageUrl = this.skeletonDeathImageUrlValue
     const coinImageUrl = this.coinImageUrlValue
     const emptyUrl = this.emptyUrlValue
-    this.gameoverUrl = this.gameoverValue
+    const newPlayerUrl = this.newPlayerUrlValue
+    const deathSound = this.deathSoundValue
+    const slashSound = this.slashSoundValue
 
+    this.gameoverUrl = this.gameoverValue
 
 // window.onload = function() {
 //   var game = new Phaser.Game();
@@ -69,6 +75,11 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('knight_idle', knightImageUrl, { frameWidth: 64 , frameHeight: 64 })
       this.gameScene.load.spritesheet('knight_run', knightRunImageUrl, { frameWidth: 64 , frameHeight: 64 })
       this.gameScene.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 64 , frameHeight: 64 })
+      this.gameScene.load.spritesheet('player_all', newPlayerUrl, {frameWidth: 48, frameHeight:48})
+      console.log("death: ", deathSound)
+      this.gameScene.load.audio("death_sound", deathSound)
+      this.gameScene.load.audio("slash_sound", slashSound)
+      console.log(this.gameScene)
 
       this.gameScene.load.spritesheet('coin', coinImageUrl, { frameWidth: 8 , frameHeight: 8 })
 
@@ -76,15 +87,15 @@ export default class extends Controller {
 
     // const skeleton_start =
     this.gameScene.create = () =>{
-      console.log(this.gameScene)
       loadAnimations(this.gameScene) //from game_loader
+      loadSounds(this.gameScene)
 
       // this.gameScene.bg = this.gameScene.add.sprite(0,0, 'background');
       // this.gameScene.bg.setOrigin(0,0);
 
       // Add tileset to the scene
       const map = this.gameScene.make.tilemap( {key:'dungeon'} )
-      const tileset = map.addTilesetImage('basictiles','tiles')
+      const tileset = map.addTilesetImage('basictiles', 'tiles', 16, 16, 1, 2)
       const groundLayer = map.createLayer('Ground', tileset)
       map.createLayer('Path', tileset)
       const wallsLayer = map.createLayer('Walls', tileset)
