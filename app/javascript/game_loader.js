@@ -30,6 +30,15 @@ const loadAnimations = (gameScene) => {
     frames: gameScene.anims.generateFrameNumbers("knight_attack", { start: 0, end: 3 }),
     repeat: 0
   });
+
+  gameScene.anims.create({
+    key: 'coin_rotate',
+    frames: gameScene.anims.generateFrameNumbers("coin", { start: 0, end: 4 }),
+    frameRate: 6,
+    repeat: -1
+  })
+
+
   //                  //
   /* new player anims */
   //                  //

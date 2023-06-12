@@ -2,8 +2,13 @@ import { Controller } from "@hotwired/stimulus"
 import * as Phaser from "phaser"
 import {Skeleton} from "skeleton"
 import {Knight} from "knight"
+import {CoinCount} from "coin_count"
+import {PauseScene} from "pause_scene"
+import {Score} from "score"
 import { loadAnimations } from "game_loader"
 import { loadSounds } from "game_loader"
+
+
 
 // Pas sur que ce soit encore necessaire car present dans les fichiers skeleton et knight.js
 import PhaserHealth from 'phaser_health';
@@ -26,10 +31,13 @@ export default class extends Controller {
     skeletonDeathImageUrl: String,
     emptyUrl: String,
     gameover: String,
+    bgpauseUrl: String,
+    coinImageUrl: String,
     newPlayerUrl: String,
     deathSound: String,
     slashSound: String,
     newSkeletonUrl: String,
+    potionImageUrl: String,
   }
 
 
@@ -44,7 +52,11 @@ export default class extends Controller {
     const tilemapUrl = this.tilemapUrlValue
     const skeletonIdleImageUrl = this.skeletonIdleImageUrlValue
     const skeletonDeathImageUrl = this.skeletonDeathImageUrlValue
+    const coinImageUrl = this.coinImageUrlValue
+    const potionImageUrl = this.potionImageUrlValue
     const emptyUrl = this.emptyUrlValue
+    const bgpauseUrl = this.bgpauseUrlValue
+    this.gameoverUrl = this.gameoverValue
     const newPlayerUrl = this.newPlayerUrlValue
     const deathSound = this.deathSoundValue
     const slashSound = this.slashSoundValue
@@ -52,9 +64,11 @@ export default class extends Controller {
 
     this.gameoverUrl = this.gameoverValue
 
+
 // window.onload = function() {
 //   var game = new Phaser.Game();
 // }
+
     //let gameScene = new Phaser.Scene('Game'); //this.gameScene local
 
     this.gameScene = new Phaser.Scene('Game'); //gameScene global (controller)
@@ -64,6 +78,7 @@ export default class extends Controller {
       this.gameScene.load.image('enemy', playerImageUrl);
       this.gameScene.load.image('empty', emptyUrl);
       this.gameScene.load.image('tiles', basicTiles);
+      this.gameScene.load.image('potion', potionImageUrl);
       this.gameScene.load.tilemapTiledJSON('dungeon', tilemapUrl)
 
       this.gameScene.load.spritesheet('enemy_skeleton', skeletonImageUrl, {frameWidth: 16, frameHeight: 16})
@@ -79,11 +94,23 @@ export default class extends Controller {
       this.gameScene.load.audio("slash_sound", slashSound)
       console.log(this.gameScene)
 
+      this.gameScene.load.spritesheet('coin', coinImageUrl, { frameWidth: 8 , frameHeight: 8 })
+
     };
 
     // const skeleton_start =
     this.gameScene.create = () =>{
+
+      // creer la scene de pause
+      // let pauseScene = new PauseScene(bgpauseUrl, this.gameScene)
+      this.gameScene.scene.add('pauseScene', PauseScene, false, {gameScene: this.gameScene, bgUrl: bgpauseUrl})
+      // this.pause = pauseScene
+      // passer d'une scene à l'autre en appuyant sur echap
+
+      console.log(this.gameScene)
       loadAnimations(this.gameScene) //from game_loader
+      // ajout du clic sur P pour mettre en Pause le jeu dans l'update
+      this.gameScene.keyP = this.gameScene.input.keyboard.addKey('P')
       loadSounds(this.gameScene)
 
       // this.gameScene.bg = this.gameScene.add.sprite(0,0, 'background');
@@ -112,7 +139,8 @@ export default class extends Controller {
       //   faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       // });
 
-      this.knight = new Knight({x:(35 * 16), y: (12 * 16)}, this.gameScene)
+      this.coinCount = new CoinCount(this.gameScene)
+      this.knight = new Knight({x:(35 * 16), y: (12 * 16)}, this.gameScene, this.coinCount)
       this.skeleCount = 4
       this.skelesKilled = 0
 
@@ -133,12 +161,17 @@ export default class extends Controller {
       const characters = this.skeletons.concat(this.knight)
       const WallsCollider = this.gameScene.physics.add.collider(characters, [wallsLayer, upperWallsLayer, furnituresLayer, treesLayer])
 
+
     };
 
     this.gameScene.update = () => {
       this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
       this.knight.update()
       this.#checkSkeleton()
+      if(this.gameScene.keyP.isDown){
+        this.gameScene.scene.switch('pauseScene');
+      }
+
       if (this.knight.getHealth() == 0) {
         // je suis mort
         this.knight.isDead = true
@@ -151,7 +184,9 @@ export default class extends Controller {
         this.gameScene.physics.world.disableUpdate()
 
       }
-      }
+
+      this.coinCount.showScore()
+    }
 
     let config = {
       type: Phaser.AUTO,
@@ -159,7 +194,7 @@ export default class extends Controller {
       // mode: Phaser.Scale.RESIZE,
       width: 750,
       height: 650,
-      scene: this.gameScene,
+      scene: [this.gameScene, this.pauseScene],
       autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       physics: {
         default: 'arcade',
