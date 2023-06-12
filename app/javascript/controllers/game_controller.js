@@ -3,8 +3,11 @@ import * as Phaser from "phaser"
 import {Skeleton} from "skeleton"
 import {Knight} from "knight"
 import {PauseScene} from "pause_scene"
+import {Score} from "score"
 import { loadAnimations } from "game_loader"
 import { loadSounds } from "game_loader"
+
+
 
 // Pas sur que ce soit encore necessaire car present dans les fichiers skeleton et knight.js
 import PhaserHealth from 'phaser_health';
@@ -28,6 +31,7 @@ export default class extends Controller {
     emptyUrl: String,
     gameover: String,
     bgpauseUrl: String,
+    coinImageUrl: String,
     newPlayerUrl: String,
     deathSound: String,
     slashSound: String
@@ -45,6 +49,7 @@ export default class extends Controller {
     const tilemapUrl = this.tilemapUrlValue
     const skeletonIdleImageUrl = this.skeletonIdleImageUrlValue
     const skeletonDeathImageUrl = this.skeletonDeathImageUrlValue
+    const coinImageUrl = this.coinImageUrlValue
     const emptyUrl = this.emptyUrlValue
     const bgpauseUrl = this.bgpauseUrlValue
     this.gameoverUrl = this.gameoverValue
@@ -82,6 +87,8 @@ export default class extends Controller {
       this.gameScene.load.audio("slash_sound", slashSound)
       console.log(this.gameScene)
 
+      this.gameScene.load.spritesheet('coin', coinImageUrl, { frameWidth: 8 , frameHeight: 8 })
+
     };
 
     // const skeleton_start =
@@ -98,6 +105,7 @@ export default class extends Controller {
       // ajout du clic sur P pour mettre en Pause le jeu dans l'update
       this.gameScene.keyP = this.gameScene.input.keyboard.addKey('P')
       loadSounds(this.gameScene)
+
       // this.gameScene.bg = this.gameScene.add.sprite(0,0, 'background');
       // this.gameScene.bg.setOrigin(0,0);
 
@@ -144,10 +152,12 @@ export default class extends Controller {
       const characters = this.skeletons.concat(this.knight)
       const WallsCollider = this.gameScene.physics.add.collider(characters, [wallsLayer, upperWallsLayer, furnituresLayer, treesLayer])
 
+      // score
+
+      this.score = new Score(this.gameScene)
     };
 
     this.gameScene.update = () => {
-      console.log(this.gameScene)
       this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
       this.knight.update()
       this.#checkSkeleton()
@@ -167,6 +177,8 @@ export default class extends Controller {
         this.gameScene.physics.world.disableUpdate()
 
       }
+
+      // this.score.showScore()
     }
 
     let config = {
@@ -179,7 +191,7 @@ export default class extends Controller {
       autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       physics: {
         default: 'arcade',
-        arcade: { debug: true }
+        arcade: { debug: false }
       }
     };
     let game = new Phaser.Game(config);
