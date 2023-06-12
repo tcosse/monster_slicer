@@ -84,26 +84,27 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
           this.isDead = true
           this.gameScene.physics.world.colliders._active.forEach(collider => {
             if(collider.object2 == gameObject2) {
-               collider.destroy()
-                knight.skeleKilled += 1
+              collider.destroy()
+              knight.skeleKilled += 1
               // console.log(gameObject1)
             }
             // spawn de coins
           })
-          if (Math.random() < 0.20) {
-            console.log('spawn coin')
-            const x = this.x
-            const y = this.y
-            console.log(x, y)
-            let coin = new Coin({ x, y } , this.gameScene)
-            coin.addPhysics(knight)
-            console.log(coin)
-          }
           // console.log(this.gameScene.physics.world.colliders._active)
           // console.log(gameObject2)
           this.gameScene.physics.world.colliders.active
         });
+        console.log('dead skeleton')
+        if (Math.random() < 0.20) {
+          console.log('spawn coin')
+          const x = this.x
+          const y = this.y
+          console.log(x, y)
+          let coin = new Coin({ x, y } , this.gameScene)
+          coin.addPhysics(knight)
+          console.log(coin)
         }
+      }
       }
     });
     this.gameScene.physics.add.overlap(knight, this, (gameObject1, gameObject2) =>
