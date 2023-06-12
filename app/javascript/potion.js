@@ -20,6 +20,9 @@ export class Potion extends Phaser.Physics.Arcade.Sprite{
       if ( knight.getHealth() != 50 ) {
         console.log('potion prise');
         console.log(this)
+        if(this != null && this != undefined){
+          this.gameScene.healSound.play()
+        }
         this.destroy()
         knight.heal(10)
       }

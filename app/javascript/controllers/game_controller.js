@@ -35,7 +35,13 @@ export default class extends Controller {
     newPlayerUrl: String,
     deathSound: String,
     slashSound: String,
+    lastSaveMc: Array,
+    newSkeletonUrl: String,
     potionImageUrl: String,
+
+    coinSound: String,
+    healSound: String,
+    wilhelmSound: String,
 
   }
 
@@ -59,6 +65,11 @@ export default class extends Controller {
     const newPlayerUrl = this.newPlayerUrlValue
     const deathSound = this.deathSoundValue
     const slashSound = this.slashSoundValue
+    const lastSaveMc = this.lastSaveMcValue
+    const newSkeletonUrl = this.newSkeletonUrlValue
+    const coinSound = this.coinSoundValue
+    const healSound = this.healSoundValue
+    const wilhelmSound = this.wilhelmSoundValue
 
     this.gameoverUrl = this.gameoverValue
 
@@ -86,9 +97,14 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('knight_run', knightRunImageUrl, { frameWidth: 64 , frameHeight: 64 })
       this.gameScene.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 64 , frameHeight: 64 })
       this.gameScene.load.spritesheet('player_all', newPlayerUrl, {frameWidth: 48, frameHeight:48})
+      this.gameScene.load.spritesheet('skeleton_all', newSkeletonUrl, {frameWidth: 64, frameHeight:64})
       console.log("death: ", deathSound)
       this.gameScene.load.audio("death_sound", deathSound)
       this.gameScene.load.audio("slash_sound", slashSound)
+      this.gameScene.load.audio("coin_sound", coinSound)
+      this.gameScene.load.audio("heal_sound", healSound)
+      this.gameScene.load.audio("wilhelm_sound", wilhelmSound)
+
       console.log(this.gameScene)
 
       this.gameScene.load.spritesheet('coin', coinImageUrl, { frameWidth: 8 , frameHeight: 8 })
@@ -97,14 +113,12 @@ export default class extends Controller {
 
     // const skeleton_start =
     this.gameScene.create = () =>{
-
+      console.log(lastSaveMc)
       // creer la scene de pause
-      // let pauseScene = new PauseScene(bgpauseUrl, this.gameScene)
-      this.gameScene.scene.add('pauseScene', PauseScene, false, {gameScene: this.gameScene, bgUrl: bgpauseUrl})
-      // this.pause = pauseScene
+      this.gameScene.scene.add('pauseScene', PauseScene, false, {gameScene: this.gameScene, bgUrl: bgpauseUrl, controller: this})
       // passer d'une scene à l'autre en appuyant sur echap
 
-      console.log(this.gameScene)
+
       loadAnimations(this.gameScene) //from game_loader
       // ajout du clic sur P pour mettre en Pause le jeu dans l'update
       this.gameScene.keyP = this.gameScene.input.keyboard.addKey('P')
@@ -135,13 +149,17 @@ export default class extends Controller {
       //   collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
       //   faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       // });
-
+      this.newStartMc = [(35 * 16), (12 * 16), 50]
       this.coinCount = new CoinCount(this.gameScene)
-      this.knight = new Knight({x:(35 * 16), y: (12 * 16)}, this.gameScene, this.coinCount)
+      if(lastSaveMc == []){
+        lastSaveMc = newStartMc
+      }
+      this.knight = new Knight({x:lastSaveMc[0], y: lastSaveMc[1]}, this.gameScene, this.coinCount, lastSaveMc[2])
       this.skeleCount = 4
       this.skelesKilled = 0
 
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
+      console.log("spawned: ", this)
 
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
@@ -171,7 +189,9 @@ export default class extends Controller {
       if (this.knight.getHealth() == 0) {
         // je suis mort
         this.knight.isDead = true
+        this.gameScene.wilhelmSound.play()
         this.knight.setVelocity(0,0);
+        this.#saveKnight(this.newStartMc)
 
         // this.play('dead', true)
         setTimeout(() => {
@@ -228,6 +248,21 @@ export default class extends Controller {
     // console.log(this.skeletons)
     return this.skeletons
 
+  }
+  #saveKnight(newStartMc){
+    const mainCharacter = {
+      x: newStartMc[0],
+      y: newStartMc[1],
+      health: newStartMc[2]
+    };
+
+    fetch("/main_characters", {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(mainCharacter)
+    }).then(res => {
+      console.log("Request complete! response:", res);
+    });
   }
 
 }

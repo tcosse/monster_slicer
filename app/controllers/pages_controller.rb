@@ -5,6 +5,7 @@ class PagesController < ApplicationController
   end
 
   def game
+    @last_save = MainCharacter.where(user_id: current_user).last
   end
 
   def gameover
