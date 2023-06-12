@@ -80,6 +80,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
         }
         else {
         this.setVelocity(0,0)
+
         this.play("skeleton_dead", true)
 
         // this.on('animationcomplete',()=> {
