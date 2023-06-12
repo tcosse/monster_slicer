@@ -7,7 +7,7 @@ export class Weapon extends Phaser.Physics.Arcade.Image{
     this.gameScene = gameScene
     gameScene.physics.add.world.enableBody(this, 0);
     gameScene.add.existing(this);
-    this.setSize(30,20)
-    this.setOffset(20,15)
+    this.setSize(30,35)
+    this.setOffset(20,-5)
   }
 }

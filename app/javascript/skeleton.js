@@ -1,5 +1,6 @@
 import * as Phaser from "phaser"
 import PhaserHealth from 'phaser_health';
+import { Coin } from "coin";
 var Health = PhaserHealth;
 
 
@@ -59,6 +60,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
       this.play('skeleton_idle');
     }
     this.depth=1;
+    console.log('skeleton x y :', this.x, this.y)
     // this.object.setScale(2,2)
     // console.log(knight.object)
     //this.gameScene.physics.add.existing(this.object)
@@ -66,7 +68,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
     // this.gameScene.enemy = this.gameScene.physics.add.image(enemy_start[0], enemy_start[1], 'enemy').setCollideWorldBounds(true);
     this.gameScene.physics.add.overlap(knight.weapon, this, (gameObject1, gameObject2) =>
     {
-      if (this.gameScene.input.keyboard.addKey("V").isDown || this.gameScene.input.keyboard.addKey("SPACE").isDown ) {
+      if (this.gameScene.input.keyboard.addKey("V").isDown || this.gameScene.input.manager.activePointer.primaryDown ) {
         this.setTint(0xff6666)
         if (this.getHealth() > 0) {
           knight.on('animationcomplete', () => {
@@ -76,24 +78,38 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
           });
         }
         else {
-        this.play("skeleton_dead", true)
         this.setVelocity(0,0)
-        this.on('animationcomplete',()=> {
-          this.isDead = true
-          this.gameScene.physics.world.colliders._active.forEach(collider => {
-            if(collider.object2 == gameObject2) {
-               collider.destroy()
-                knight.skeleKilled += 1
-              // console.log(gameObject1)
-            }
-          })
+
+        this.play("skeleton_dead", true)
+
+        // this.on('animationcomplete',()=> {
+        this.gameScene.deathSound.play()
+        this.isDead = true
+        this.gameScene.physics.world.colliders._active.forEach(collider => {
+          if(collider.object2 == gameObject2) {
+              collider.destroy()
+              knight.skeleKilled += 1
+            // console.log(gameObject1)
+          }
+        })
           // console.log(this.gameScene.physics.world.colliders._active)
           // console.log(gameObject2)
-          this.gameScene.physics.world.colliders.active
-        });
+          // this.gameScene.physics.world.colliders.active
+
+
+          if (Math.random() < 0.70) {
+            console.log('spawn coin')
+            const x = this.x 
+            const y = this.y + 10
+            console.log(x, y)
+            let coin = new Coin({ x, y } , this.gameScene)
+            coin.addPhysics(knight)
+            console.log(coin)
+          }
         }
       }
-    });
+      }
+    );
     this.gameScene.physics.add.overlap(knight, this, (gameObject1, gameObject2) =>
     {
         knight.damage(0.1)

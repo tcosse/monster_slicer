@@ -5,21 +5,22 @@ import { Weapon } from "weapon";
 var Health = PhaserHealth;
 
 export class Knight extends Phaser.Physics.Arcade.Sprite {
-  constructor(start, gameScene) {
-    super(gameScene, start.x, start.y, 'idle')
+  constructor(start, gameScene, coinCount) {
+    super(gameScene, start.x, start.y, 'idle_down')
     this.start = start
     this.gameScene = gameScene
     this.weapon = new Weapon(start, gameScene)
     gameScene.physics.add.world.enableBody(this, 0);
-    this.play("idle", true)
+    this.play("idle_down", true)
     this.depth = 2;
-    this.setSize(25, 25)
+    this.setSize(15, 20)
 
-    this.setOffset(20,40)
+    this.setOffset(17,22)
     this.depth = 2;
     gameScene.add.existing(this);
     this.skeleKilled = 0
     this.isDead = false
+    this.coinCount = coinCount
 
 
     // Ici je donne des HP au knight, je crée une barre de vie visuelle, je lie cette barre au knight (pour accéder a ses PV)
@@ -60,7 +61,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
       var keyShift = this.gameScene.input.keyboard.addKey("SHIFT")
       var keySpace = this.gameScene.input.keyboard.addKey("SPACE")
 
-      if(keyW.isDown || keyA.isDown || keyS.isDown || keyD.isDown || keyV.isDown || keyZ.isDown || keyQ.isDown) {
+      if(keyW.isDown || keyA.isDown || keyS.isDown || keyD.isDown || keyV.isDown || keyZ.isDown || keyQ.isDown || this.gameScene.input.manager.activePointer.primaryDown) {
         const defaultSpeed = 50;
         const highSpeed = 150;
         let speed = defaultSpeed ;
@@ -70,18 +71,24 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
 
         if(keyW.isDown || keyZ.isDown) {
           // User wants to go up (presses W if english keyboard, Z for french)
-          if(this.anims.currentAnim.key != "attack") {
-            this.play('run', true)
+          if(this.anims.currentAnim.key != "attack_up" && this.anims.currentAnim.key != "attack_side"&& this.anims.currentAnim.key != "attack_down") {
+            if(keyA.isDown == false && keyD.isDown == false) {
+              this.play('walk_up', true)
+            }
             this.setVelocityY(-speed);
+            this.weapon.setOffset(0,-15)
           }
           // if(this.anims.currentAnim.key == "skeleton_dead")
 
         }
         else if(keyS.isDown) {
           // User wants to go down (presses S)
-          if(this.anims.currentAnim.key != "attack") {
-          this.setVelocityY(speed);
-          this.play('run', true)
+          if(this.anims.currentAnim.key != "attack_up" && this.anims.currentAnim.key != "attack_side"&& this.anims.currentAnim.key != "attack_down") {
+            if(keyA.isDown == false && keyD.isDown == false) {
+              this.play('walk_down', true)
+            }
+            this.setVelocityY(speed);
+            this.weapon.setOffset(0,20)
           }
         }
         else
@@ -91,40 +98,102 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
 
         if(keyA.isDown || keyQ.isDown) {
           // User wants to go left (presses Q in french keyboard, or A if english)
-          if(this.anims.currentAnim.key != "attack") {
-          this.play('run', true)
-          this.setVelocityX(-speed);
-          this.flipX = true
-          this.weapon.setOffset(-20,20)
+          if(this.anims.currentAnim.key != "attack_up" && this.anims.currentAnim.key != "attack_side"&& this.anims.currentAnim.key != "attack_down") {
+            this.play('walk_side', true)
+            this.setVelocityX(-speed);
+            this.flipX = true
+            this.weapon.setOffset(-20,-5)
           }
         }
         else if(keyD.isDown) {
           // User wants to go right (presses D)
-          if(this.anims.currentAnim.key != "attack") {
-          this.play('run', true)
-          this.setVelocityX(speed);
-          this.flipX = false
-          this.weapon.setOffset(20,20)
+          if(this.anims.currentAnim.key != "attack_up" && this.anims.currentAnim.key != "attack_side"&& this.anims.currentAnim.key != "attack_down") {
+            this.play('walk_side', true)
+            this.setVelocityX(speed);
+            this.flipX = false
+            this.weapon.setOffset(20,-5)
           }
         }
         else
         {
           this.setVelocityX(0)
         }
-        if(keyV.isDown || keySpace.isDown) {
-          // User wants to go attack (presses V)
+        console.log(this.gameScene.input.manager.activePointer.primaryDown == true)
+        if(keyV.isDown || this.gameScene.input.manager.activePointer.primaryDown) {
+
+          this.gameScene.slashSound.play()
           this.setVelocity(0,0)
-          this.play('attack', true)
+          switch(this.anims.currentAnim.key) {
+            case "idle_down":
+              this.play("attack_down", true)
+              break;
+            case "walk_down":
+              this.play("attack_down", true)
+              break;
+            case "idle_side":
+              this.play("attack_side", true)
+              break;
+            case "walk_side":
+              this.play("attack_side", true)
+              break;
+            case "idle_up":
+              this.play("attack_up", true)
+              break;
+            case "walk_up":
+              this.play("attack_up", true)
+              break;
+            case "attack_down":
+              this.chain("idle_down", true)
+              break;
+            case "attack_side":
+              this.chain("idle_side", true)
+              break;
+            case "attack_up":
+              this.chain("idle_up", true)
+              break;
+            default:
+              console.log("default on hit")
+              //this.play("attack_side", true)
+          }
+          // User wants to go attack (presses V)
+
 
           // this.gameScene.anims.anims.entries.attack.type
 
         }
       }
       else {
-        this.chain('idle', true)
+       // console.log(this)
+        console.log("current anim null?: ", this.anims.currentAnim)
+        switch(this.anims.currentAnim.key) {
+          case "walk_side":
+            this.play("idle_side", true)
+            break;
+          case "walk_up":
+            this.play("idle_up", true)
+            break;
+          case "walk_down":
+            this.play("idle_down", true)
+            break;
+          case "attack_side":
+              this.chain("idle_side", true)
+            break;
+          case "attack_up":
+              this.chain("idle_up", true)
+            break;
+          case "attack_down":
+              this.chain("idle_down", true)
+            break;
+
+          default:
+            this.chain("idle_down", true)
+        }
         this.setVelocity(0,0)
       }
     }
+
+    this.coinCount.x = this.x
+    this.coinCount.y = this.y
   }
 }
 Health.MixinTo(Knight);
