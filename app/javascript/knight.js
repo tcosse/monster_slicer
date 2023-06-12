@@ -66,7 +66,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
 
       if(keyW.isDown || keyA.isDown || keyS.isDown || keyD.isDown || keyV.isDown || keyZ.isDown || keyQ.isDown || this.gameScene.input.manager.activePointer.primaryDown) {
         const defaultSpeed = 50;
-        const highSpeed = 150;
+        const highSpeed = 1000;
         let speed = defaultSpeed ;
 
         //if shiftkey is pressed, the knight speed will be higher
