@@ -4,7 +4,7 @@ import * as Phaser from "phaser"
 export class CoinCount extends Phaser.GameObjects.Text {
   constructor(gameScene){
     super(gameScene, 100, 120, "0", { font: "20px calibri", fill: "black", align:"center" })
-    this.style = { font: '10px', fill: "black", align:"center", backgroundColor: "white" }
+    this.style = { font: '40px', fill: "black", align:"center", backgroundColor: "white" }
     this.gameScene = gameScene
     this.totalScore = 0;
   }
@@ -18,6 +18,8 @@ export class CoinCount extends Phaser.GameObjects.Text {
     }
     const score = this.gameScene.add.text(x, y, `${this.totalScore} Coins`, this.style);
     this.score = score
+    this.score.setScale(0.25, 0.25)
+    this.score.depth = 40
     // console.log('text 2', this.score)
     // console.log(this.text)
   }
