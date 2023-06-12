@@ -138,5 +138,9 @@ export {loadAnimations}
 const loadSounds = (gameScene) => {
   gameScene.deathSound = gameScene.sound.add("death_sound")
   gameScene.slashSound = gameScene.sound.add("slash_sound")
+  gameScene.coinSound = gameScene.sound.add("coin_sound")
+  gameScene.healSound = gameScene.sound.add("heal_sound")
+  gameScene.wilhelmSound = gameScene.sound.add("wilhelm_sound")
+
 }
 export {loadSounds}

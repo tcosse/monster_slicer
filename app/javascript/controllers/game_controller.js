@@ -37,6 +37,9 @@ export default class extends Controller {
     slashSound: String,
     newSkeletonUrl: String,
     potionImageUrl: String,
+    coinSound: String,
+    healSound: String,
+    wilhelmSound: String,
   }
 
 
@@ -60,6 +63,9 @@ export default class extends Controller {
     const deathSound = this.deathSoundValue
     const slashSound = this.slashSoundValue
     const newSkeletonUrl = this.newSkeletonUrlValue
+    const coinSound = this.coinSoundValue
+    const healSound = this.healSoundValue
+    const wilhelmSound = this.wilhelmSoundValue
 
     this.gameoverUrl = this.gameoverValue
 
@@ -91,6 +97,10 @@ export default class extends Controller {
       console.log("death: ", deathSound)
       this.gameScene.load.audio("death_sound", deathSound)
       this.gameScene.load.audio("slash_sound", slashSound)
+      this.gameScene.load.audio("coin_sound", coinSound)
+      this.gameScene.load.audio("heal_sound", healSound)
+      this.gameScene.load.audio("wilhelm_sound", wilhelmSound)
+
       console.log(this.gameScene)
 
       this.gameScene.load.spritesheet('coin', coinImageUrl, { frameWidth: 8 , frameHeight: 8 })
@@ -172,6 +182,7 @@ export default class extends Controller {
       if (this.knight.getHealth() == 0) {
         // je suis mort
         this.knight.isDead = true
+        this.gameScene.wilhelmSound.play()
         this.knight.setVelocity(0,0);
 
         // this.play('dead', true)
@@ -195,7 +206,7 @@ export default class extends Controller {
       autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       physics: {
         default: 'arcade',
-        arcade: { debug: true }
+        arcade: { debug: false }
       }
     };
     let game = new Phaser.Game(config);
