@@ -97,6 +97,7 @@ export default class extends Controller {
         this.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 48 , frameHeight: 64 })
         this.load.spritesheet('enemy_skeleton_idle', skeletonIdleImageUrl, { frameWidth: 32, frameHeight: 32 })
         this.load.spritesheet('hands', handsImageUrl, { frameWidth: 32, frameHeight: 32 })
+
         console.log('preload ok')
       }
 
