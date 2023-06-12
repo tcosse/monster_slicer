@@ -5,7 +5,7 @@ import { Weapon } from "weapon";
 var Health = PhaserHealth;
 
 export class Knight extends Phaser.Physics.Arcade.Sprite {
-  constructor(start, gameScene, coinCount) {
+  constructor(start, gameScene, coinCount, startHealth) {
     super(gameScene, start.x, start.y, 'idle_down')
     this.start = start
     this.gameScene = gameScene
@@ -26,7 +26,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
     // Ici je donne des HP au knight, je crée une barre de vie visuelle, je lie cette barre au knight (pour accéder a ses PV)
     // puis j'attribue cette barre au knight pour pouvoir l'appeler dans la def de knight
     //health
-    this.setHealth(50, 0, 50);
+    this.setHealth(startHealth, 0, 50);
     const healthBar = new HealthBar(
       gameScene,
       this.x - 30,
@@ -36,6 +36,9 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
     );
     healthBar.add(this);
     this.healthBar = healthBar;
+    // nécessaire pour actualiser la barre de vie en cas de sauvegarde
+    this.damage(0.1)
+    this.heal(0.1)
   }
 
   update () {
@@ -163,7 +166,6 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
         }
       }
       else {
-       // console.log(this)
         switch(this.anims.currentAnim.key) {
           case "walk_side":
             this.play("idle_side", true)

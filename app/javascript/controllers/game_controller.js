@@ -35,6 +35,7 @@ export default class extends Controller {
     newPlayerUrl: String,
     deathSound: String,
     slashSound: String,
+    lastSaveMc: Array,
     newSkeletonUrl: String,
     potionImageUrl: String,
     coinSound: String,
@@ -62,6 +63,7 @@ export default class extends Controller {
     const newPlayerUrl = this.newPlayerUrlValue
     const deathSound = this.deathSoundValue
     const slashSound = this.slashSoundValue
+    const lastSaveMc = this.lastSaveMcValue
     const newSkeletonUrl = this.newSkeletonUrlValue
     const coinSound = this.coinSoundValue
     const healSound = this.healSoundValue
@@ -109,7 +111,7 @@ export default class extends Controller {
 
     // const skeleton_start =
     this.gameScene.create = () =>{
-
+      console.log(lastSaveMc)
       // creer la scene de pause
       this.gameScene.scene.add('pauseScene', PauseScene, false, {gameScene: this.gameScene, bgUrl: bgpauseUrl, controller: this})
       // passer d'une scene à l'autre en appuyant sur echap
@@ -145,9 +147,12 @@ export default class extends Controller {
       //   collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
       //   faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       // });
-
+      this.newStartMc = [(35 * 16), (12 * 16), 50]
       this.coinCount = new CoinCount(this.gameScene)
-      this.knight = new Knight({x:(35 * 16), y: (12 * 16)}, this.gameScene, this.coinCount)
+      if(lastSaveMc == []){
+        lastSaveMc = newStartMc
+      }
+      this.knight = new Knight({x:lastSaveMc[0], y: lastSaveMc[1]}, this.gameScene, this.coinCount, lastSaveMc[2])
       this.skeleCount = 4
       this.skelesKilled = 0
 
@@ -184,6 +189,7 @@ export default class extends Controller {
         this.knight.isDead = true
         this.gameScene.wilhelmSound.play()
         this.knight.setVelocity(0,0);
+        this.#saveKnight(this.newStartMc)
 
         // this.play('dead', true)
         setTimeout(() => {
@@ -240,6 +246,21 @@ export default class extends Controller {
     // console.log(this.skeletons)
     return this.skeletons
 
+  }
+  #saveKnight(newStartMc){
+    const mainCharacter = {
+      x: newStartMc[0],
+      y: newStartMc[1],
+      health: newStartMc[2]
+    };
+
+    fetch("/main_characters", {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(mainCharacter)
+    }).then(res => {
+      console.log("Request complete! response:", res);
+    });
   }
 
 }
