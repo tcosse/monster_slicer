@@ -93,6 +93,35 @@ const loadAnimations = (gameScene) => {
     frames: gameScene.anims.generateFrameNumbers("player_all", { start: 54, end: 56 }),
     repeat: 0
   })
+
+  //                    //
+  /* new Skeleton anims */
+  //                    //
+
+  gameScene.anims.create({
+    key: "skeleton_idle_new",
+    frameRate: 12,
+    frames: gameScene.anims.generateFrameNumbers("skeleton_all", { start: 0, end: 5 }),
+    repeat: -1
+  })
+  gameScene.anims.create({
+    key: "skeleton_walk_new",
+    frameRate: 12,
+    frames: gameScene.anims.generateFrameNumbers("skeleton_all", { start: 6, end: 11 }),
+    repeat: -1
+  })
+  gameScene.anims.create({
+    key: "skeleton_attack_new",
+    frameRate: 12,
+    frames: gameScene.anims.generateFrameNumbers("skeleton_all", { start: 12, end: 16 }),
+    repeat: 0
+  })
+  gameScene.anims.create({
+    key: "skeleton_death_new",
+    frameRate: 12,
+    frames: gameScene.anims.generateFrameNumbers("skeleton_all", { start: 24, end: 28 }),
+    repeat: 0
+  })
 }
 export {loadAnimations}
 

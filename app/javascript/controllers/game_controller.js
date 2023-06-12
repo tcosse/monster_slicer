@@ -29,6 +29,7 @@ export default class extends Controller {
     newPlayerUrl: String,
     deathSound: String,
     slashSound: String,
+    newSkeletonUrl: String,
   }
 
 
@@ -47,6 +48,7 @@ export default class extends Controller {
     const newPlayerUrl = this.newPlayerUrlValue
     const deathSound = this.deathSoundValue
     const slashSound = this.slashSoundValue
+    const newSkeletonUrl = this.newSkeletonUrlValue
 
     this.gameoverUrl = this.gameoverValue
 
@@ -71,6 +73,7 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('knight_run', knightRunImageUrl, { frameWidth: 64 , frameHeight: 64 })
       this.gameScene.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 64 , frameHeight: 64 })
       this.gameScene.load.spritesheet('player_all', newPlayerUrl, {frameWidth: 48, frameHeight:48})
+      this.gameScene.load.spritesheet('skeleton_all', newSkeletonUrl, {frameWidth: 64, frameHeight:64})
       console.log("death: ", deathSound)
       this.gameScene.load.audio("death_sound", deathSound)
       this.gameScene.load.audio("slash_sound", slashSound)
@@ -114,6 +117,7 @@ export default class extends Controller {
       this.skelesKilled = 0
 
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
+      console.log("spawned: ", this)
 
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
@@ -159,7 +163,7 @@ export default class extends Controller {
       autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       physics: {
         default: 'arcade',
-        arcade: { debug: false }
+        arcade: { debug: true }
       }
     };
     let game = new Phaser.Game(config);

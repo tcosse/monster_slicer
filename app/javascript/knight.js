@@ -151,7 +151,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
               this.chain("idle_up", true)
               break;
             default:
-              console.log("default on hit")
+
               //this.play("attack_side", true)
           }
           // User wants to go attack (presses V)
@@ -163,7 +163,6 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
       }
       else {
        // console.log(this)
-        console.log("current anim null?: ", this.anims.currentAnim)
         switch(this.anims.currentAnim.key) {
           case "walk_side":
             this.play("idle_side", true)

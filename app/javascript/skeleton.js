@@ -5,7 +5,7 @@ var Health = PhaserHealth;
 
 export class Skeleton extends Phaser.Physics.Arcade.Sprite {
   constructor(start, gameScene) {
-    super(gameScene, start.x, start.y, 'enemy_skeleton_idle')
+    super(gameScene, start.x, start.y, 'skeleton_idle_new')
     this.start = start
     this.gameScene = gameScene
     this.isDead = false
@@ -23,7 +23,10 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
 
     gameScene.physics.add.world.enableBody(this, 0);
     gameScene.add.existing(this);
-    this.setSize(17, 25)
+    this.setSize(16, 22)
+    this.setOffset(25, 36)
+    this.play('skeleton_idle_new', true);
+    console.log(this)
     // this.object = this.gameScene.physics.add.sprite(start.x, start.y,'enemy_skeleton_idle')
   }
 
@@ -37,27 +40,60 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
     // var skeleton_start_distance = Math.sqrt((skeleton_start[0]-this.object.x)**2 + (skeleton_start[1]-this.object.y)**2)
     var skeleton_start_distance = this.#calculateDistance(this.start, this)
 
-    if(this.scene != undefined) {
-      if(this.anims.currentAnim.key == "skeleton_dead") {
+    if(this.scene != undefined && this.isDead == false) {
+
+      if(this.anims.currentAnim.key == "skeleton_death_new") {
         this.setVelocity(0,0)
       }
-      else {
-
-        if(distance_between < 100) {
-          this.setVelocity(skeleton_speed*(knight.x-this.x)/distance_between, skeleton_speed*(knight.y-this.y)/distance_between);
-        }
-        else {
-          if(this.x != this.start.x && this.y != this.start.y) {
-            this.setVelocity(skeleton_speed*(this.start.x-this.x)/skeleton_start_distance, skeleton_speed*(this.start.y-this.y)/distance_between);
+      else
+      {
+          console.log("acceleration:", this.body.newVelocity)
+          // console.log("rotation:", this.body.rotation)
+          // if(this.body.acceleration["x"])
+          if(this.body.newVelocity.x < 0){
+            this.flipX = true
           }
-        }
+          else {
+            this.flipX = false
+          }
+          if(distance_between < 100 && distance_between > 10) {
+            if(this.anims.currentAnim.key != "skeleton_attack_new"){
+              this.play('skeleton_walk_new', true)
+              this.setVelocity(skeleton_speed*(knight.x-this.x)/distance_between, skeleton_speed*(knight.y-this.y)/distance_between);
+            }
+            else if(this.anims.nextAnimsQueue.length == 0){
+              this.chain('skeleton_walk_new', true)
+            }
+          }
+          else if(distance_between <= 10){
+            this.setVelocity(0,0)
+            this.play('skeleton_attack_new', true)
+          }
+          else if(this.x != this.start.x && this.y != this.start.y) {
+            if(this.anims.currentAnim.key != "skeleton_attack_new"){
+              this.play('skeleton_walk_new', true)
+              this.setVelocity(skeleton_speed*(this.start.x-this.x)/skeleton_start_distance, skeleton_speed*(this.start.y-this.y)/distance_between);
+            }
+            else if(this.anims.nextAnimsQueue.length == 0){
+              this.chain('skeleton_walk_new', true)
+            }
+          }
+          else if(this.speed == 0) {
+            if(this.anims.currentAnim.key != "skeleton_attack_new"){
+              this.play("skeleton_idle_new", true)
+            }
+            else if(this.anims.nextAnimsQueue.length == 0){
+              this.chain('skeleton_idle_new', true)
+            }
+          }
+          else if(this.anims.nextAnimsQueue.length == 0){
+              this.chain('skeleton_idle_new', true)
+          }
       }
     }
   }
   addPhysics(knight) {
-    if(this != null) {
-      this.play('skeleton_idle');
-    }
+
     this.depth=1;
     // this.object.setScale(2,2)
     // console.log(knight.object)
@@ -77,7 +113,6 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
         }
         else {
         this.setVelocity(0,0)
-        this.play("skeleton_dead", true)
 
         // this.on('animationcomplete',()=> {
         this.gameScene.deathSound.play()
@@ -89,6 +124,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
             // console.log(gameObject1)
           }
         })
+        this.play("skeleton_death_new", true)
           // console.log(this.gameScene.physics.world.colliders._active)
           // console.log(gameObject2)
           // this.gameScene.physics.world.colliders.active
@@ -98,7 +134,10 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
     });
     this.gameScene.physics.add.overlap(knight, this, (gameObject1, gameObject2) =>
     {
-        knight.damage(0.1)
+
+      this.on('animationcomplete', ()=> {
+          knight.damage(0.01)
+      });
 
     });
   }
