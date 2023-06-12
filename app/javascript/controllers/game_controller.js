@@ -35,7 +35,9 @@ export default class extends Controller {
     coinImageUrl: String,
     newPlayerUrl: String,
     deathSound: String,
-    slashSound: String
+    slashSound: String,
+    potionImageUrl: String,
+
   }
 
 
@@ -51,6 +53,7 @@ export default class extends Controller {
     const skeletonIdleImageUrl = this.skeletonIdleImageUrlValue
     const skeletonDeathImageUrl = this.skeletonDeathImageUrlValue
     const coinImageUrl = this.coinImageUrlValue
+    const potionImageUrl = this.potionImageUrlValue
     const emptyUrl = this.emptyUrlValue
     const bgpauseUrl = this.bgpauseUrlValue
     this.gameoverUrl = this.gameoverValue
@@ -74,6 +77,7 @@ export default class extends Controller {
       this.gameScene.load.image('enemy', playerImageUrl);
       this.gameScene.load.image('empty', emptyUrl);
       this.gameScene.load.image('tiles', basicTiles);
+      this.gameScene.load.image('potion', potionImageUrl);
       this.gameScene.load.tilemapTiledJSON('dungeon', tilemapUrl)
 
       this.gameScene.load.spritesheet('enemy_skeleton', skeletonImageUrl, {frameWidth: 16, frameHeight: 16})
