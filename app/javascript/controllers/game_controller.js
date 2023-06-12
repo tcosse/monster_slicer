@@ -4,7 +4,6 @@ import {Skeleton} from "skeleton"
 import {Knight} from "knight"
 import {CoinCount} from "coin_count"
 import {PauseScene} from "pause_scene"
-import {Score} from "score"
 import { loadAnimations } from "game_loader"
 import { loadSounds } from "game_loader"
 
@@ -35,7 +34,8 @@ export default class extends Controller {
     coinImageUrl: String,
     newPlayerUrl: String,
     deathSound: String,
-    slashSound: String
+    slashSound: String,
+    lastSaveMc: Array
   }
 
 
@@ -57,6 +57,7 @@ export default class extends Controller {
     const newPlayerUrl = this.newPlayerUrlValue
     const deathSound = this.deathSoundValue
     const slashSound = this.slashSoundValue
+    const lastSaveMc = this.lastSaveMcValue
 
     this.gameoverUrl = this.gameoverValue
 
@@ -94,7 +95,7 @@ export default class extends Controller {
 
     // const skeleton_start =
     this.gameScene.create = () =>{
-
+      console.log(lastSaveMc)
       // creer la scene de pause
       this.gameScene.scene.add('pauseScene', PauseScene, false, {gameScene: this.gameScene, bgUrl: bgpauseUrl, controller: this})
       // passer d'une scene à l'autre en appuyant sur echap
@@ -132,7 +133,10 @@ export default class extends Controller {
       // });
 
       this.coinCount = new CoinCount(this.gameScene)
-      this.knight = new Knight({x:(35 * 16), y: (12 * 16)}, this.gameScene, this.coinCount)
+      if(lastSaveMc == []){
+        lastSaveMc = [(35 * 16), (12 * 16), 50]
+      }
+      this.knight = new Knight({x:lastSaveMc[0], y: lastSaveMc[1]}, this.gameScene, this.coinCount, lastSaveMc[2])
       this.skeleCount = 4
       this.skelesKilled = 0
 
