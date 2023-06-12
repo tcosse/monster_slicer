@@ -9,11 +9,17 @@ export class CoinCount extends Phaser.GameObjects.Text {
     this.totalScore = 0;
   }
 
-
   showScore() {
     const x = this.x - (11 * 16)
     const y = this.y - (10 * 16)
+    // console.log('text', this.score)
+    if (this.score != undefined) {
+      this.score.destroy()
+    }
     const score = this.gameScene.add.text(x, y, `${this.totalScore} Coins`, this.style);
+    this.score = score
+    // console.log('text 2', this.score)
+    // console.log(this.text)
   }
 
   addPoint(number) {

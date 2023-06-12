@@ -4,7 +4,6 @@ import {Skeleton} from "skeleton"
 import {Knight} from "knight"
 import {CoinCount} from "coin_count"
 import {PauseScene} from "pause_scene"
-import {Score} from "score"
 import { loadAnimations } from "game_loader"
 import { loadSounds } from "game_loader"
 

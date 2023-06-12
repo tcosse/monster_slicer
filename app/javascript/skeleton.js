@@ -12,6 +12,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
     this.gameScene = gameScene
     this.isDead = false
     this.setHealth(30,0,30)
+    this.time = new Date() / 1000
 
     // const healthBar = new HealthBar(
     //   gameScene,
@@ -117,7 +118,13 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
     );
     this.gameScene.physics.add.overlap(knight, this, (gameObject1, gameObject2) =>
     {
-        knight.damage(0.1)
+      console.log(this.time)
+      const invu = (new Date() / 1000) - this.time
+      console.log('invu', invu)
+      if (invu > 2 ) {
+        knight.damage(1)
+        this.time = new Date() / 1000
+      }
 
     });
   }
