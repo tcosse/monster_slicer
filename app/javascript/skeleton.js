@@ -66,7 +66,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
     // this.gameScene.enemy = this.gameScene.physics.add.image(enemy_start[0], enemy_start[1], 'enemy').setCollideWorldBounds(true);
     this.gameScene.physics.add.overlap(knight.weapon, this, (gameObject1, gameObject2) =>
     {
-      if (this.gameScene.input.keyboard.addKey("V").isDown || this.gameScene.input.keyboard.addKey("SPACE").isDown ) {
+      if (this.gameScene.input.keyboard.addKey("V").isDown || this.gameScene.input.manager.activePointer.primaryDown ) {
         this.setTint(0xff6666)
         if (this.getHealth() > 0) {
           knight.on('animationcomplete', () => {
