@@ -102,9 +102,7 @@ export default class extends Controller {
     this.gameScene.create = () =>{
 
       // creer la scene de pause
-      // let pauseScene = new PauseScene(bgpauseUrl, this.gameScene)
-      this.gameScene.scene.add('pauseScene', PauseScene, false, {gameScene: this.gameScene, bgUrl: bgpauseUrl})
-      // this.pause = pauseScene
+      this.gameScene.scene.add('pauseScene', PauseScene, false, {gameScene: this.gameScene, bgUrl: bgpauseUrl, controller: this})
       // passer d'une scene à l'autre en appuyant sur echap
 
       console.log(this.gameScene)

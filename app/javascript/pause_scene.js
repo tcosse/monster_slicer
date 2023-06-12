@@ -12,6 +12,7 @@ export class PauseScene extends Phaser.Scene
       // console.log(this.scene.settings.data)
       this.gameScene = this.scene.settings.data.gameScene
       this.bgUrl = this.scene.settings.data.bgUrl
+      this.controller = this.scene.settings.data.controller
     }
 
     preload ()
@@ -23,9 +24,9 @@ export class PauseScene extends Phaser.Scene
     {
         this.add.image(400, 300, 'pause_bg').setAlpha(1);
 
-        let labelResume = this.add.text(150, 150, "RESUME", { color: '#00ff00' });
+        let labelResume = this.add.text(150, 150, 'RESUME', { color: '#00ff00', fontSize: '40px' });
         labelResume.setInteractive();
-        let labelSave = this.add.text(150, 300, "SAVE", { color: '#00ff00' });
+        let labelSave = this.add.text(150, 300, 'SAVE', { color: '#00ff00', fontSize: '40px'  });
         labelSave.setInteractive();
 
         this.input.on('gameobjectover', (pointer, obj) =>
@@ -38,23 +39,32 @@ export class PauseScene extends Phaser.Scene
           obj.setColor('#00ff00');
         });
 
-        this.input.on('pointerdown', (pointer, obj) =>
+        this.input.on('gameobjectdown', (pointer, obj) =>
         {
-          console.log(obj)
           if(obj.text == "SAVE"){
-            // save des choses
-            this.#saveKnight(this.gameScene.knight)
+            console.log(this.controller.knight)
+            console.log(this.controller.knight.getHealth())
+            this.#saveKnight(this.controller.knight)
           } else if (obj.text == "RESUME"){
-            this.gameScene.scene.switch('Game'); // Game est la clef de gameScene
+            console.log("OK")
+            this.scene.switch('Game'); // Game est la clef de gameScene
           }
         });
     }
 
     #saveKnight(knight){
-      localStorage.setItem('hero_checkpoint', JSON.stringify({
+      const mainCharacter = {
         x: knight.x,
         y: knight.y,
         health: knight.getHealth()
-      }));
+      };
+
+      fetch("/main_characters", {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(mainCharacter)
+      }).then(res => {
+        console.log("Request complete! response:", res);
+      });
     }
 }
