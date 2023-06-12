@@ -128,6 +128,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
           }
         })
         this.play("skeleton_death_new", true)
+        this.gameScene.time.delayedCall(10000, () => {this.destroy()});
           // console.log(this.gameScene.physics.world.colliders._active)
           // console.log(gameObject2)
           // this.gameScene.physics.world.colliders.active
