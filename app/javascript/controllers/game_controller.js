@@ -190,7 +190,7 @@ export default class extends Controller {
       if (this.knight.getHealth() == 0) {
         // je suis mort
         this.knight.isDead = true
-        this.gameScene.wilhelmSound.play()
+        //this.gameScene.wilhelmSound.play() // :( save wilhelm
         this.knight.setVelocity(0,0);
         this.#saveKnight(this.newStartMc)
 
