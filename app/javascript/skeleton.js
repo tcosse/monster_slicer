@@ -1,6 +1,7 @@
 import * as Phaser from "phaser"
 import PhaserHealth from 'phaser_health';
 import { Coin } from "coin";
+import { Potion } from "potion";
 var Health = PhaserHealth;
 
 
@@ -95,14 +96,18 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
           // console.log(gameObject2)
           // this.gameScene.physics.world.colliders.active
 
+          const x = this.x
+          const y = this.y + 10
           if (Math.random() < 0.70) {
             console.log('spawn coin')
-            const x = this.x 
-            const y = this.y + 10
             console.log(x, y)
             let coin = new Coin({ x, y } , this.gameScene)
             coin.addPhysics(knight)
             console.log(coin)
+          } else {
+            let potion = new Potion({ x, y }, this.gameScene)
+            potion.addPhysics(knight)
+            potion.setScale(0.4, 0.4)
           }
         }
       }
