@@ -19,6 +19,10 @@ export class Coin extends Phaser.Physics.Arcade.Sprite{
     {
       console.log('piece prise');
       console.log(this)
+      if(this != undefined && this != null){
+        this.gameScene.coinSound.play()
+      }
+
       this.destroy()
       console.log(knight.coinCount)
       knight.coinCount.addPoint(1)

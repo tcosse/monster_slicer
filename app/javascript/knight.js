@@ -121,7 +121,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
         {
           this.setVelocityX(0)
         }
-        console.log(this.gameScene.input.manager.activePointer.primaryDown == true)
+        // console.log(this.gameScene.input.manager.activePointer.primaryDown == true)
         if(keyV.isDown || this.gameScene.input.manager.activePointer.primaryDown) {
 
           this.gameScene.slashSound.play()
@@ -155,7 +155,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
               this.chain("idle_up", true)
               break;
             default:
-              console.log("default on hit")
+
               //this.play("attack_side", true)
           }
           // User wants to go attack (presses V)
@@ -166,8 +166,6 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
         }
       }
       else {
-       // console.log(this)
-        //console.log("current anim null?: ", this.anims.currentAnim)
         switch(this.anims.currentAnim.key) {
           case "walk_side":
             this.play("idle_side", true)
