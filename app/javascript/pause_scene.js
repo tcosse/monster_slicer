@@ -23,9 +23,10 @@ export class PauseScene extends Phaser.Scene
     {
         this.add.image(400, 300, 'pause_bg').setAlpha(1);
 
-        let labelResume = this.add.text(150, 150, "RESUME", { color: '#00ff00' });
+        let labelResume = this.add.text(150, 150, 'RESUME', { color: '#00ff00' });
         labelResume.setInteractive();
-        let labelSave = this.add.text(150, 300, "SAVE", { color: '#00ff00' });
+        console.log(labelResume.text)
+        let labelSave = this.add.text(150, 300, 'SAVE', { color: '#00ff00' });
         labelSave.setInteractive();
 
         this.input.on('gameobjectover', (pointer, obj) =>
