@@ -95,3 +95,10 @@ const loadAnimations = (gameScene) => {
   })
 }
 export {loadAnimations}
+
+
+const loadSounds = (gameScene) => {
+  gameScene.deathSound = gameScene.sound.add("death_sound")
+  gameScene.slashSound = gameScene.sound.add("slash_sound")
+}
+export {loadSounds}

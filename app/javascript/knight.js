@@ -118,6 +118,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
           this.setVelocityX(0)
         }
         if(keyV.isDown || keySpace.isDown) {
+          this.gameScene.slashSound.play()
           this.setVelocity(0,0)
           switch(this.anims.currentAnim.key) {
             case "idle_down":
@@ -174,6 +175,8 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
               this.chain("idle_down", true)
             }
             break;
+          default:
+            this.chain("idle_down", true)
         }
         this.setVelocity(0,0)
       }
