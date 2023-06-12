@@ -15,4 +15,6 @@ pin 'knight', preload: true
 pin 'skeleton', preload: true
 pin 'phaser_health', preload: true
 pin 'weapon', preload: true
+pin 'events_center', preload: true
+pin 'ui_scene', preload: true
 pin "typed.js", to: "https://ga.jspm.io/npm:typed.js@2.0.16/dist/typed.module.js"

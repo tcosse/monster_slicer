@@ -58,7 +58,6 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
       var keyD = this.gameScene.input.keyboard.addKey('D')
       var keyV = this.gameScene.input.keyboard.addKey('V')
       var keyShift = this.gameScene.input.keyboard.addKey("SHIFT")
-      var keySpace = this.gameScene.input.keyboard.addKey("SPACE")
 
       if(keyW.isDown || keyA.isDown || keyS.isDown || keyD.isDown || keyV.isDown || keyZ.isDown || keyQ.isDown || this.gameScene.input.manager.activePointer.primaryDown) {
         const defaultSpeed = 50;
@@ -117,7 +116,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
         {
           this.setVelocityX(0)
         }
-        console.log(this.gameScene.input.manager.activePointer.primaryDown == true)
+        // console.log(this.gameScene.input.manager.activePointer.primaryDown == true)
         if(keyV.isDown || this.gameScene.input.manager.activePointer.primaryDown) {
 
           this.gameScene.slashSound.play()
@@ -163,7 +162,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
       }
       else {
        // console.log(this)
-        console.log("current anim null?: ", this.anims.currentAnim)
+        // console.log("current anim null?: ", this.anims.currentAnim)
         switch(this.anims.currentAnim.key) {
           case "walk_side":
             this.play("idle_side", true)

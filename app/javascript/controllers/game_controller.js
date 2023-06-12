@@ -4,6 +4,8 @@ import {Skeleton} from "skeleton"
 import {Knight} from "knight"
 import { loadAnimations } from "game_loader"
 import { loadSounds } from "game_loader"
+import { eventsCenter } from 'events_center'
+import { UIScene } from 'ui_scene'
 
 // Pas sur que ce soit encore necessaire car present dans les fichiers skeleton et knight.js
 import PhaserHealth from 'phaser_health';
@@ -30,7 +32,6 @@ export default class extends Controller {
     deathSound: String,
     slashSound: String,
   }
-
 
   connect() {
     const bgImageUrl = this.bgImageUrlValue
@@ -111,7 +112,7 @@ export default class extends Controller {
 
       this.knight = new Knight({x:(35 * 16), y: (12 * 16)}, this.gameScene)
       this.skeleCount = 4
-      this.skelesKilled = 0
+      this.gameScene.score = 0
 
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
 
@@ -127,9 +128,13 @@ export default class extends Controller {
       this.gameScene.cameras.main.setZoom(2)
 
       const characters = this.skeletons.concat(this.knight)
-      const WallsCollider = this.gameScene.physics.add.collider(characters, [wallsLayer, upperWallsLayer, furnituresLayer, treesLayer])
+      this.gameScene.physics.add.collider(characters, [wallsLayer, upperWallsLayer, furnituresLayer, treesLayer])
+      // const coinsLabel = this.gameScene.add.text(100, 100, '0', {
+      //   fontSize: '100'
+      // })
+      this.gameScene.scene.run('ui-scene')
+    }
 
-    };
 
     this.gameScene.update = () => {
       this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
@@ -145,17 +150,16 @@ export default class extends Controller {
           window.location.replace(this.gameoverUrl);
         }, "1000");
         this.gameScene.physics.world.disableUpdate()
-
       }
       }
 
     let config = {
       type: Phaser.AUTO,
       parent: 'game',
-      // mode: Phaser.Scale.RESIZE,
+      mode: Phaser.Scale.RESIZE,
       width: 750,
       height: 650,
-      scene: this.gameScene,
+      scene: [this.gameScene, UIScene],
       autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       physics: {
         default: 'arcade',
@@ -164,7 +168,6 @@ export default class extends Controller {
     };
     let game = new Phaser.Game(config);
   }
-
 
   #spawnSkeletons(skeleCount){
     let skeletons = []
@@ -193,6 +196,4 @@ export default class extends Controller {
     // console.log(this.skeletons)
     return this.skeletons
 
-  }
-
-}
+  }}
