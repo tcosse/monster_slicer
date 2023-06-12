@@ -65,7 +65,7 @@ export default class extends Controller {
     const newPlayerUrl = this.newPlayerUrlValue
     const deathSound = this.deathSoundValue
     const slashSound = this.slashSoundValue
-    const lastSaveMc = this.lastSaveMcValue
+    let lastSaveMc = this.lastSaveMcValue
     const newSkeletonUrl = this.newSkeletonUrlValue
     const coinSound = this.coinSoundValue
     const healSound = this.healSoundValue
@@ -151,16 +151,18 @@ export default class extends Controller {
       // });
       this.newStartMc = [(35 * 16), (12 * 16), 50]
       this.coinCount = new CoinCount(this.gameScene)
-      if(lastSaveMc == []){
-        lastSaveMc = newStartMc
+      if(lastSaveMc.length == 0){
+        console.log("AA")
+        lastSaveMc = this.newStartMc
       }
+      console.log(lastSaveMc)
       this.knight = new Knight({x:lastSaveMc[0], y: lastSaveMc[1]}, this.gameScene, this.coinCount, lastSaveMc[2])
       this.skeleCount = 4
       this.skelesKilled = 0
 
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
       console.log("spawned: ", this)
-
+      console.log(this.knight.x)
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
 
