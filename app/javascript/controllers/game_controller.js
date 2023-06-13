@@ -45,6 +45,7 @@ export default class extends Controller {
     healSound: String,
     wilhelmSound: String,
     fireballUrl: String,
+    explosionUrl: String,
   }
 
   connect() {
@@ -72,6 +73,7 @@ export default class extends Controller {
     const healSound = this.healSoundValue
     const wilhelmSound = this.wilhelmSoundValue
     const fireballUrl = this.fireballUrlValue
+    const explosionUrl = this.explosionUrlValue
 
     this.gameoverUrl = this.gameoverValue
 
@@ -101,6 +103,7 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('player_all', newPlayerUrl, {frameWidth: 48, frameHeight:48})
       this.gameScene.load.spritesheet('skeleton_all', newSkeletonUrl, {frameWidth: 64, frameHeight:64})
       this.gameScene.load.spritesheet('fireball', fireballUrl, {frameWidth: 64, frameHeight:64})
+      this.gameScene.load.spritesheet('explosion', explosionUrl, {frameWidth: 190, frameHeight:190})
       console.log("death: ", deathSound)
       this.gameScene.load.audio("death_sound", deathSound)
       this.gameScene.load.audio("slash_sound", slashSound)

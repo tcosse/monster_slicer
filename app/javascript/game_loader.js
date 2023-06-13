@@ -184,6 +184,12 @@ const loadAnimations = (gameScene) => {
     frames: gameScene.anims.generateFrameNumbers("fireball", { start: 56, end: 63 }),
     repeat: 0
   })
+  gameScene.anims.create({
+    key: "fireball_explosion",
+    frameRate: 8,
+    frames: gameScene.anims.generateFrameNumbers("explosion", { start: 2, end: 8 }),
+    repeat: 0
+  })
 
 }
 export {loadAnimations}

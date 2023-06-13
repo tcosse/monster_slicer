@@ -7,7 +7,7 @@ export class Fireball extends Phaser.Physics.Arcade.Sprite {
     this.start = start
     gameScene.physics.add.world.enableBody(this, 0);
     this.depth = 2;
-    //this.setSize(15, 20)
+    this.setScale(0.5, 0.5)
     //this.setOffset(17,22)
     this.depth = 2;
     switch(direction) {
@@ -46,6 +46,8 @@ export class Fireball extends Phaser.Physics.Arcade.Sprite {
       default:
     }
     // la boule se détruit auto apres 2 secs. Il faut mettre d'autres conditions : toucher le MC ou un mur + ajouter une animation d'explosion
+    gameScene.time.delayedCall(1500, () => {this.setVelocity(0,0)});
+    gameScene.time.delayedCall(1500, () => {this.play("fireball_explosion", true)});
     gameScene.time.delayedCall(2000, () => {this.destroy()});
 
     gameScene.add.existing(this);
