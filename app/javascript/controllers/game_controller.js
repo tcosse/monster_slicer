@@ -200,7 +200,7 @@ export default class extends Controller {
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
       console.log("spawned: ", this)
       console.log(this.knight.x)
-      const fireball = new Fireball({x: this.knight.x, y: this.knight.y+30}, this.gameScene, "top", this.knight)
+      const fireball = new Fireball({x: this.knight.x, y: this.knight.y+100}, this.gameScene, "bottom", this)
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
 
@@ -214,6 +214,7 @@ export default class extends Controller {
       this.gameScene.cameras.main.setZoom(2)
       const characters = this.skeletons.concat(this.knight)
       this.gameScene.physics.add.collider(characters, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer])
+      this.gameScene.physics.add.collider(fireball, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer])
       // const coinsLabel = this.gameScene.add.text(100, 100, '0', {
       //   fontSize: '100'
       // })
