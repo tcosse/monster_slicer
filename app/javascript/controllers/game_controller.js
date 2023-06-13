@@ -147,16 +147,16 @@ export default class extends Controller {
       // Add tileset to the scene
       const map = this.gameScene.make.tilemap( {key:'dungeon'} )
       const tileset = map.addTilesetImage('basictiles', 'tiles', 16, 16, 1, 2)
-      const groundLayer = map.createLayer('Ground', tileset)
-      const lavaLayer = map.createLayer('Lava', tileset)
+      this.groundLayer = map.createLayer('Ground', tileset)
+      this.lavaLayer = map.createLayer('Lava', tileset)
       map.createLayer('Path', tileset)
-      const wallsLayer = map.createLayer('Walls', tileset)
-      const upperWallsLayer = map.createLayer('Upper_walls', tileset)
-      const treesLayer = map.createLayer('Trees', tileset)
-      const furnituresLayer = map.createLayer('Furnitures', tileset)
-      wallsLayer.setCollisionByProperty( {collision: true} )
-      upperWallsLayer.setCollisionByProperty( {collision: true} )
-      treesLayer.setCollisionByProperty( {collision: true} )
+      this.wallsLayer = map.createLayer('Walls', tileset)
+      this.upperWallsLayer = map.createLayer('Upper_walls', tileset)
+      this.treesLayer = map.createLayer('Trees', tileset)
+      this.furnituresLayer = map.createLayer('Furnitures', tileset)
+      this.wallsLayer.setCollisionByProperty( {collision: true} )
+      this.upperWallsLayer.setCollisionByProperty( {collision: true} )
+      this.treesLayer.setCollisionByProperty( {collision: true} )
       // furnituresLayer.setCollisionByProperty( {collision: true} )
 
       // Uncomment the following lines to see which tiles collide
@@ -211,7 +211,7 @@ export default class extends Controller {
       this.gameScene.cameras.main.startFollow(this.knight);
       this.gameScene.cameras.main.setZoom(2)
       const characters = this.skeletons.concat(this.knight)
-      this.gameScene.physics.add.collider(characters, [wallsLayer, upperWallsLayer, furnituresLayer, treesLayer])
+      this.gameScene.physics.add.collider(characters, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer])
       // const coinsLabel = this.gameScene.add.text(100, 100, '0', {
       //   fontSize: '100'
       // })
@@ -257,7 +257,7 @@ export default class extends Controller {
       scene: [this.gameScene, UIScene, this.pauseScene],
       physics: {
         default: 'arcade',
-        arcade: { debug: true }
+        arcade: { debug: false }
       }
     };
     let game = new Phaser.Game(config);
@@ -284,6 +284,7 @@ export default class extends Controller {
         skeleton.addPhysics(this.knight)
         this.skeletons.push(skeleton)
       });
+      this.gameScene.physics.add.collider(newSkeletons, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer])
     }
     return this.skeletons
 
