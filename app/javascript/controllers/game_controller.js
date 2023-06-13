@@ -192,7 +192,9 @@ export default class extends Controller {
       // const coinsLabel = this.gameScene.add.text(100, 100, '0', {
       //   fontSize: '100'
       // })
-      this.gameScene.scene.run('ui-scene')
+      // this.gameScene.scene.run('ui-scene')
+
+      this.gameScene.scene.add('ui-scene', UIScene , true, {gameScene: this.gameScene} )
     }
 
 
@@ -228,7 +230,7 @@ export default class extends Controller {
         height: 800,
         autoCenter: Phaser.Scale.CENTER_BOTH,
       },
-      scene: [this.gameScene, UIScene, this.pauseScene],
+      scene: [this.gameScene, this.UIScene, this.pauseScene],
       physics: {
         default: 'arcade',
         arcade: { debug: false }

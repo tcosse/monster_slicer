@@ -7,19 +7,21 @@ export class UIScene extends Phaser.Scene
 	{
 		super('ui-scene')
 	}
-
+  
   create() {
-    this.skeletonKillsLabel = this.add.text(10, 20, 'Kills : 0', {
+    this.gameScene = this.scene.settings.data.gameScene
+
+    this.skeletonKillsLabel = this.add.text(10, 20, `Kills : ${this.gameScene.kills}`, {
       fontFamily: 'VT323',
       fontSize: 30,
     })
 
-    this.coinCountLabel = this.add.text(10, 50, 'Coins : 0', {
+    this.coinCountLabel = this.add.text(10, 50, `Coins : ${this.gameScene.coinCount}`, {
       fontFamily: 'VT323',
       fontSize: 30,
     })
 
-    this.scoreLabel = this.add.text(640, 20, 'Score : 0', {
+    this.scoreLabel = this.add.text(640, 20, `Score : ${this.gameScene.coinCount}`, {
       fontFamily: 'VT323',
       fontSize: 30,
     })
