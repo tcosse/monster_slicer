@@ -15,6 +15,8 @@ pin 'knight', preload: true
 pin 'skeleton', preload: true
 pin 'phaser_health', preload: true
 pin 'weapon', preload: true
+pin 'events_center', preload: true
+pin 'ui_scene', preload: true
 pin 'pause_scene', preload: true
 pin 'coin', preload: true
 pin 'coin_count', preload: true

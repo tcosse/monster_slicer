@@ -6,6 +6,8 @@ import {CoinCount} from "coin_count"
 import {PauseScene} from "pause_scene"
 import { loadAnimations } from "game_loader"
 import { loadSounds } from "game_loader"
+import { eventsCenter } from 'events_center'
+import { UIScene } from 'ui_scene'
 
 
 
@@ -44,7 +46,6 @@ export default class extends Controller {
     wilhelmSound: String,
 
   }
-
 
   connect() {
     const bgImageUrl = this.bgImageUrlValue
@@ -158,7 +159,7 @@ export default class extends Controller {
       console.log(lastSaveMc)
       this.knight = new Knight({x:lastSaveMc[0], y: lastSaveMc[1]}, this.gameScene, this.coinCount, lastSaveMc[2])
       this.skeleCount = 4
-      this.skelesKilled = 0
+      this.gameScene.score = 0
 
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
       console.log("spawned: ", this)
@@ -174,10 +175,13 @@ export default class extends Controller {
       this.gameScene.cameras.main.startFollow(this.knight);
       this.gameScene.cameras.main.setZoom(2)
       const characters = this.skeletons.concat(this.knight)
-      const WallsCollider = this.gameScene.physics.add.collider(characters, [wallsLayer, upperWallsLayer, furnituresLayer, treesLayer])
+      this.gameScene.physics.add.collider(characters, [wallsLayer, upperWallsLayer, furnituresLayer, treesLayer])
+      // const coinsLabel = this.gameScene.add.text(100, 100, '0', {
+      //   fontSize: '100'
+      // })
+      this.gameScene.scene.run('ui-scene')
+    }
 
-
-    };
 
     this.gameScene.update = () => {
       this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
@@ -199,7 +203,6 @@ export default class extends Controller {
           window.location.replace(this.gameoverUrl);
         }, "1000");
         this.gameScene.physics.world.disableUpdate()
-
       }
 
       this.coinCount.showScore()
@@ -208,10 +211,10 @@ export default class extends Controller {
     let config = {
       type: Phaser.AUTO,
       parent: 'game',
-      // mode: Phaser.Scale.RESIZE,
+      mode: Phaser.Scale.RESIZE,
       width: 750,
       height: 650,
-      scene: [this.gameScene, this.pauseScene],
+      scene: [this.gameScene, UIScene, this.pauseScene],
       autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       physics: {
         default: 'arcade',
@@ -220,7 +223,6 @@ export default class extends Controller {
     };
     let game = new Phaser.Game(config);
   }
-
 
   #spawnSkeletons(skeleCount){
     let skeletons = []
@@ -244,9 +246,6 @@ export default class extends Controller {
         this.skeletons.push(skeleton)
       });
     }
-
-
-    // console.log(this.skeletons)
     return this.skeletons
 
   }
