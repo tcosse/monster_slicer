@@ -6,7 +6,7 @@ export class CoinCount extends Phaser.GameObjects.Text {
     super(gameScene, 100, 120, "0", { font: "20px calibri", fill: "black", align:"center" })
     this.style = { font: '40px', fill: "black", align:"center", backgroundColor: "white" }
     this.gameScene = gameScene
-    this.totalScore = 0;
+    this.CointCount = 0;
   }
 
   showScore() {
