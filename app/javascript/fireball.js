@@ -8,7 +8,7 @@ export class Fireball extends Phaser.Physics.Arcade.Sprite {
     gameScene.physics.add.world.enableBody(this, 0);
     this.depth = 2;
     this.setScale(0.5, 0.5)
-    //this.setOffset(17,22)
+    this.setOffset(15,10)
     this.depth = 2;
 
     // décide de la direction et la vitesse de la fireball
@@ -48,8 +48,16 @@ export class Fireball extends Phaser.Physics.Arcade.Sprite {
       default:
     }
     // la boule se détruit auto apres 2 secs. Il faut mettre d'autres conditions : toucher le MC ou un mur + ajouter une animation d'explosion
+    // if boule overlap MC ou boule overlap mur ou temps = 1,5 s => BOUM
+    gameScene.physics.add.overlap(this, gameScene.knight, (gameObject1, gameObject2) => {
+      this.setVelocity(0,0)
+      this.setOffset(80,72)
+      this.play("fireball_explosion", true)
+      gameScene.time.delayedCall(500, () => {this.destroy()})
+    });
 
     gameScene.time.delayedCall(1500, () => {this.setVelocity(0,0)});
+    gameScene.time.delayedCall(1500, () => {this.setOffset(80,72)});
     gameScene.time.delayedCall(1500, () => {this.play("fireball_explosion", true)});
     gameScene.time.delayedCall(2000, () => {this.destroy()});
 
