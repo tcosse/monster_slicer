@@ -154,7 +154,14 @@ export default class extends Controller {
       //   collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
       //   faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       // });
-      this.newStartMc = [(35 * 16), (12 * 16), 50, 0]
+      this.newStartMc = {
+        x: (35 * 16),
+        y:  (12 * 16),
+        health: 50,
+        cointCount: 0,
+        kills: 0,
+        score: 0,
+      };
       if(lastSaveMc.length == 0){
         console.log("AA")
         lastSaveMc = this.newStartMc
@@ -233,8 +240,8 @@ export default class extends Controller {
   #spawnSkeletons(skeleCount){
     let skeletons = []
     for(let i = 0; i < skeleCount; i++) {
-      let randX =  Math.floor(Math.random() * (42*16 - 27*16) + 27*16)
-      let randY =  Math.floor(Math.random() * (33*16 - 28*16) + 28*16)
+      let randX =  Math.floor(Math.random() * (65*16 - 43*16) + 43*16)
+      let randY =  Math.floor(Math.random() * (41*16 - 27*16) + 27*16)
       let skeleton = new Skeleton({x: randX,y:randY}, this.gameScene)
       skeletons.push(skeleton)
     }
@@ -243,9 +250,9 @@ export default class extends Controller {
   }
   #checkSkeleton(){
     let newSkeletons = []
-    while(this.skeletons.length < this.skeleCount + this.knight.skeleKilled*2) {
-      let randX =  Math.floor(Math.random() * (61*16 - 47*16) + 47*16)
-      let randY =  Math.floor(Math.random() * (58*16 - 37*16) + 37*16)
+    while(this.skeletons.length < this.skeleCount + this.knight.skeleKilled*4) {
+      let randX =  Math.floor(Math.random() * (96*16 - 70*16) + 70*16)
+      let randY =  Math.floor(Math.random() * (47*16 - 33*16) + 33*16)
       newSkeletons.push(new Skeleton({x: randX,y:randY}, this.gameScene))
       newSkeletons.forEach(skeleton => {
         skeleton.addPhysics(this.knight)
@@ -256,19 +263,10 @@ export default class extends Controller {
 
   }
   #saveKnight(newStartMc){
-    const mainCharacter = {
-      x: newStartMc[0],
-      y: newStartMc[1],
-      health: newStartMc[2],
-      cointCount: newStartMc[3],
-      kills: newStartMc[4],
-      score: newStartMc[5],
-    };
-
     fetch("/main_characters", {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(mainCharacter)
+      body: JSON.stringify(newStartMc)
     }).then(res => {
       console.log("Request complete! response:", res);
     });
