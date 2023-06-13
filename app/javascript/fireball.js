@@ -25,11 +25,6 @@ export class Fireball extends Phaser.Physics.Arcade.Sprite {
       this.#dealDamage()
     });
 
-    controller.gameScene.physics.add.collider(this, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer], () => {
-      console.log("AAA")
-      this.#explodeAndDestroy()
-    })
-
     gameScene.time.delayedCall(1500, () => {
       this.#explodeAndDestroy()
     });
