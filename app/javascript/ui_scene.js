@@ -7,7 +7,7 @@ export class UIScene extends Phaser.Scene
 	{
 		super('ui-scene')
 	}
-  
+
   create() {
     this.gameScene = this.scene.settings.data.gameScene
 
@@ -22,7 +22,6 @@ export class UIScene extends Phaser.Scene
     })
 
     this.scoreLabel = this.add.text(640, 20, `Score : ${this.gameScene.coinCount}`, {
-    this.scoreLabel = this.add.text(640, 20, '', {
       fontFamily: 'VT323',
       fontSize: 30,
     })
