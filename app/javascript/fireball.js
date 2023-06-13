@@ -25,9 +25,6 @@ export class Fireball extends Phaser.Physics.Arcade.Sprite {
       this.#dealDamage()
     });
 
-    /* gameScene.physics.add.overlap(this, this.walls, (gameObject1, gameObject2) => {
-      this.#explodeAndDestroy()
-    }); */
     controller.gameScene.physics.add.collider(this, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer], () => {
       console.log("AAA")
       this.#explodeAndDestroy()
