@@ -170,7 +170,7 @@ export default class extends Controller {
       //   faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       // });
       this.newStartMc = {
-        x: (35 * 16),
+        x: (50 * 16),
         y:  (12 * 16),
         health: 50,
         coins: 0,
@@ -200,7 +200,7 @@ export default class extends Controller {
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
       console.log("spawned: ", this)
       console.log(this.knight.x)
-      const fireball = new Fireball({x: this.knight.x, y: this.knight.y+30}, this.gameScene, "top")
+      const fireball = new Fireball({x: this.knight.x, y: this.knight.y+30}, this.gameScene, "top", this.knight)
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
 
