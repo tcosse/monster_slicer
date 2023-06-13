@@ -211,8 +211,8 @@ export default class extends Controller {
       scale : {
         parent: 'game',
         mode: Phaser.Scale.FIT,
-        width: 750,
-        height: 650,
+        width: 800,
+        height: 800,
         autoCenter: Phaser.Scale.CENTER_BOTH,
       },
       scene: [this.gameScene, UIScene, this.pauseScene],
