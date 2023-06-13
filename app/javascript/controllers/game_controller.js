@@ -2,11 +2,9 @@ import { Controller } from "@hotwired/stimulus"
 import * as Phaser from "phaser"
 import {Skeleton} from "skeleton"
 import {Knight} from "knight"
-import {CoinCount} from "coin_count"
 import {PauseScene} from "pause_scene"
 import { loadAnimations } from "game_loader"
 import { loadSounds } from "game_loader"
-import { eventsCenter } from 'events_center'
 import { UIScene } from 'ui_scene'
 
 
@@ -155,11 +153,11 @@ export default class extends Controller {
         console.log("AA")
         lastSaveMc = this.newStartMc
       }
-      this.coinCount = new CoinCount(this.gameScene, lastSaveMc[3])
       console.log(lastSaveMc)
-      this.knight = new Knight({x:lastSaveMc[0], y: lastSaveMc[1]}, this.gameScene, this.coinCount, lastSaveMc[2])
       this.skeleCount = 4
-      this.gameScene.score = 0
+      this.gameScene.kills = 0
+      this.gameScene.coinCount = 0
+      this.knight = new Knight({x:lastSaveMc[0], y: lastSaveMc[1]}, this.gameScene, lastSaveMc[2])
 
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
       console.log("spawned: ", this)
@@ -204,8 +202,6 @@ export default class extends Controller {
         }, "1000");
         this.gameScene.physics.world.disableUpdate()
       }
-
-      this.coinCount.showScore()
     }
 
     let config = {
