@@ -8,6 +8,7 @@ import { loadSounds } from "game_loader"
 import { UIScene } from 'ui_scene'
 import { Snake } from 'snake'
 import {Fireball} from 'fireball'
+// import {Spell} from 'spell'
 import { eventsCenter } from 'events_center'
 
 
@@ -44,12 +45,14 @@ export default class extends Controller {
     snakeHeadImageUrl: String,
     snakeBodyImageUrl: String,
     snakeImageUrl: String,
+    spellUrl: String,
 
     coinSound: String,
     healSound: String,
     wilhelmSound: String,
     fireballUrl: String,
     explosionUrl: String,
+    spellSound: String,
   }
 
   connect() {
@@ -79,8 +82,10 @@ export default class extends Controller {
     const coinSound = this.coinSoundValue
     const healSound = this.healSoundValue
     const wilhelmSound = this.wilhelmSoundValue
+    const spellSound = this.spellSoundValue
     const fireballUrl = this.fireballUrlValue
     const explosionUrl = this.explosionUrlValue
+    const spellUrl = this.spellUrlValue
 
     this.gameoverUrl = this.gameoverValue
 
@@ -115,12 +120,15 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('fireball', fireballUrl, {frameWidth: 64, frameHeight:64})
       this.gameScene.load.spritesheet('explosion', explosionUrl, {frameWidth: 190, frameHeight:190})
 
+      this.gameScene.load.spritesheet('spell', spellUrl, {frameWidth: 16, frameHeight:24})
+
       console.log("death: ", deathSound)
       this.gameScene.load.audio("death_sound", deathSound)
       this.gameScene.load.audio("slash_sound", slashSound)
       this.gameScene.load.audio("coin_sound", coinSound)
       this.gameScene.load.audio("heal_sound", healSound)
       this.gameScene.load.audio("wilhelm_sound", wilhelmSound)
+      this.gameScene.load.audio("spell_sound", spellSound)
 
       console.log(this.gameScene)
 
@@ -259,7 +267,7 @@ export default class extends Controller {
       scene: [this.gameScene, this.UIScene, this.pauseScene],
       physics: {
         default: 'arcade',
-        arcade: { debug: false }
+        arcade: { debug: true }
       }
     };
     let game = new Phaser.Game(config);
