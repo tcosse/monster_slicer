@@ -1,7 +1,7 @@
 import * as Phaser from "phaser"
 
 export class Fireball extends Phaser.Physics.Arcade.Sprite {
-  constructor(start, gameScene, direction) {
+  constructor(start, gameScene, direction, knight) {
     const direction_initiale = "fireball_"+direction
     super(gameScene, start.x, start.y, direction_initiale)
     this.start = start
@@ -10,6 +10,7 @@ export class Fireball extends Phaser.Physics.Arcade.Sprite {
     this.setScale(0.5, 0.5)
     this.setOffset(15,10)
     this.depth = 2;
+    this.gameScene = gameScene
 
     // décide de la direction et la vitesse de la fireball
     switch(direction) {
@@ -49,18 +50,27 @@ export class Fireball extends Phaser.Physics.Arcade.Sprite {
     }
     // la boule se détruit auto apres 2 secs. Il faut mettre d'autres conditions : toucher le MC ou un mur + ajouter une animation d'explosion
     // if boule overlap MC ou boule overlap mur ou temps = 1,5 s => BOUM
-    gameScene.physics.add.overlap(this, gameScene.knight, (gameObject1, gameObject2) => {
+    console.log(knight)
+    console.log(this)
+    gameScene.physics.add.overlap(this, knight, (gameObject1, gameObject2) => {
+      this.#explodeAndDestroy()
+    });
+
+
+    gameScene.time.delayedCall(1500, () => {
+      this.#explodeAndDestroy()
+    });
+
+    gameScene.add.existing(this);
+  }
+
+  #explodeAndDestroy() {
+    if(!this.exploding){
+      this.exploding = true
       this.setVelocity(0,0)
       this.setOffset(80,72)
       this.play("fireball_explosion", true)
-      gameScene.time.delayedCall(500, () => {this.destroy()})
-    });
-
-    gameScene.time.delayedCall(1500, () => {this.setVelocity(0,0)});
-    gameScene.time.delayedCall(1500, () => {this.setOffset(80,72)});
-    gameScene.time.delayedCall(1500, () => {this.play("fireball_explosion", true)});
-    gameScene.time.delayedCall(2000, () => {this.destroy()});
-
-    gameScene.add.existing(this);
+      this.gameScene.time.delayedCall(500, () => {this.destroy()})
+    }
   }
 }
