@@ -224,7 +224,7 @@ export default class extends Controller {
       scene: [this.gameScene, UIScene, this.pauseScene],
       physics: {
         default: 'arcade',
-        arcade: { debug: false }
+        arcade: { debug: true }
       }
     };
     let game = new Phaser.Game(config);
