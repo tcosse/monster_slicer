@@ -20,9 +20,9 @@ export class UIScene extends Phaser.Scene
     eventsCenter.addListener('update-score', this.#updateScore, this)
 
     // clean up when Scene is shutdown
-    // this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
-    //   eventsCenter.off('score-count', this.updateCount, this)
-    // })
+    this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
+      eventsCenter.off('update-score', this.#updateScore, this)
+    })
   }
 
 	#updateScore(score) {

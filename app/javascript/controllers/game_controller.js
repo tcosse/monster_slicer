@@ -191,9 +191,6 @@ export default class extends Controller {
         this.skeletons.push(skeleton)
       });
     }
-
-
-    // console.log(this.skeletons)
     return this.skeletons
 
   }}
