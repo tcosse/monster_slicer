@@ -8,7 +8,7 @@ import { loadAnimations } from "game_loader"
 import { loadSounds } from "game_loader"
 import { eventsCenter } from 'events_center'
 import { UIScene } from 'ui_scene'
-
+import {Fireball} from 'fireball'
 
 
 // Pas sur que ce soit encore necessaire car present dans les fichiers skeleton et knight.js
@@ -166,6 +166,7 @@ export default class extends Controller {
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
       console.log("spawned: ", this)
       console.log(this.knight.x)
+      const fireball = new Fireball({x: this.knight.x+5, y: this.knight.y-5}, this.gameScene, "top")
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
 
