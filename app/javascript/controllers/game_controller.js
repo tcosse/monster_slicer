@@ -2,13 +2,12 @@ import { Controller } from "@hotwired/stimulus"
 import * as Phaser from "phaser"
 import {Skeleton} from "skeleton"
 import {Knight} from "knight"
-import {CoinCount} from "coin_count"
 import {PauseScene} from "pause_scene"
 import { loadAnimations } from "game_loader"
 import { loadSounds } from "game_loader"
-import { eventsCenter } from 'events_center'
 import { UIScene } from 'ui_scene'
 import { Snake } from 'snake'
+import {Fireball} from 'fireball'
 
 
 
@@ -48,7 +47,8 @@ export default class extends Controller {
     coinSound: String,
     healSound: String,
     wilhelmSound: String,
-
+    fireballUrl: String,
+    explosionUrl: String,
   }
 
   connect() {
@@ -78,6 +78,8 @@ export default class extends Controller {
     const coinSound = this.coinSoundValue
     const healSound = this.healSoundValue
     const wilhelmSound = this.wilhelmSoundValue
+    const fireballUrl = this.fireballUrlValue
+    const explosionUrl = this.explosionUrlValue
 
     this.gameoverUrl = this.gameoverValue
 
@@ -109,6 +111,8 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('player_all', newPlayerUrl, {frameWidth: 48, frameHeight:48})
       this.gameScene.load.spritesheet('skeleton_all', newSkeletonUrl, {frameWidth: 64, frameHeight:64})
 
+      this.gameScene.load.spritesheet('fireball', fireballUrl, {frameWidth: 64, frameHeight:64})
+      this.gameScene.load.spritesheet('explosion', explosionUrl, {frameWidth: 190, frameHeight:190})
 
       console.log("death: ", deathSound)
       this.gameScene.load.audio("death_sound", deathSound)
@@ -162,20 +166,29 @@ export default class extends Controller {
       //   collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
       //   faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       // });
-      this.newStartMc = [(35 * 16), (12 * 16), 50]
-      this.coinCount = new CoinCount(this.gameScene)
+      this.newStartMc = {
+        x: (35 * 16),
+        y:  (12 * 16),
+        health: 50,
+        cointCount: 0,
+        kills: 0,
+        score: 0,
+      };
       if(lastSaveMc.length == 0){
         console.log("AA")
         lastSaveMc = this.newStartMc
       }
       console.log(lastSaveMc)
-      this.knight = new Knight({x:lastSaveMc[0], y: lastSaveMc[1]}, this.gameScene, this.coinCount, lastSaveMc[2])
       this.skeleCount = 4
+      this.gameScene.kills = 0
+      this.gameScene.coinCount = 0
       this.gameScene.score = 0
+      this.knight = new Knight({x:lastSaveMc[0], y: lastSaveMc[1]}, this.gameScene, lastSaveMc[2])
 
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
       console.log("spawned: ", this)
       console.log(this.knight.x)
+      const fireball = new Fireball({x: this.knight.x+5, y: this.knight.y-5}, this.gameScene, "top")
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
 
@@ -219,21 +232,21 @@ export default class extends Controller {
         }, "1000");
         this.gameScene.physics.world.disableUpdate()
       }
-
-      this.coinCount.showScore()
     }
 
     let config = {
       type: Phaser.AUTO,
-      parent: 'game',
-      mode: Phaser.Scale.RESIZE,
-      width: 750,
-      height: 650,
+      scale : {
+        parent: 'game',
+        mode: Phaser.Scale.FIT,
+        width: 800,
+        height: 800,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+      },
       scene: [this.gameScene, UIScene, this.pauseScene],
-      autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       physics: {
         default: 'arcade',
-        arcade: { debug: false }
+        arcade: { debug: true }
       }
     };
     let game = new Phaser.Game(config);
@@ -242,8 +255,8 @@ export default class extends Controller {
   #spawnSkeletons(skeleCount){
     let skeletons = []
     for(let i = 0; i < skeleCount; i++) {
-      let randX =  Math.floor(Math.random() * (42*16 - 27*16) + 27*16)
-      let randY =  Math.floor(Math.random() * (33*16 - 28*16) + 28*16)
+      let randX =  Math.floor(Math.random() * (65*16 - 43*16) + 43*16)
+      let randY =  Math.floor(Math.random() * (41*16 - 27*16) + 27*16)
       let skeleton = new Skeleton({x: randX,y:randY}, this.gameScene)
       skeletons.push(skeleton)
     }
@@ -252,9 +265,9 @@ export default class extends Controller {
   }
   #checkSkeleton(){
     let newSkeletons = []
-    while(this.skeletons.length < this.skeleCount + this.knight.skeleKilled*2) {
-      let randX =  Math.floor(Math.random() * (61*16 - 47*16) + 47*16)
-      let randY =  Math.floor(Math.random() * (58*16 - 37*16) + 37*16)
+    while(this.skeletons.length < this.skeleCount + this.knight.skeleKilled*4) {
+      let randX =  Math.floor(Math.random() * (96*16 - 70*16) + 70*16)
+      let randY =  Math.floor(Math.random() * (47*16 - 33*16) + 33*16)
       newSkeletons.push(new Skeleton({x: randX,y:randY}, this.gameScene))
       newSkeletons.forEach(skeleton => {
         skeleton.addPhysics(this.knight)
@@ -265,16 +278,10 @@ export default class extends Controller {
 
   }
   #saveKnight(newStartMc){
-    const mainCharacter = {
-      x: newStartMc[0],
-      y: newStartMc[1],
-      health: newStartMc[2]
-    };
-
     fetch("/main_characters", {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(mainCharacter)
+      body: JSON.stringify(newStartMc)
     }).then(res => {
       console.log("Request complete! response:", res);
     });

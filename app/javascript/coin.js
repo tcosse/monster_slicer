@@ -1,4 +1,6 @@
 import * as Phaser from "phaser"
+import { eventsCenter } from 'events_center'
+
 
 export class Coin extends Phaser.Physics.Arcade.Sprite{
   constructor(start, gameScene){
@@ -17,15 +19,16 @@ export class Coin extends Phaser.Physics.Arcade.Sprite{
 
     this.gameScene.physics.add.overlap(knight, this, (gameObject1, gameObject2) =>
     {
-      console.log('piece prise');
-      console.log(this)
+      // console.log('piece prise');
+      // console.log(this)
       if(this != undefined && this != null){
         this.gameScene.coinSound.play()
       }
-
       this.destroy()
-      console.log(knight.coinCount)
-      knight.coinCount.addPoint(1)
+      this.gameScene.coinCount += 1;
+      this.gameScene.score += 3;
+      eventsCenter.emit('update-coint-count', this.gameScene.coinCount)
+      eventsCenter.emit('update-score', this.gameScene.score)
       }
     );
 

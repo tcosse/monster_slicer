@@ -12,6 +12,7 @@ export class Potion extends Phaser.Physics.Arcade.Sprite{
   addPhysics(knight) {
     // if(this != null) {
     //   this.play('coin_rotate');
+    
     // }
     this.depth=1;
 
