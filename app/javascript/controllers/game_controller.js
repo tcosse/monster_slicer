@@ -158,6 +158,7 @@ export default class extends Controller {
       this.skeleCount = 4
       this.gameScene.kills = 0
       this.gameScene.coinCount = 0
+      this.gameScene.score = 0
       this.knight = new Knight({x:lastSaveMc[0], y: lastSaveMc[1]}, this.gameScene, lastSaveMc[2])
 
       this.skeletons = this.#spawnSkeletons(this.skeleCount)

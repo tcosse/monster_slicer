@@ -26,6 +26,7 @@ export class Coin extends Phaser.Physics.Arcade.Sprite{
       }
       this.destroy()
       this.gameScene.coinCount += 1;
+      this.gameScene.score += 1;
       eventsCenter.emit('update-coint-count', this.gameScene.coinCount)
       }
     );
