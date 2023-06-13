@@ -2,11 +2,9 @@ import { Controller } from "@hotwired/stimulus"
 import * as Phaser from "phaser"
 import {Skeleton} from "skeleton"
 import {Knight} from "knight"
-import {CoinCount} from "coin_count"
 import {PauseScene} from "pause_scene"
 import { loadAnimations } from "game_loader"
 import { loadSounds } from "game_loader"
-import { eventsCenter } from 'events_center'
 import { UIScene } from 'ui_scene'
 import {Fireball} from 'fireball'
 
@@ -137,6 +135,7 @@ export default class extends Controller {
       const map = this.gameScene.make.tilemap( {key:'dungeon'} )
       const tileset = map.addTilesetImage('basictiles', 'tiles', 16, 16, 1, 2)
       const groundLayer = map.createLayer('Ground', tileset)
+      const lavaLayer = map.createLayer('Lava', tileset)
       map.createLayer('Path', tileset)
       const wallsLayer = map.createLayer('Walls', tileset)
       const upperWallsLayer = map.createLayer('Upper_walls', tileset)
@@ -160,11 +159,12 @@ export default class extends Controller {
         console.log("AA")
         lastSaveMc = this.newStartMc
       }
-      this.coinCount = new CoinCount(this.gameScene, lastSaveMc[3])
       console.log(lastSaveMc)
-      this.knight = new Knight({x:lastSaveMc[0], y: lastSaveMc[1]}, this.gameScene, this.coinCount, lastSaveMc[2])
       this.skeleCount = 4
+      this.gameScene.kills = 0
+      this.gameScene.coinCount = 0
       this.gameScene.score = 0
+      this.knight = new Knight({x:lastSaveMc[0], y: lastSaveMc[1]}, this.gameScene, lastSaveMc[2])
 
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
       console.log("spawned: ", this)
@@ -210,18 +210,18 @@ export default class extends Controller {
         }, "1000");
         this.gameScene.physics.world.disableUpdate()
       }
-
-      this.coinCount.showScore()
     }
 
     let config = {
       type: Phaser.AUTO,
-      parent: 'game',
-      mode: Phaser.Scale.RESIZE,
-      width: 750,
-      height: 650,
+      scale : {
+        parent: 'game',
+        mode: Phaser.Scale.FIT,
+        width: 800,
+        height: 800,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+      },
       scene: [this.gameScene, UIScene, this.pauseScene],
-      autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       physics: {
         default: 'arcade',
         arcade: { debug: false }
@@ -260,7 +260,9 @@ export default class extends Controller {
       x: newStartMc[0],
       y: newStartMc[1],
       health: newStartMc[2],
-      score: newStartMc[3]
+      cointCount: newStartMc[3],
+      kills: newStartMc[4],
+      score: newStartMc[5],
     };
 
     fetch("/main_characters", {
