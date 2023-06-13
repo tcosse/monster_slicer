@@ -251,7 +251,9 @@ export default class extends Controller {
       x: newStartMc[0],
       y: newStartMc[1],
       health: newStartMc[2],
-      score: newStartMc[3]
+      cointCount: newStartMc[3],
+      kills: newStartMc[4],
+      score: newStartMc[5],
     };
 
     fetch("/main_characters", {

@@ -125,7 +125,9 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
             this.play("skeleton_death_new", true)
             knight.skeleKilled += 1
             this.gameScene.kills += 1
+            this.gameScene.score += 10
             eventsCenter.emit('update-skeleton-kills', this.gameScene.kills)
+            eventsCenter.emit('update-score', this.gameScene.score)
 
             // destroy the dead skeleton's colliders
             this.gameScene.physics.world.colliders._active.forEach(collider => {
