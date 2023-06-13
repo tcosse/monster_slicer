@@ -1,0 +1,23 @@
+<div class = "container-lb">
+  <h1>LEADERBOARD</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% MainCharacter.all.each do |character| %>
+        <tr>
+          <td>
+           <p><%= character.id %></p>
+          </td>
+          <td>
+            <p> <%=character.score %></p>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -12,6 +12,9 @@ class PagesController < ApplicationController
     end
   end
 
+  def leaderboard
+  end
+
   def gameover
   end
 end
