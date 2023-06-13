@@ -130,6 +130,8 @@ export default class extends Controller {
 
     // const skeleton_start =
     this.gameScene.create = () =>{
+      // this.gameScene.physics.world.setFPS(10)
+      // console.log(this.frameCnt)
       console.log(lastSaveMc)
       // creer la scene de pause
       this.gameScene.scene.add('pauseScene', PauseScene, false, {gameScene: this.gameScene, bgUrl: bgpauseUrl, controller: this})
