@@ -30,6 +30,15 @@ const loadAnimations = (gameScene) => {
     frames: gameScene.anims.generateFrameNumbers("knight_attack", { start: 0, end: 3 }),
     repeat: 0
   });
+
+  gameScene.anims.create({
+    key: 'coin_rotate',
+    frames: gameScene.anims.generateFrameNumbers("coin", { start: 0, end: 4 }),
+    frameRate: 6,
+    repeat: -1
+  })
+
+
   //                  //
   /* new player anims */
   //                  //
@@ -93,6 +102,35 @@ const loadAnimations = (gameScene) => {
     frames: gameScene.anims.generateFrameNumbers("player_all", { start: 54, end: 56 }),
     repeat: 0
   })
+
+  //                    //
+  /* new Skeleton anims */
+  //                    //
+
+  gameScene.anims.create({
+    key: "skeleton_idle_new",
+    frameRate: 12,
+    frames: gameScene.anims.generateFrameNumbers("skeleton_all", { start: 0, end: 5 }),
+    repeat: -1
+  })
+  gameScene.anims.create({
+    key: "skeleton_walk_new",
+    frameRate: 12,
+    frames: gameScene.anims.generateFrameNumbers("skeleton_all", { start: 6, end: 11 }),
+    repeat: -1
+  })
+  gameScene.anims.create({
+    key: "skeleton_attack_new",
+    frameRate: 12,
+    frames: gameScene.anims.generateFrameNumbers("skeleton_all", { start: 12, end: 16 }),
+    repeat: 0
+  })
+  gameScene.anims.create({
+    key: "skeleton_death_new",
+    frameRate: 12,
+    frames: gameScene.anims.generateFrameNumbers("skeleton_all", { start: 24, end: 28 }),
+    repeat: 0
+  })
 }
 export {loadAnimations}
 
@@ -100,5 +138,9 @@ export {loadAnimations}
 const loadSounds = (gameScene) => {
   gameScene.deathSound = gameScene.sound.add("death_sound")
   gameScene.slashSound = gameScene.sound.add("slash_sound")
+  gameScene.coinSound = gameScene.sound.add("coin_sound")
+  gameScene.healSound = gameScene.sound.add("heal_sound")
+  gameScene.wilhelmSound = gameScene.sound.add("wilhelm_sound")
+
 }
 export {loadSounds}
