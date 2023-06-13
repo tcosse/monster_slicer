@@ -6,7 +6,9 @@ import {PauseScene} from "pause_scene"
 import { loadAnimations } from "game_loader"
 import { loadSounds } from "game_loader"
 import { UIScene } from 'ui_scene'
+import { Snake } from 'snake'
 import {Fireball} from 'fireball'
+
 
 
 // Pas sur que ce soit encore necessaire car present dans les fichiers skeleton et knight.js
@@ -38,6 +40,9 @@ export default class extends Controller {
     lastSaveMc: Array,
     newSkeletonUrl: String,
     potionImageUrl: String,
+    snakeHeadImageUrl: String,
+    snakeBodyImageUrl: String,
+    snakeImageUrl: String,
 
     coinSound: String,
     healSound: String,
@@ -59,6 +64,9 @@ export default class extends Controller {
     const skeletonDeathImageUrl = this.skeletonDeathImageUrlValue
     const coinImageUrl = this.coinImageUrlValue
     const potionImageUrl = this.potionImageUrlValue
+    const snakeHeadImageUrl = this.snakeHeadImageUrlValue
+    const snakeBodyImageUrl = this.snakeBodyImageUrlValue
+    const snakeImageUrl = this.snakeImageUrlValue
     const emptyUrl = this.emptyUrlValue
     const bgpauseUrl = this.bgpauseUrlValue
     this.gameoverUrl = this.gameoverValue
@@ -90,6 +98,8 @@ export default class extends Controller {
       this.gameScene.load.image('empty', emptyUrl);
       this.gameScene.load.image('tiles', basicTiles);
       this.gameScene.load.image('potion', potionImageUrl);
+      this.gameScene.load.image('snake_head', snakeHeadImageUrl);
+      this.gameScene.load.image('snake_body', snakeBodyImageUrl);
       this.gameScene.load.tilemapTiledJSON('dungeon', tilemapUrl)
 
       this.gameScene.load.spritesheet('enemy_skeleton', skeletonImageUrl, {frameWidth: 16, frameHeight: 16})
@@ -100,8 +110,10 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 64 , frameHeight: 64 })
       this.gameScene.load.spritesheet('player_all', newPlayerUrl, {frameWidth: 48, frameHeight:48})
       this.gameScene.load.spritesheet('skeleton_all', newSkeletonUrl, {frameWidth: 64, frameHeight:64})
+
       this.gameScene.load.spritesheet('fireball', fireballUrl, {frameWidth: 64, frameHeight:64})
       this.gameScene.load.spritesheet('explosion', explosionUrl, {frameWidth: 190, frameHeight:190})
+
       console.log("death: ", deathSound)
       this.gameScene.load.audio("death_sound", deathSound)
       this.gameScene.load.audio("slash_sound", slashSound)
@@ -180,6 +192,7 @@ export default class extends Controller {
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
 
+      this.snake = new Snake({x: (35 * 16), y: (12 * 16)}, this.gameScene)
       // dégats gratuits
       // this.knight.damage(Phaser.Math.Between(8, 9))
 
@@ -193,6 +206,8 @@ export default class extends Controller {
       //   fontSize: '100'
       // })
       this.gameScene.scene.run('ui-scene')
+
+      console.log(this.snake)
     }
 
 
