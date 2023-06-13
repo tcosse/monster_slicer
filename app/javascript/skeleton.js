@@ -38,13 +38,18 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
   }
 
   moveSkeleton(knight){
-    var skeleton_speed = 30;
+    var skeleton_speed = 20;
     var distance_between = this.#calculateDistance(knight, this)
     // var skeleton_start_distance = Math.sqrt((skeleton_start[0]-this.object.x)**2 + (skeleton_start[1]-this.object.y)**2)
     var skeleton_start_distance = this.#calculateDistance(this.start, this)
 
     if(this.scene != undefined && this.isDead == false) {
-
+      if(this.body.newVelocity.x < 0){
+        this.flipX = true
+      }
+      else {
+        this.flipX = false
+      }
       if(this.anims.currentAnim.key == "skeleton_death_new") {
         this.setVelocity(0,0)
       }
@@ -52,12 +57,6 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
       {
           // console.log("rotation:", this.body.rotation)
           // if(this.body.acceleration["x"])
-          if(this.body.newVelocity.x < 0){
-            this.flipX = true
-          }
-          else {
-            this.flipX = false
-          }
           if(distance_between < 100 && distance_between > 10) {
             if(this.anims.currentAnim.key != "skeleton_attack_new"){
               this.play('skeleton_walk_new', true)
