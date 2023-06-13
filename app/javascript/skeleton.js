@@ -84,7 +84,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
             // prevents from running twice
             this.isDead = true;
             knight.skeleKilled += 1
-            console.log('score : ', this.gameScene.score)
+            this.gameScene.score += 10
             eventsCenter.emit('update-score', this.gameScene.score)
           } else {
             this.isDead = true

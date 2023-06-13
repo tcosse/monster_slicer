@@ -17,7 +17,7 @@ export class UIScene extends Phaser.Scene
 
     // listen to 'update-score' event and call `updateCount()
     // when it fires
-    eventsCenter.on('update-score', this.#updateScore)
+    eventsCenter.addListener('update-score', this.#updateScore, this)
 
     // clean up when Scene is shutdown
     // this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
@@ -26,8 +26,6 @@ export class UIScene extends Phaser.Scene
   }
 
 	#updateScore(score) {
-    console.log(this.label)
-    console.log('update score : ', score)
-		// this.label.text = `Score: ${score}`
+		this.label.text = `Score: ${score}`
 	}
 }
