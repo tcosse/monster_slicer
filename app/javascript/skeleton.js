@@ -60,7 +60,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
       {
           // console.log("rotation:", this.body.rotation)
           // if(this.body.acceleration["x"])
-          if(distance_between < 100 && distance_between > 10) {
+          if(distance_between < 200 && distance_between > 20) {
             if(this.anims.currentAnim.key != "skeleton_attack_new"){
               this.play('skeleton_walk_new', true)
               this.setVelocity(skeleton_speed*(knight.x-this.x)/distance_between, skeleton_speed*(knight.y-this.y)/distance_between);
@@ -69,9 +69,14 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
               this.chain('skeleton_walk_new', true)
             }
           }
-          else if(distance_between <= 10){
-            this.setVelocity(0,0)
+          else if(distance_between <= 20){
             this.play('skeleton_attack_new', true)
+            if(this.body.newVelocity.x < 0){
+              this.setVelocity(-0.001,0)
+            }
+            else {
+              this.setVelocity(0.001,0)
+            }
           }
           else if(this.x != this.start.x && this.y != this.start.y) {
             if(this.anims.currentAnim.key != "skeleton_attack_new"){
@@ -101,7 +106,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
       if(this.weapon == null){
         if(this.anims.currentFrame.frame.name == 15) { //middle of attack
           this.weapon = new Weapon(this.start, this.gameScene)
-          this.weapon.setSize(17,23).setOffset(10, 11)
+          this.weapon.setSize(43,25).setOffset(-3, 10)
           this.weapon.setPosition(this.x, this.y)
           console.log(this.anims.currentFrame.frame.name)
           this.gameScene.physics.add.overlap(this.weapon, knight, (gameObject1, gameObject2) => {
@@ -149,7 +154,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
             this.isDead = true;
             this.setVelocity(0,0)
             this.gameScene.deathSound.play()
-            this.gameScene.time.delayedCall(10000, () => {this.destroy()});
+            this.gameScene.time.delayedCall(5000, () => {this.destroy()});
             this.play("skeleton_death_new", true)
             knight.skeleKilled += 1
             this.gameScene.kills += 1
@@ -168,16 +173,21 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
             // spawn coins and potion
               const x = this.x
               const y = this.y + 10
-              if (Math.random() < 0.70) {
+              if (Math.random() < 0.5) {
                 console.log('spawn coin')
                 // console.log(x, y)
                 let coin = new Coin({ x, y } , this.gameScene)
+                this.gameScene.time.delayedCall(12000, () => coin.destroy());
                 coin.addPhysics(knight)
                 // console.log(coin)
               } else {
-                let potion = new Potion({ x, y }, this.gameScene)
-                potion.addPhysics(knight)
-                potion.setScale(0.4, 0.4)
+                if(Math.random() < 0.1) {
+                  let potion = new Potion({ x, y }, this.gameScene)
+                  this.gameScene.time.delayedCall(12000, () => potion.destroy());
+                  potion.addPhysics(knight)
+                  potion.setScale(0.4, 0.4)
+                }
+
               }
           }
         }

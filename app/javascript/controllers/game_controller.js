@@ -149,7 +149,7 @@ export default class extends Controller {
       //   collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
       //   faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       // });
-      this.newStartMc = [(35 * 16), (12 * 16), 50, 0]
+      this.newStartMc = [(50 * 16), (20 * 16), 50, 0]
       if(lastSaveMc.length == 0){
         console.log("AA")
         lastSaveMc = this.newStartMc
@@ -216,7 +216,7 @@ export default class extends Controller {
       autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       physics: {
         default: 'arcade',
-        arcade: { debug: true }
+        arcade: { debug: false }
       }
     };
     let game = new Phaser.Game(config);
@@ -225,8 +225,8 @@ export default class extends Controller {
   #spawnSkeletons(skeleCount){
     let skeletons = []
     for(let i = 0; i < skeleCount; i++) {
-      let randX =  Math.floor(Math.random() * (42*16 - 27*16) + 27*16)
-      let randY =  Math.floor(Math.random() * (33*16 - 28*16) + 28*16)
+      let randX =  Math.floor(Math.random() * (65*16 - 43*16) + 43*16)
+      let randY =  Math.floor(Math.random() * (41*16 - 27*16) + 27*16)
       let skeleton = new Skeleton({x: randX,y:randY}, this.gameScene)
       skeletons.push(skeleton)
     }
@@ -235,9 +235,9 @@ export default class extends Controller {
   }
   #checkSkeleton(){
     let newSkeletons = []
-    while(this.skeletons.length < this.skeleCount + this.knight.skeleKilled*2) {
-      let randX =  Math.floor(Math.random() * (61*16 - 47*16) + 47*16)
-      let randY =  Math.floor(Math.random() * (58*16 - 37*16) + 37*16)
+    while(this.skeletons.length < this.skeleCount + this.knight.skeleKilled*4) {
+      let randX =  Math.floor(Math.random() * (96*16 - 70*16) + 70*16)
+      let randY =  Math.floor(Math.random() * (47*16 - 33*16) + 33*16)
       newSkeletons.push(new Skeleton({x: randX,y:randY}, this.gameScene))
       newSkeletons.forEach(skeleton => {
         skeleton.addPhysics(this.knight)
