@@ -215,7 +215,7 @@ export default class extends Controller {
       autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       physics: {
         default: 'arcade',
-        arcade: { debug: false }
+        arcade: { debug: true }
       }
     };
     let game = new Phaser.Game(config);
