@@ -3,20 +3,30 @@
   <table>
     <thead>
       <tr>
-        <th>id</th>
-        <th>score</th>
+        <th>User</th>
+        <th>Coins Collected</th>
+        <th>Total Kills</th>
+        <th>High Score</th>
       </tr>
     </thead>
     <tbody>
-      <% MainCharacter.all.each do |character| %>
-        <tr>
-          <td>
-           <p><%= character.id %></p>
-          </td>
-          <td>
-            <p> <%=character.score %></p>
-          </td>
-        </tr>
+      <% User.order(highscore: :desc).each do |user| %>
+        <% if user.highscore != nil %>
+         <tr>
+            <td>
+              <p><%= user.email %></p>
+            </td>
+            <td>
+              <p> <%=user.total_coins %></p>
+            </td>
+            <td>
+              <p> <%=user.total_kills %></p>
+            </td>
+            <td>
+              <p> <%=user.highscore %></p>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>
