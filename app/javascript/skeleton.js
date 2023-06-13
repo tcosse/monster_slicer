@@ -106,24 +106,24 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
     // this.gameScene.enemy = this.gameScene.physics.add.image(enemy_start[0], enemy_start[1], 'enemy').setCollideWorldBounds(true);
     this.gameScene.physics.add.overlap(knight.weapon, this, (gameObject1, gameObject2) => {
       if (this.gameScene.input.keyboard.addKey("V").isDown || this.gameScene.input.manager.activePointer.primaryDown ) {
-        this.setTint(0xff6666)
+        this.setTint(0xff6666) // applies red color to skeleton when is attacked
         if (this.getHealth() > 0) {
+          // if the skeleton has health left, then apply damage
           knight.on('animationcomplete', () => {
             this.damage(15)
             this.clearTint()
-
           });
         }
         else {
-          this.setVelocity(0,0)
-          this.gameScene.deathSound.play()
-          this.gameScene.time.delayedCall(10000, () => {this.destroy()});
-          this.play("skeleton_death_new", true)
-
+          // if the skeleton has no life left, then he is considered as dead
           if (!this.isDead) {
-            // if the skeleton is beeing killed
+            // the skeleton is beeing killed
             // prevents from running twice
             this.isDead = true;
+            this.setVelocity(0,0)
+            this.gameScene.deathSound.play()
+            this.gameScene.time.delayedCall(10000, () => {this.destroy()});
+            this.play("skeleton_death_new", true)
             knight.skeleKilled += 1
             this.gameScene.score += 10
             eventsCenter.emit('update-score', this.gameScene.score)
@@ -134,14 +134,16 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
                   collider.destroy()
               }
             })
+
+            // spawn coins and potion
               const x = this.x
               const y = this.y + 10
               if (Math.random() < 0.70) {
                 console.log('spawn coin')
-                console.log(x, y)
+                // console.log(x, y)
                 let coin = new Coin({ x, y } , this.gameScene)
                 coin.addPhysics(knight)
-                console.log(coin)
+                // console.log(coin)
               } else {
                 let potion = new Potion({ x, y }, this.gameScene)
                 potion.addPhysics(knight)
