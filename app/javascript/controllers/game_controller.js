@@ -6,7 +6,7 @@ import {PauseScene} from "pause_scene"
 import { loadAnimations } from "game_loader"
 import { loadSounds } from "game_loader"
 import { UIScene } from 'ui_scene'
-
+import {Fireball} from 'fireball'
 
 
 // Pas sur que ce soit encore necessaire car present dans les fichiers skeleton et knight.js
@@ -42,7 +42,8 @@ export default class extends Controller {
     coinSound: String,
     healSound: String,
     wilhelmSound: String,
-
+    fireballUrl: String,
+    explosionUrl: String,
   }
 
   connect() {
@@ -69,6 +70,8 @@ export default class extends Controller {
     const coinSound = this.coinSoundValue
     const healSound = this.healSoundValue
     const wilhelmSound = this.wilhelmSoundValue
+    const fireballUrl = this.fireballUrlValue
+    const explosionUrl = this.explosionUrlValue
 
     this.gameoverUrl = this.gameoverValue
 
@@ -97,6 +100,8 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 64 , frameHeight: 64 })
       this.gameScene.load.spritesheet('player_all', newPlayerUrl, {frameWidth: 48, frameHeight:48})
       this.gameScene.load.spritesheet('skeleton_all', newSkeletonUrl, {frameWidth: 64, frameHeight:64})
+      this.gameScene.load.spritesheet('fireball', fireballUrl, {frameWidth: 64, frameHeight:64})
+      this.gameScene.load.spritesheet('explosion', explosionUrl, {frameWidth: 190, frameHeight:190})
       console.log("death: ", deathSound)
       this.gameScene.load.audio("death_sound", deathSound)
       this.gameScene.load.audio("slash_sound", slashSound)
@@ -164,6 +169,7 @@ export default class extends Controller {
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
       console.log("spawned: ", this)
       console.log(this.knight.x)
+      const fireball = new Fireball({x: this.knight.x+5, y: this.knight.y-5}, this.gameScene, "top")
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
 
