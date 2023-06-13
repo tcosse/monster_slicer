@@ -11,6 +11,6 @@ class MainCharactersController < ApplicationController
   private
 
   def character_params
-    params.require(:main_character).permit(:x, :y, :health, :score)
+    params.require(:main_character).permit(:x, :y, :health, :score, :kills, :coins)
   end
 end

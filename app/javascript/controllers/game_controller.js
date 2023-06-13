@@ -7,6 +7,7 @@ import { loadAnimations } from "game_loader"
 import { loadSounds } from "game_loader"
 import { UIScene } from 'ui_scene'
 import {Fireball} from 'fireball'
+import { eventsCenter } from 'events_center'
 
 
 // Pas sur que ce soit encore necessaire car present dans les fichiers skeleton et knight.js
@@ -165,13 +166,22 @@ export default class extends Controller {
       if(lastSaveMc.length == 0){
         console.log("AA")
         lastSaveMc = this.newStartMc
+      } else {
+        lastSaveMc = {
+          x: lastSaveMc[0],
+          y:  lastSaveMc[1],
+          health: lastSaveMc[2],
+          coins: lastSaveMc[5],
+          kills: lastSaveMc[4],
+          score: lastSaveMc[3],
+        }
       }
       console.log(lastSaveMc)
       this.skeleCount = 4
-      this.gameScene.kills = 0
-      this.gameScene.coinCount = 0
-      this.gameScene.score = 0
-      this.knight = new Knight({x:lastSaveMc[0], y: lastSaveMc[1]}, this.gameScene, lastSaveMc[2])
+      this.gameScene.kills = lastSaveMc.kills
+      this.gameScene.coinCount = lastSaveMc.coins
+      this.gameScene.score = lastSaveMc.score
+      this.knight = new Knight({x:lastSaveMc.x, y: lastSaveMc.y}, this.gameScene, lastSaveMc.health)
 
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
       console.log("spawned: ", this)
@@ -209,6 +219,7 @@ export default class extends Controller {
         this.knight.isDead = true
         //this.gameScene.wilhelmSound.play() // :( save wilhelm
         this.knight.setVelocity(0,0);
+        this.#saveKnight({x: 0, y: 0, health: 0, score: this.gameScene.score, kills: this.gameScene.kills, coins: this.gameScene.coinCount})
         this.#saveKnight(this.newStartMc)
 
         // this.play('dead', true)
