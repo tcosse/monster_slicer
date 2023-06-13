@@ -202,7 +202,7 @@ export default class extends Controller {
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
 
-      this.snake = new Snake({x: (35 * 16), y: (12 * 16)}, this.gameScene)
+      this.snake = new Snake({x: (46 * 16), y: (113 * 16)}, this.gameScene)
       // dégats gratuits
       // this.knight.damage(Phaser.Math.Between(8, 9))
 
@@ -243,6 +243,8 @@ export default class extends Controller {
         }, "1000");
         this.gameScene.physics.world.disableUpdate()
       }
+
+      this.snake.move()
     }
 
     let config = {
