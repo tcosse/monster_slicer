@@ -171,11 +171,11 @@ export default class extends Controller {
         x: (35 * 16),
         y:  (12 * 16),
         health: 50,
-        cointCount: 0,
+        coins: 0,
         kills: 0,
         score: 0,
       };
-      if(lastSaveMc.length == 0){
+      if(lastSaveMc.length == 0 || lastSaveMc[2] == 0){
         console.log("AA")
         lastSaveMc = this.newStartMc
       } else {
@@ -234,7 +234,7 @@ export default class extends Controller {
         //this.gameScene.wilhelmSound.play() // :( save wilhelm
         this.knight.setVelocity(0,0);
         this.#saveKnight({x: 0, y: 0, health: 0, score: this.gameScene.score, kills: this.gameScene.kills, coins: this.gameScene.coinCount})
-        this.#saveKnight(this.newStartMc)
+        // this.#saveKnight(this.newStartMc)
 
         // this.play('dead', true)
         setTimeout(() => {
