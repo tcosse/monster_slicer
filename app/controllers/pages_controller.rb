@@ -12,6 +12,33 @@ class PagesController < ApplicationController
     end
   end
 
+  def leaderboard
+    highScore = 0
+    totalCoins = 0
+    totalKills = 0
+    MainCharacter.where(user_id: current_user).each do |mc|
+      if mc.score != nil
+        if mc.score > highScore
+          highScore = mc.score
+        end
+      end
+      if mc.coins != nil
+        totalCoins += mc.coins
+      end
+      if mc.kills != nil
+        totalKills += mc.kills
+      end
+    end
+    p highScore
+    p totalCoins
+    p totalKills
+    current_user.highscore = highScore
+    current_user.total_coins = totalCoins
+    current_user.total_kills = totalKills
+    current_user.save
+    p current_user
+  end
+
   def gameover
   end
 end

@@ -1,0 +1,33 @@
+<div class = "container-lb">
+  <h1>LEADERBOARD</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Coins Collected</th>
+        <th>Total Kills</th>
+        <th>High Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% User.order(highscore: :desc).each do |user| %>
+        <% if user.highscore != nil %>
+         <tr>
+            <td>
+              <p><%= user.email %></p>
+            </td>
+            <td>
+              <p> <%=user.total_coins %></p>
+            </td>
+            <td>
+              <p> <%=user.total_kills %></p>
+            </td>
+            <td>
+              <p> <%=user.highscore %></p>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
