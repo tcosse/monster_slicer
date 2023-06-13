@@ -19,7 +19,7 @@ export class UIScene extends Phaser.Scene
       fontSize: 30,
     })
 
-    this.scoreLabel = this.add.text(600, 10, 'Score : 0', {
+    this.scoreLabel = this.add.text(580, 10, 'Score : 0', {
       fontFamily: 'VT323',
       fontSize: 30,
     })
