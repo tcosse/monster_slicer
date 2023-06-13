@@ -208,15 +208,17 @@ export default class extends Controller {
 
     let config = {
       type: Phaser.AUTO,
-      parent: 'game',
-      mode: Phaser.Scale.RESIZE,
-      width: 750,
-      height: 650,
+      scale : {
+        parent: 'game',
+        mode: Phaser.Scale.FIT,
+        width: 800,
+        height: 800,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+      },
       scene: [this.gameScene, UIScene, this.pauseScene],
-      autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       physics: {
         default: 'arcade',
-        arcade: { debug: true }
+        arcade: { debug: false }
       }
     };
     let game = new Phaser.Game(config);
