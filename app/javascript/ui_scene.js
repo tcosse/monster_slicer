@@ -11,12 +11,12 @@ export class UIScene extends Phaser.Scene
   create() {
     this.skeletonKillsLabel = this.add.text(10, 10, 'Kills : 0', {
       fontFamily: 'VT323',
-      fontSize: 50,
+      fontSize: 40,
     })
 
     this.coinCountLabel = this.add.text(10, 50, 'Coins : 0', {
       fontFamily: 'VT323',
-      fontSize: 50,
+      fontSize: 40,
     })
 
     eventsCenter.addListener('update-skeleton-kills', this.#updateSkeletonsKilled, this)

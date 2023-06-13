@@ -43,7 +43,7 @@ export class PauseScene extends Phaser.Scene
         {
           if(obj.text == "SAVE"){
             console.log(this.controller.knight)
-            console.log(this.controller.knight.getHealth())
+            console.log(this.controller.knight.coinCount.totalScore)
             this.#saveKnight(this.controller.knight)
           } else if (obj.text == "RESUME"){
             console.log("OK")
@@ -56,7 +56,8 @@ export class PauseScene extends Phaser.Scene
       const mainCharacter = {
         x: knight.x,
         y: knight.y,
-        health: knight.getHealth()
+        health: knight.getHealth(),
+        // score: knight.coinCount.totalScore
       };
 
       fetch("/main_characters", {
