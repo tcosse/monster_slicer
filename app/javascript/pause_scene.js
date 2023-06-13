@@ -57,7 +57,7 @@ export class PauseScene extends Phaser.Scene
         x: knight.x,
         y: knight.y,
         health: knight.getHealth(),
-        cointCount: gameScene.coinCount,
+        coins: gameScene.coinCount,
         kills: gameScene.kills,
         score: gameScene.score,
       };
