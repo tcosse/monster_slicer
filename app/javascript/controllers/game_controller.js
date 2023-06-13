@@ -150,12 +150,12 @@ export default class extends Controller {
       //   collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
       //   faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       // });
-      this.newStartMc = [(35 * 16), (12 * 16), 50]
-      this.coinCount = new CoinCount(this.gameScene)
+      this.newStartMc = [(35 * 16), (12 * 16), 50, 0]
       if(lastSaveMc.length == 0){
         console.log("AA")
         lastSaveMc = this.newStartMc
       }
+      this.coinCount = new CoinCount(this.gameScene, lastSaveMc[3])
       console.log(lastSaveMc)
       this.knight = new Knight({x:lastSaveMc[0], y: lastSaveMc[1]}, this.gameScene, this.coinCount, lastSaveMc[2])
       this.skeleCount = 4
@@ -253,7 +253,8 @@ export default class extends Controller {
     const mainCharacter = {
       x: newStartMc[0],
       y: newStartMc[1],
-      health: newStartMc[2]
+      health: newStartMc[2],
+      score: newStartMc[3]
     };
 
     fetch("/main_characters", {
