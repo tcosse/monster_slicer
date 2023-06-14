@@ -13,6 +13,7 @@ export class SelectCharacter extends Phaser.Scene
       this.bgUrl = this.scene.settings.data.bgUrl
       this.mcUrl = this.scene.settings.data.mcUrl
       this.mcWindowUrl = this.scene.settings.data.mcWindowUrl
+      this.gameScene = this.scene.settings.data.gameScene
       // this.controller = this.scene.settings.data.controller
     }
 
@@ -63,6 +64,7 @@ export class SelectCharacter extends Phaser.Scene
           console.log(this.mcWindow)
           if(obj[0].type == this.mcWindow.type){
             console.log("OK")
+            this.gameScene.okSound.play()
             this.cameras.main.fadeOut(500, 0, 0, 0)
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
               this.scene.start('ui-scene')

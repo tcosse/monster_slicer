@@ -56,6 +56,7 @@ export default class extends Controller {
     mcWindowUrl: String,
     spellSound: String,
     explosionSound: String,
+    okSound: String,
   }
 
   connect() {
@@ -87,6 +88,7 @@ export default class extends Controller {
     const wilhelmSound = this.wilhelmSoundValue
     const spellSound = this.spellSoundValue
     const explosionSound = this.explosionSoundValue
+    const okSound = this.okSoundValue
     const fireballUrl = this.fireballUrlValue
     const explosionUrl = this.explosionUrlValue
     const mcWindowUrl = this.mcWindowUrlValue
@@ -134,6 +136,7 @@ export default class extends Controller {
       this.gameScene.load.audio("wilhelm_sound", wilhelmSound)
       this.gameScene.load.audio("spell_sound", spellSound)
       this.gameScene.load.audio("explosion_sound", explosionSound)
+      this.gameScene.load.audio("ok_sound", okSound)
 
     };
 
@@ -147,7 +150,7 @@ export default class extends Controller {
       this.gameScene.scene.add('pauseScene', PauseScene, false, {gameScene: this.gameScene, bgUrl: bgpauseUrl, controller: this})
 
       // creer la scene de selection du perso
-      this.gameScene.scene.add('select_character', SelectCharacter, false, {mcUrl: newPlayerUrl, bgUrl: selectMcUrl, mcWindowUrl: mcWindowUrl})
+      this.gameScene.scene.add('select_character', SelectCharacter, false, {mcUrl: newPlayerUrl, bgUrl: selectMcUrl, mcWindowUrl: mcWindowUrl, gameScene: this.gameScene})
 
       loadAnimations(this.gameScene) //from game_loader
       // ajout du clic sur P pour mettre en Pause le jeu dans l'update
