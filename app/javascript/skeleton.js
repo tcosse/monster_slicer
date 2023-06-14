@@ -141,7 +141,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
         this.setTint(0xff6666) // applies red color to skeleton when is attacked
         if (this.getHealth() > 0) {
           // if the skeleton has health left, then apply damage
-          knight.on('animationcomplete', () => {
+          knight.once('animationcomplete', () => {
             this.damage(15)
             this.clearTint()
           });

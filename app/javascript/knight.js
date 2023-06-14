@@ -33,7 +33,8 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
       this.x - 30,
       this.y - 15,
       this.getMaxHealth(),
-      6
+      2,
+      0x22ff00
     );
     healthBar.add(this);
     this.healthBar = healthBar;
@@ -50,8 +51,8 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
     }
     else {
       // on recolle la barre de vie au knight
-      this.healthBar.bg.setX(this.x - 25)
-      this.healthBar.bg.setY(this.y - 15)
+      this.healthBar.bg.setX(this.x - 26)
+      this.healthBar.bg.setY(this.y - 16)
       this.healthBar.bar.setX(this.x - 25)
       this.healthBar.bar.setY(this.y - 15)
 
