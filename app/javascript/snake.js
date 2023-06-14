@@ -20,12 +20,12 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
     this.timeToHit = new Date () / 1000
     this.blinkTime = new Date () / 1000
     // salle de boss
-    this.container = { x: [(35 * 16), (55 * 16)], y: [(110 * 16), (115 * 16)]}
+    // this.container = { x: [(35 * 16), (55 * 16)], y: [(110 * 16), (115 * 16)]}
 
     // depart pour test
-    // this.container = { x: [(29 * 16), (42 * 16)], y: [(9 * 16), (19 * 16)]}
-    // this.x = 30 * 16
-    // this.y = 15 * 16
+    this.container = { x: [(29 * 16), (42 * 16)], y: [(9 * 16), (19 * 16)]}
+    this.x = 30 * 16
+    this.y = 15 * 16
 
     this.setHealth(150,0,150)
 
@@ -202,29 +202,34 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
       // }
 
       for (let i = 0; i < this.bodyParts.length; i++) {
-        let temp =40 + 35 * i
+        let temp = 40 + 35 * i
+        let temp2 = temp / 4
         if (this.deplacements[this.deplacements.length - temp] == 'up') {
           this.bodyParts[i].setVelocityX(0)
           this.bodyParts[i].setVelocityY(-speed);
           if (this.deplacements[this.deplacements.length - temp] == this.deplacements[this.deplacements.length - 1]) {
             this.bodyParts[i].x = this.x
+            this.bodyParts[i].y = this.y + temp2
           }
         } else if (this.deplacements[this.deplacements.length - temp] == 'down') {
           this.bodyParts[i].setVelocityX(0)
           this.bodyParts[i].setVelocityY(speed);
           if (this.deplacements[this.deplacements.length - temp] == this.deplacements[this.deplacements.length - 1]) {
             this.bodyParts[i].x = this.x
+            this.bodyParts[i].y = this.y - temp2
           }
         } else if (this.deplacements[this.deplacements.length - temp] == 'left') {
           this.bodyParts[i].setVelocityX(-speed);
           this.bodyParts[i].setVelocityY(0)
           if (this.deplacements[this.deplacements.length - temp] == this.deplacements[this.deplacements.length - 1]) {
+            this.bodyParts[i].x = this.x + temp2
             this.bodyParts[i].y = this.y
           }
         } else if (this.deplacements[this.deplacements.length - temp] == 'right') {
           this.bodyParts[i].setVelocityX(speed);
           this.bodyParts[i].setVelocityY(0)
           if (this.deplacements[this.deplacements.length - temp] == this.deplacements[this.deplacements.length - 1]) {
+            this.bodyParts[i].x = this.x - temp2
             this.bodyParts[i].y = this.y
           }
         }
