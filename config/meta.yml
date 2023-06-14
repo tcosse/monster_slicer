@@ -2,3 +2,4 @@ meta_product_name: "MonsterSlicer, the Game"
 meta_title: "MonsterSlicer, the Game - Ready to slice?"
 meta_description: "An amazing RPG game made by a brilliant team of developpers"
 meta_image: "image_meta.png" # should exist in `app/assets/images/`
+charset: 'UTF-8'

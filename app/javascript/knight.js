@@ -2,6 +2,7 @@ import * as Phaser from "phaser"
 import {HealthBar} from "healthbar" //"/healthbar.js"
 import PhaserHealth from 'phaser_health';
 import { Weapon } from "weapon";
+
 var Health = PhaserHealth;
 
 export class Knight extends Phaser.Physics.Arcade.Sprite {
@@ -60,9 +61,10 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
       var keyQ = this.gameScene.input.keyboard.addKey('Q')
       var keyD = this.gameScene.input.keyboard.addKey('D')
       var keyV = this.gameScene.input.keyboard.addKey('V')
+      var keyE = this.gameScene.input.keyboard.addKey('E')
       var keyShift = this.gameScene.input.keyboard.addKey("SHIFT")
 
-      if(keyW.isDown || keyA.isDown || keyS.isDown || keyD.isDown || keyV.isDown || keyZ.isDown || keyQ.isDown || this.gameScene.input.manager.activePointer.primaryDown) {
+      if(keyW.isDown || keyA.isDown || keyS.isDown || keyD.isDown || keyV.isDown || keyZ.isDown || keyQ.isDown || this.gameScene.input.manager.activePointer.primaryDown || keyE.isDown) {
         const defaultSpeed = 30;
         const highSpeed = 150;
         let speed = defaultSpeed ;
@@ -77,7 +79,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
               this.play('walk_up', true)
             }
             this.setVelocityY(-speed);
-            this.weapon.setOffset(0,-15)
+            this.weapon.setOffset(0,-10)
           }
           // if(this.anims.currentAnim.key == "skeleton_dead")
 
@@ -89,7 +91,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
               this.play('walk_down', true)
             }
             this.setVelocityY(speed);
-            this.weapon.setOffset(0,20)
+            this.weapon.setOffset(0,8)
           }
         }
         else
@@ -112,7 +114,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
             this.play('walk_side', true)
             this.setVelocityX(speed);
             this.flipX = false
-            this.weapon.setOffset(20,-5)
+            this.weapon.setOffset(18,-5)
           }
         }
         else
@@ -121,12 +123,14 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
         }
         // console.log(this.gameScene.input.manager.activePointer.primaryDown == true)
         if(keyV.isDown || this.gameScene.input.manager.activePointer.primaryDown) {
-
-          this.gameScene.slashSound.play()
-          this.setVelocity(0,0)
+          if(this.anims.currentFrame.frame.name == 37 ||this.anims.currentFrame.frame.name == 43 || this.anims.currentFrame.frame.name == 49){
+            this.gameScene.slashSound.play()
+          }
+          // this.setVelocity(0,0)
           switch(this.anims.currentAnim.key) {
             case "idle_down":
               this.play("attack_down", true)
+              // let spell = new Spell(this.start, this.gameScene)
               break;
             case "walk_down":
               this.play("attack_down", true)

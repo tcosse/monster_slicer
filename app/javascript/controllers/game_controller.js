@@ -8,6 +8,7 @@ import { loadSounds } from "game_loader"
 import { UIScene } from 'ui_scene'
 import { Snake } from 'snake'
 import {Fireball} from 'fireball'
+import {SelectCharacter} from 'select_character'
 import { eventsCenter } from 'events_center'
 
 
@@ -44,12 +45,17 @@ export default class extends Controller {
     snakeHeadImageUrl: String,
     snakeBodyImageUrl: String,
     snakeImageUrl: String,
-
+    spellUrl: String,
     coinSound: String,
     healSound: String,
     wilhelmSound: String,
     fireballUrl: String,
     explosionUrl: String,
+    selectMcUrl: String,
+    mcWindowUrl: String,
+    spellSound: String,
+    explosionSound: String,
+    okSound: String,
   }
 
   connect() {
@@ -79,9 +85,14 @@ export default class extends Controller {
     const coinSound = this.coinSoundValue
     const healSound = this.healSoundValue
     const wilhelmSound = this.wilhelmSoundValue
+    const spellSound = this.spellSoundValue
+    const explosionSound = this.explosionSoundValue
+    const okSound = this.okSoundValue
     const fireballUrl = this.fireballUrlValue
     const explosionUrl = this.explosionUrlValue
-
+    const mcWindowUrl = this.mcWindowUrlValue
+    const selectMcUrl = this.selectMcUrlValue
+    const spellUrl = this.spellUrlValue
     this.gameoverUrl = this.gameoverValue
 
 
@@ -101,6 +112,7 @@ export default class extends Controller {
       this.gameScene.load.image('potion', potionImageUrl);
       this.gameScene.load.image('snake_head', snakeHeadImageUrl);
       this.gameScene.load.image('snake_body', snakeBodyImageUrl);
+
       this.gameScene.load.tilemapTiledJSON('dungeon', tilemapUrl)
 
       this.gameScene.load.spritesheet('enemy_skeleton', skeletonImageUrl, {frameWidth: 16, frameHeight: 16})
@@ -111,20 +123,19 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('knight_attack', knightAttackImageUrl, { frameWidth: 64 , frameHeight: 64 })
       this.gameScene.load.spritesheet('player_all', newPlayerUrl, {frameWidth: 48, frameHeight:48})
       this.gameScene.load.spritesheet('skeleton_all', newSkeletonUrl, {frameWidth: 64, frameHeight:64})
-
+      this.gameScene.load.spritesheet('coin', coinImageUrl, { frameWidth: 8 , frameHeight: 8 })
       this.gameScene.load.spritesheet('fireball', fireballUrl, {frameWidth: 64, frameHeight:64})
       this.gameScene.load.spritesheet('explosion', explosionUrl, {frameWidth: 196, frameHeight:190})
+      this.gameScene.load.spritesheet('spell', spellUrl, {frameWidth: 16, frameHeight:24})
 
-      console.log("death: ", deathSound)
       this.gameScene.load.audio("death_sound", deathSound)
       this.gameScene.load.audio("slash_sound", slashSound)
       this.gameScene.load.audio("coin_sound", coinSound)
       this.gameScene.load.audio("heal_sound", healSound)
       this.gameScene.load.audio("wilhelm_sound", wilhelmSound)
-
-      console.log(this.gameScene)
-
-      this.gameScene.load.spritesheet('coin', coinImageUrl, { frameWidth: 8 , frameHeight: 8 })
+      this.gameScene.load.audio("spell_sound", spellSound)
+      this.gameScene.load.audio("explosion_sound", explosionSound)
+      this.gameScene.load.audio("ok_sound", okSound)
 
     };
 
@@ -134,13 +145,16 @@ export default class extends Controller {
       // console.log(this.frameCnt)
       console.log(lastSaveMc)
       // creer la scene de pause
+      // passer d'une scene à l'autre en appuyant sur P
       this.gameScene.scene.add('pauseScene', PauseScene, false, {gameScene: this.gameScene, bgUrl: bgpauseUrl, controller: this})
-      // passer d'une scene à l'autre en appuyant sur echap
 
+      // creer la scene de selection du perso
+      this.gameScene.scene.add('select_character', SelectCharacter, false, {mcUrl: newPlayerUrl, bgUrl: selectMcUrl, mcWindowUrl: mcWindowUrl, gameScene: this.gameScene})
 
       loadAnimations(this.gameScene) //from game_loader
       // ajout du clic sur P pour mettre en Pause le jeu dans l'update
       this.gameScene.keyP = this.gameScene.input.keyboard.addKey('P')
+      this.gameScene.keyEchap = this.gameScene.input.keyboard.addKey('ESC')
       loadSounds(this.gameScene)
 
       // this.gameScene.bg = this.gameScene.add.sprite(0,0, 'background');
@@ -178,7 +192,10 @@ export default class extends Controller {
         score: 0,
       };
       if(lastSaveMc.length == 0 || lastSaveMc[2] == 0){
-        console.log("AA")
+        // on doit commencer par choisir son perso en cas de 1ere game / de mort
+        this.gameScene.scene.stop('ui-scene')
+        this.gameScene.scene.switch('select_character');
+        // on commence la partie avec les données de base
         lastSaveMc = this.newStartMc
       } else {
         lastSaveMc = {
@@ -200,7 +217,6 @@ export default class extends Controller {
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
       console.log("spawned: ", this)
       console.log(this.knight.x)
-      const fireball = new Fireball({x: this.knight.x, y: this.knight.y+100}, this.gameScene, "bottom", this)
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
 
@@ -215,11 +231,14 @@ export default class extends Controller {
       this.gameScene.cameras.main.setZoom(2)
       const characters = this.skeletons.concat(this.knight)
       this.gameScene.physics.add.collider(characters, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer])
-      this.gameScene.physics.add.collider(fireball, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer])
+      // this.gameScene.physics.add.collider(fireball, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer])
       // const coinsLabel = this.gameScene.add.text(100, 100, '0', {
       //   fontSize: '100'
       // })
+
+      // ajout de l'ui
       this.gameScene.scene.add('ui-scene', UIScene , true, {gameScene: this.gameScene} )
+
       console.log(this.snake)
     }
 
@@ -228,7 +247,7 @@ export default class extends Controller {
       this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
       this.knight.update()
       this.#checkSkeleton()
-      if(this.gameScene.keyP.isDown){
+      if(this.gameScene.keyP.isDown || this.gameScene.keyEchap.isDown){
         this.gameScene.scene.switch('pauseScene');
       }
 
@@ -268,7 +287,7 @@ export default class extends Controller {
         height: 800,
         autoCenter: Phaser.Scale.CENTER_BOTH,
       },
-      scene: [this.gameScene, this.UIScene, this.pauseScene],
+      scene: [this.gameScene, this.UIScene, this.pauseScene, this.SelectCharacter],
       physics: {
         default: 'arcade',
         arcade: { debug: false }
@@ -277,6 +296,7 @@ export default class extends Controller {
         target: 60,
         forceSetTimeOut: true
       },
+
     };
     let game = new Phaser.Game(config);
   }
@@ -316,5 +336,10 @@ export default class extends Controller {
       console.log("Request complete! response:", res);
     });
   }
+  /* #throwFireball() {
+    this.directionFireball = ["top", "top_right", "right", "bottom_right", "bottom", "bottom_left", "left", "top_left"]
+    const directionSample = directionFireball[Math.floor ( Math.random() * directionFireball.length )]
+    const fireball = new Fireball({x: 485, y: 645}, this.gameScene, directionSample, this)
+  } */
 
 }
