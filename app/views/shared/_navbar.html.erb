@@ -15,8 +15,14 @@
           </li>
         <% if controller_name == 'pages' && action_name == 'game' %>
           <li class="nav-item active">
-            <a data-controller='popover' tabindex="0" class="nav-link-custom" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true"
-            data-bs-content="W, A, S, D or Q, Z, S, D to Move player <br> Left Click (or V) to attack <br> Shift for High Speed <br> P to Pause"
+            <a data-controller='popover' tabindex="0" title='Game actions' class="nav-link-custom" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true"
+            data-bs-content="
+            <ul>
+              <li>W, A, S, D or Q, Z, S, D to Move player </li>
+              <li>Left Click (or V) to attack </li>
+              <li>Shift for High Speed</li>
+              <li>P to Pause</li>
+            </ul>"
             >How to play</a>
           </li>
         <% end %>
