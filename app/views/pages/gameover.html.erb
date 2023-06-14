@@ -5,11 +5,19 @@
         <p data-controller="gameovertyped"></p>
       </div>
     </div>
-    <%= link_to game_path do  %>
-      <div class = "button-gold-large" style="background-image: url('<%= asset_url 'gold-button-new.png' %>')">
-        <p>Try again !</p>
-      </div>
-    <% end %>
+    <div class = "d-flex">
+      <%= link_to game_path do  %>
+        <div class = "button-gold-large" style="background-image: url('<%= asset_url 'gold-button-new.png' %>')">
+          <p>Try again !</p>
+        </div>
+      <% end %>
+      <%= link_to root_path do  %>
+        <div class = "button-gold-large" style="background-image: url('<%= asset_url 'gold-button-new.png' %>')">
+          <p>Quit</p>
+        </div>
+      <% end %>
+    </div>
+
 
   </div>
 </div>

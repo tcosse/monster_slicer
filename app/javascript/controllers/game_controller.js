@@ -9,6 +9,7 @@ import { UIScene } from 'ui_scene'
 import { Snake } from 'snake'
 import {Fireball} from 'fireball'
 import {SelectCharacter} from 'select_character'
+// import {Spell} from 'spell'
 import { eventsCenter } from 'events_center'
 
 
@@ -45,6 +46,7 @@ export default class extends Controller {
     snakeHeadImageUrl: String,
     snakeBodyImageUrl: String,
     snakeImageUrl: String,
+    spellUrl: String,
     coinSound: String,
     healSound: String,
     wilhelmSound: String,
@@ -52,6 +54,7 @@ export default class extends Controller {
     explosionUrl: String,
     selectMcUrl: String,
     mcWindowUrl: String,
+    spellSound: String,
   }
 
   connect() {
@@ -81,10 +84,12 @@ export default class extends Controller {
     const coinSound = this.coinSoundValue
     const healSound = this.healSoundValue
     const wilhelmSound = this.wilhelmSoundValue
+    const spellSound = this.spellSoundValue
     const fireballUrl = this.fireballUrlValue
     const explosionUrl = this.explosionUrlValue
     const mcWindowUrl = this.mcWindowUrlValue
     const selectMcUrl = this.selectMcUrlValue
+    const spellUrl = this.spellUrlValue
     this.gameoverUrl = this.gameoverValue
 
 
@@ -118,12 +123,14 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('coin', coinImageUrl, { frameWidth: 8 , frameHeight: 8 })
       this.gameScene.load.spritesheet('fireball', fireballUrl, {frameWidth: 64, frameHeight:64})
       this.gameScene.load.spritesheet('explosion', explosionUrl, {frameWidth: 190, frameHeight:190})
+      this.gameScene.load.spritesheet('spell', spellUrl, {frameWidth: 16, frameHeight:24})
 
       this.gameScene.load.audio("death_sound", deathSound)
       this.gameScene.load.audio("slash_sound", slashSound)
       this.gameScene.load.audio("coin_sound", coinSound)
       this.gameScene.load.audio("heal_sound", healSound)
       this.gameScene.load.audio("wilhelm_sound", wilhelmSound)
+      this.gameScene.load.audio("spell_sound", spellSound)
 
     };
 
@@ -265,7 +272,7 @@ export default class extends Controller {
       scene: [this.gameScene, this.UIScene, this.pauseScene, this.SelectCharacter],
       physics: {
         default: 'arcade',
-        arcade: { debug: false }
+        arcade: { debug: true }
       }
     };
     let game = new Phaser.Game(config);
