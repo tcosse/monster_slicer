@@ -37,6 +37,7 @@ export class Fireball extends Phaser.Physics.Arcade.Sprite {
       this.exploding = true
       this.setVelocity(0,0)
       this.setOffset(80,72)
+      this.gameScene.explosionSound.play()
       this.play("fireball_explosion", true)
       this.gameScene.time.delayedCall(500, () => {this.destroy()})
     }
