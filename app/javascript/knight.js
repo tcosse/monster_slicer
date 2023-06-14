@@ -79,7 +79,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
               this.play('walk_up', true)
             }
             this.setVelocityY(-speed);
-            this.weapon.setOffset(0,-15)
+            this.weapon.setOffset(0,-10)
           }
           // if(this.anims.currentAnim.key == "skeleton_dead")
 
@@ -91,7 +91,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
               this.play('walk_down', true)
             }
             this.setVelocityY(speed);
-            this.weapon.setOffset(0,20)
+            this.weapon.setOffset(0,8)
           }
         }
         else
@@ -114,7 +114,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
             this.play('walk_side', true)
             this.setVelocityX(speed);
             this.flipX = false
-            this.weapon.setOffset(20,-5)
+            this.weapon.setOffset(18,-5)
           }
         }
         else
@@ -123,9 +123,10 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
         }
         // console.log(this.gameScene.input.manager.activePointer.primaryDown == true)
         if(keyV.isDown || this.gameScene.input.manager.activePointer.primaryDown) {
-
-          this.gameScene.slashSound.play()
-          this.setVelocity(0,0)
+          if(this.anims.currentFrame.frame.name == 37 ||this.anims.currentFrame.frame.name == 43 || this.anims.currentFrame.frame.name == 49){
+            this.gameScene.slashSound.play()
+          }
+          // this.setVelocity(0,0)
           switch(this.anims.currentAnim.key) {
             case "idle_down":
               this.play("attack_down", true)
@@ -192,7 +193,6 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
         }
         this.setVelocity(0,0)
       }
-//  secondary attack
     }
   }
 }
