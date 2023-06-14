@@ -9,7 +9,6 @@ import { UIScene } from 'ui_scene'
 import { Snake } from 'snake'
 import {Fireball} from 'fireball'
 import {SelectCharacter} from 'select_character'
-// import {Spell} from 'spell'
 import { eventsCenter } from 'events_center'
 
 
