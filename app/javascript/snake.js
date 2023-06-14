@@ -2,7 +2,8 @@ import * as Phaser from "phaser"
 import {HealthBar} from "healthbar"
 import PhaserHealth from 'phaser_health';
 var Health = PhaserHealth;
-
+import { eventsCenter } from 'events_center';
+import { Potion } from "potion";
 
 export class Snake extends Phaser.Physics.Arcade.Sprite {
   constructor(start, gameScene) {
@@ -15,6 +16,8 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
     this.deplacements = ['up']
     this.movement = 'up'
     this.time = new Date() / 1000
+    this.lastHit = new Date () / 1000
+    this.blinkTime = new Date () / 1000
     // salle de boss
     // this.container = { x: [(32 * 16), (60 * 16)], y: [(103 * 16), (124 * 16)]}
 
@@ -32,46 +35,46 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
       this.getMaxHealth(),
       5,
       0xF24C3D
-      );
-      healthBar.add(this);
-      this.healthBar = healthBar;
-      this.healthBar.depth = 50
+    );
+    healthBar.add(this);
+    this.healthBar = healthBar;
+    this.healthBar.depth = 50
 
-      gameScene.physics.add.world.enableBody(this, 0);
-      gameScene.add.existing(this);
-      console.log(this)
+    gameScene.physics.add.world.enableBody(this, 0);
+    gameScene.add.existing(this);
+    console.log(this)
 
-      // this.setSize(20, 20)
-      // this.setOffset(0,0)
+    // this.setSize(20, 20)
+    // this.setOffset(0,0)
 
-      this.bodyParts = []
-      this.bodyPart1 = new SnakeBody({x: this.x, y: this.y}, this.gameScene)
-      this.bodyPart1.depth = 39
-      this.bodyParts.push(this.bodyPart1)
-      this.bodyPart2 = new SnakeBody({x: this.x, y: this.y}, this.gameScene)
-      this.bodyPart2.depth = 38
-      this.bodyParts.push(this.bodyPart2)
-      this.bodyPart3 = new SnakeBody({x: this.x, y: this.y}, this.gameScene)
-      this.bodyPart3.depth = 37
-      this.bodyParts.push(this.bodyPart3)
-      this.bodyPart4 = new SnakeBody({x: this.x, y: this.y}, this.gameScene)
-      this.bodyPart4.depth = 36
-      this.bodyParts.push(this.bodyPart4)
-      this.bodyPart5 = new SnakeBody({x: this.x, y: this.y}, this.gameScene)
-      this.bodyPart5.depth = 35
-      this.bodyParts.push(this.bodyPart5)
-      this.bodyPart6 = new SnakeBody({x: this.x, y: this.y}, this.gameScene)
-      this.bodyPart6.depth = 35
-      this.bodyParts.push(this.bodyPart6)
-      this.bodyPart7 = new SnakeBody({x: this.x, y: this.y}, this.gameScene)
-      this.bodyPart7.depth = 35
-      this.bodyParts.push(this.bodyPart7)
-      this.bodyPart8 = new SnakeBody({x: this.x, y: this.y}, this.gameScene)
-      this.bodyPart8.depth = 35
-      this.bodyParts.push(this.bodyPart8)
-      this.bodyPart9 = new SnakeBody({x: this.x, y: this.y}, this.gameScene)
-      this.bodyPart9.depth = 35
-      this.bodyParts.push(this.bodyPart9)
+    this.bodyParts = []
+    this.bodyPart1 = new SnakeBody({x: this.x, y: this.y}, this.gameScene)
+    this.bodyPart1.depth = 39
+    this.bodyParts.push(this.bodyPart1)
+    this.bodyPart2 = new SnakeBody({x: this.x, y: this.y}, this.gameScene)
+    this.bodyPart2.depth = 38
+    this.bodyParts.push(this.bodyPart2)
+    this.bodyPart3 = new SnakeBody({x: this.x, y: this.y}, this.gameScene)
+    this.bodyPart3.depth = 37
+    this.bodyParts.push(this.bodyPart3)
+    this.bodyPart4 = new SnakeBody({x: this.x, y: this.y}, this.gameScene)
+    this.bodyPart4.depth = 36
+    this.bodyParts.push(this.bodyPart4)
+    this.bodyPart5 = new SnakeBody({x: this.x, y: this.y}, this.gameScene)
+    this.bodyPart5.depth = 35
+    this.bodyParts.push(this.bodyPart5)
+    this.bodyPart6 = new SnakeBody({x: this.x, y: this.y}, this.gameScene)
+    this.bodyPart6.depth = 34
+    this.bodyParts.push(this.bodyPart6)
+    this.bodyPart7 = new SnakeBody({x: this.x, y: this.y}, this.gameScene)
+    this.bodyPart7.depth = 33
+    this.bodyParts.push(this.bodyPart7)
+    this.bodyPart8 = new SnakeBody({x: this.x, y: this.y}, this.gameScene)
+    this.bodyPart8.depth = 32
+    this.bodyParts.push(this.bodyPart8)
+    this.bodyPart9 = new SnakeBody({x: this.x, y: this.y}, this.gameScene)
+    this.bodyPart9.depth = 31
+    this.bodyParts.push(this.bodyPart9)
 
   }
 
@@ -91,7 +94,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
       // console.log(this.time - movementTime, this.x )
 
       if ((movementTime - this.time) > 1) {
-        console.log('dans le if')
+        // console.log('dans le if')
         const random = Math.random()
         const lastMove = this.deplacements[this.deplacements.length - 1]
         console.log(this.container.x[0])
@@ -143,7 +146,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
         }
         console.log(this.movement)
         this.time = movementTime
-        console.log(this.deplacements)
+        // console.log(this.deplacements)
 
       }
 
@@ -156,7 +159,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
       }
 
 
-      const speed = 50
+      const speed = 30
 
       if (this.movement == 'up') {
         this.setVelocityX(0)
@@ -198,22 +201,42 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
       // }
 
       for (let i = 0; i < this.bodyParts.length; i++) {
-        let temp =17 + 22 * i
+        let temp =40 + 35 * i
         if (this.deplacements[this.deplacements.length - temp] == 'up') {
           this.bodyParts[i].setVelocityX(0)
           this.bodyParts[i].setVelocityY(-speed);
+          if (this.deplacements[this.deplacements.length - temp] == this.deplacements[this.deplacements.length - 1]) {
+            this.bodyParts[i].x = this.x
+          }
         } else if (this.deplacements[this.deplacements.length - temp] == 'down') {
           this.bodyParts[i].setVelocityX(0)
           this.bodyParts[i].setVelocityY(speed);
+          if (this.deplacements[this.deplacements.length - temp] == this.deplacements[this.deplacements.length - 1]) {
+            this.bodyParts[i].x = this.x
+          }
         } else if (this.deplacements[this.deplacements.length - temp] == 'left') {
           this.bodyParts[i].setVelocityX(-speed);
           this.bodyParts[i].setVelocityY(0)
+          if (this.deplacements[this.deplacements.length - temp] == this.deplacements[this.deplacements.length - 1]) {
+            this.bodyParts[i].y = this.y
+          }
         } else if (this.deplacements[this.deplacements.length - temp] == 'right') {
           this.bodyParts[i].setVelocityX(speed);
           this.bodyParts[i].setVelocityY(0)
+          if (this.deplacements[this.deplacements.length - temp] == this.deplacements[this.deplacements.length - 1]) {
+            this.bodyParts[i].y = this.y
+          }
         }
       }
     }
+  }
+
+  blinkingTail() {
+    this.bodyPart9.setTint(0xff6666)
+    if ((new Date() / 1000) - this.blinkTime > 1) {
+      
+    }
+
   }
 
   addPhysics(knight) {
@@ -224,64 +247,68 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
     //this.gameScene.physics.add.existing(this.object)
     // console.log(this.gameScene.physics.add)
     // this.gameScene.enemy = this.gameScene.physics.add.image(enemy_start[0], enemy_start[1], 'enemy').setCollideWorldBounds(true);
-    this.gameScene.physics.add.overlap(knight.weapon, this, (gameObject1, gameObject2) => {
+    this.gameScene.physics.add.overlap(knight.weapon, this.bodyPart9, (gameObject1, gameObject2) => {
       if (this.gameScene.input.keyboard.addKey("V").isDown || this.gameScene.input.manager.activePointer.primaryDown ) {
         this.setTint(0xff6666) // applies red color to skeleton when is attacked
-        // if (this.getHealth() > 0) {
-        //   // if the skeleton has health left, then apply damage
-        //   knight.on('animationcomplete', () => {
-        //     this.damage(15)
-        //     this.clearTint()
-        //   });
-        // }
-        // else {
-        //   // if the skeleton has no life left, then he is considered as dead
-        //   if (!this.isDead) {
-        //     // the skeleton is beeing killed
-        //     // prevents from running twice
-        //     this.isDead = true;
-        //     this.setVelocity(0,0)
-        //     this.gameScene.deathSound.play()
-        //     this.gameScene.time.delayedCall(5000, () => {this.destroy()});
-        //     this.play("skeleton_death_new", true)
-        //     knight.skeleKilled += 1
-        //     this.gameScene.kills += 1
-        //     this.gameScene.score += 10
-        //     eventsCenter.emit('update-skeleton-kills', this.gameScene.kills)
-        //     eventsCenter.emit('update-score', this.gameScene.score)
+        if (this.getHealth() > 0) {
+          // if the skeleton has health left, then apply damage
+            if ((new Date() / 1000) - this.lastHit > 1) {
+              this.damage(75)
+              this.clearTint()
+              this.lastHit = new Date() / 1000
+              console.log('damage')
+            }
+
+          // knight.on('animationcomplete', () => {
+          //   this.damage(15)
+          //   this.clearTint()
+          // });
+        } else {
+          // if the skeleton has no life left, then he is considered as dead
+          if (!this.isDead) {
+            this.healthBar.bg.x = -1
+            this.healthBar.bg.y = -1
+            // the skeleton is beeing killed
+            // prevents from running twice
+            this.isDead = true;
+            this.setVelocity(0,0)
+            //     this.gameScene.deathSound.play()
+            this.gameScene.time.delayedCall(5000, () => {this.destroy()});
+            this.play("fireball_explosion", true)
+            console.log(this.healthBar)
+
+            this.bodyParts.forEach((bodyPart) => {
+              bodyPart.setVelocity(0, 0)
+              bodyPart.gameScene.time.delayedCall(5000, () => {bodyPart.destroy()});
+              bodyPart.play("fireball_explosion", true)
+            })
+            this.gameScene.kills += 1
+            this.gameScene.score += 500
+            eventsCenter.emit('update-skeleton-kills', this.gameScene.kills)
+            eventsCenter.emit('update-score', this.gameScene.score)
 
         //     // destroy the dead skeleton's colliders
-        //     this.gameScene.physics.world.colliders._active.forEach(collider => {
-        //       if(collider.object2 == gameObject2) {
-        //           collider.destroy()
-        //           if(this.weapon != null) {
-        //             this.weapon.destroy()
-        //           }
-        //       }
-        //     })
+            this.gameScene.physics.world.colliders._active.forEach(collider => {
+              if(collider.object2 == gameObject2) {
+                  collider.destroy()
+                  if(this.weapon != null) {
+                    this.weapon.destroy()
+                  }
+              }
+            })
 
-        //     // spawn coins and potion
-        //       const x = this.x
-        //       const y = this.y + 10
-        //       if (Math.random() < 0.5) {
-        //         console.log('spawn coin')
-        //         // console.log(x, y)
-        //         let coin = new Coin({ x, y } , this.gameScene)
-        //         this.gameScene.time.delayedCall(12000, () => coin.destroy());
-        //         coin.addPhysics(knight)
-        //         // console.log(coin)
-        //       } else {
-        //         if(Math.random() < 0.1) {
-        //           let potion = new Potion({ x, y }, this.gameScene)
-        //           this.gameScene.time.delayedCall(12000, () => potion.destroy());
-        //           potion.addPhysics(knight)
-        //           potion.setScale(0.4, 0.4)
-        //         }
+            const x = this.x
+            const y = this.y + 10
 
-        //       }
-        //   }
-        // }
+            if(Math.random() < 0.05) {
+              let potion = new Potion({ x, y }, this.gameScene)
+              this.gameScene.time.delayedCall(12000, () => potion.destroy());
+              potion.addPhysics(knight)
+              potion.setScale(0.4, 0.4)
+            }
 
+            }
+          }
         }
       })
 //     this.gameScene.physics.add.overlap(knight, this, (gameObject1, gameObject2) =>

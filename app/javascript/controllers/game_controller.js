@@ -113,7 +113,7 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('skeleton_all', newSkeletonUrl, {frameWidth: 64, frameHeight:64})
 
       this.gameScene.load.spritesheet('fireball', fireballUrl, {frameWidth: 64, frameHeight:64})
-      this.gameScene.load.spritesheet('explosion', explosionUrl, {frameWidth: 190, frameHeight:190})
+      this.gameScene.load.spritesheet('explosion', explosionUrl, {frameWidth: 196, frameHeight:190})
 
       console.log("death: ", deathSound)
       this.gameScene.load.audio("death_sound", deathSound)
@@ -205,6 +205,7 @@ export default class extends Controller {
       // this.gameScene.enemy.setScale(0.5,0.5)
 
       this.snake = new Snake({x: (46 * 16), y: (113 * 16)}, this.gameScene)
+      this.snakeIsDead = false
       // dégats gratuits
       // this.knight.damage(Phaser.Math.Between(8, 9))
 
@@ -246,8 +247,14 @@ export default class extends Controller {
         this.gameScene.physics.world.disableUpdate()
       }
 
-      this.snake.move()
-      this.snake.addPhysics(this.knight)
+      if (this.snakeIsDead == false){
+        this.snake.move()
+        this.snake.addPhysics(this.knight)
+        if (this.snake.getHealth() == 0) {
+          this.snakeIsDead = true
+          delete this.snake
+        }
+      }
     }
 
     let config = {
@@ -262,7 +269,7 @@ export default class extends Controller {
       scene: [this.gameScene, this.UIScene, this.pauseScene],
       physics: {
         default: 'arcade',
-        arcade: { debug: false }
+        arcade: { debug: true }
       }
     };
     let game = new Phaser.Game(config);
