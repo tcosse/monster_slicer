@@ -17,6 +17,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
     this.movement = 'up'
     this.time = new Date() / 1000
     this.lastHit = new Date () / 1000
+    this.timeToHit = new Date () / 1000
     this.blinkTime = new Date () / 1000
     // salle de boss
     // this.container = { x: [(32 * 16), (60 * 16)], y: [(103 * 16), (124 * 16)]}
@@ -232,12 +233,14 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
   }
 
   blinkingTail() {
-    this.bodyPart9.setTint(0xff6666)
-    if ((new Date() / 1000) - this.blinkTime > 1) {
-      
+    if ((new Date() / 1000) - this.blinkTime > 0.5) {
+      this.bodyPart9.setTint(0xff6666)
+      this.blinkTime = new Date() / 1000
+    } else if ((new Date() / 1000) - this.blinkTime > 0.25){
+      this.bodyPart9.clearTint()
     }
-
   }
+
 
   addPhysics(knight) {
 
@@ -311,21 +314,20 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
           }
         }
       })
-//     this.gameScene.physics.add.overlap(knight, this, (gameObject1, gameObject2) =>
-//     {
-// //       console.log(this.time)
-// //       const invu = (new Date() / 1000) - this.time
-// //       console.log('invu', invu)
-// //       if (invu > 2 ) {
-// //         knight.damage(1)
-// //         this.time = new Date() / 1000
-// //       }
 
-//       this.on('animationcomplete', ()=> {
-//           knight.damage(0.01)
-//       });
+  }
 
-//     });
+  damageKnight(knight) {
+    this.bodyParts.forEach((bodyPart) => {
+      this.gameScene.physics.add.overlap(knight, bodyPart, (gameObject1, gameObject2) => {
+        // console.log(this.timeToHit)
+        if ((new Date() / 1000) - this.timeToHit > 2 ) {
+          knight.damage(15)
+          this.timeToHit = new Date() / 1000
+        }
+      })
+    })
+
   }
 }
 Health.MixinTo(Snake);

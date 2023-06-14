@@ -249,7 +249,9 @@ export default class extends Controller {
 
       if (this.snakeIsDead == false){
         this.snake.move()
+        this.snake.blinkingTail()
         this.snake.addPhysics(this.knight)
+        this.snake.damageKnight(this.knight)
         if (this.snake.getHealth() == 0) {
           this.snakeIsDead = true
           delete this.snake
