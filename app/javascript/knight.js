@@ -2,7 +2,6 @@ import * as Phaser from "phaser"
 import {HealthBar} from "healthbar" //"/healthbar.js"
 import PhaserHealth from 'phaser_health';
 import { Weapon } from "weapon";
-import { Spell } from "spell";
 
 var Health = PhaserHealth;
 
@@ -22,7 +21,6 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
     gameScene.add.existing(this);
     this.skeleKilled = 0
     this.isDead = false
-    this.spell = null
 
     // Ici je donne des HP au knight, je crée une barre de vie visuelle, je lie cette barre au knight (pour accéder a ses PV)
     // puis j'attribue cette barre au knight pour pouvoir l'appeler dans la def de knight
@@ -195,74 +193,6 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
         this.setVelocity(0,0)
       }
 //  secondary attack
-      if(keyE.isDown) {
-        this.gameScene.spellSound.play()
-        this.setVelocity(0,0)
-        switch(this.anims.currentAnim.key) {
-          case "idle_down":
-            this.play("throw_down", true)
-
-            var spell = new Spell({x: this.x, y: this.y}, this.gameScene).setVelocity(0,50)
-
-
-            break;
-          case "walk_down":
-            this.play("throw_down", true)
-
-            var spell = new Spell({x: this.x, y: this.y}, this.gameScene).setVelocity(0,50)
-            break;
-          case "idle_side":
-            this.play("throw_side", true)
-            if(this.flipX == false){
-              var spell = new Spell({x: this.x, y: this.y}, this.gameScene).setVelocity(50,0)
-            spell.angle = -90
-            }
-            else {
-              var spell = new Spell({x: this.x, y: this.y}, this.gameScene).setVelocity(-50,0)
-              spell.angle = 90
-            }
-            // spell.updateRotation();
-            break;
-          case "walk_side":
-            this.play("throw_side", true)
-            console.log(this.flipX)
-            if(this.flipX == false){
-              var spell = new Spell({x: this.x, y: this.y}, this.gameScene).setVelocity(50,0)
-            spell.angle = -90
-            }
-            else {
-              var spell = new Spell({x: this.x, y: this.y}, this.gameScene).setVelocity(-50,0)
-              spell.angle = 90
-            }
-
-            // spell.updateRotation();
-            break;
-            break;
-          case "idle_up":
-            this.play("throw_up", true)
-
-            var spell = new Spell({x: this.x, y: this.y}, this.gameScene).setVelocity(0,-50)
-            spell.flipY = true
-            break;
-          case "walk_up":
-            this.play("throw_up", true)
-
-            var spell = new Spell({x: this.x, y: this.y}, this.gameScene).setVelocity(0,-50)
-            spell.flipY = true
-            break;
-          case "throw_down":
-            this.chain("idle_down", true)
-            break;
-          case "throw_side":
-            this.chain("idle_side", true)
-            break;
-          case "throw_up":
-            this.chain("idle_up", true)
-            break;
-          default:
-        }
-
-      }
     }
   }
 }
