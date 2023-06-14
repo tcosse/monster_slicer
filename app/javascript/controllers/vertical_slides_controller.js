@@ -9,8 +9,22 @@ export default class extends Controller {
   }
 
   scrollToSyllabus() {
-    // location.hash = '#syllabus'
+    // this.scrolled = true
+    console.log('scroll from #syllabus target')
+    // this.syllabusTarget.scrollIntoView()
+    window.scrollTo(0, document.body.scrollHeight);
+  }
 
-    this.syllabusTarget.scrollIntoView()
+  scrollToBottom(evt) {
+    if (window.scrollY < 150) {
+      this.scrolled = false
+      return;
+    }
+
+    if (!this.scrolled) {
+      console.log('Scroll !')
+      this.scrollToSyllabus();
+      this.scrolled = true
+    }
   }
 }
