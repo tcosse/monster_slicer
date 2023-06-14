@@ -130,6 +130,8 @@ export default class extends Controller {
 
     // const skeleton_start =
     this.gameScene.create = () =>{
+      // this.gameScene.physics.world.setFPS(10)
+      // console.log(this.frameCnt)
       console.log(lastSaveMc)
       // creer la scene de pause
       this.gameScene.scene.add('pauseScene', PauseScene, false, {gameScene: this.gameScene, bgUrl: bgpauseUrl, controller: this})
@@ -147,16 +149,16 @@ export default class extends Controller {
       // Add tileset to the scene
       const map = this.gameScene.make.tilemap( {key:'dungeon'} )
       const tileset = map.addTilesetImage('basictiles', 'tiles', 16, 16, 1, 2)
-      const groundLayer = map.createLayer('Ground', tileset)
-      const lavaLayer = map.createLayer('Lava', tileset)
+      this.groundLayer = map.createLayer('Ground', tileset)
+      this.lavaLayer = map.createLayer('Lava', tileset)
       map.createLayer('Path', tileset)
-      const wallsLayer = map.createLayer('Walls', tileset)
-      const upperWallsLayer = map.createLayer('Upper_walls', tileset)
-      const treesLayer = map.createLayer('Trees', tileset)
-      const furnituresLayer = map.createLayer('Furnitures', tileset)
-      wallsLayer.setCollisionByProperty( {collision: true} )
-      upperWallsLayer.setCollisionByProperty( {collision: true} )
-      treesLayer.setCollisionByProperty( {collision: true} )
+      this.wallsLayer = map.createLayer('Walls', tileset)
+      this.upperWallsLayer = map.createLayer('Upper_walls', tileset)
+      this.treesLayer = map.createLayer('Trees', tileset)
+      this.furnituresLayer = map.createLayer('Furnitures', tileset)
+      this.wallsLayer.setCollisionByProperty( {collision: true} )
+      this.upperWallsLayer.setCollisionByProperty( {collision: true} )
+      this.treesLayer.setCollisionByProperty( {collision: true} )
       // furnituresLayer.setCollisionByProperty( {collision: true} )
 
       // Uncomment the following lines to see which tiles collide
@@ -168,14 +170,14 @@ export default class extends Controller {
       //   faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       // });
       this.newStartMc = {
-        x: (35 * 16),
+        x: (50 * 16),
         y:  (12 * 16),
         health: 50,
-        cointCount: 0,
+        coins: 0,
         kills: 0,
         score: 0,
       };
-      if(lastSaveMc.length == 0){
+      if(lastSaveMc.length == 0 || lastSaveMc[2] == 0){
         console.log("AA")
         lastSaveMc = this.newStartMc
       } else {
@@ -198,7 +200,7 @@ export default class extends Controller {
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
       console.log("spawned: ", this)
       console.log(this.knight.x)
-      const fireball = new Fireball({x: this.knight.x+5, y: this.knight.y-5}, this.gameScene, "top")
+      const fireball = new Fireball({x: this.knight.x, y: this.knight.y+100}, this.gameScene, "bottom", this)
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
 
@@ -211,12 +213,12 @@ export default class extends Controller {
       this.gameScene.cameras.main.startFollow(this.knight);
       this.gameScene.cameras.main.setZoom(2)
       const characters = this.skeletons.concat(this.knight)
-      this.gameScene.physics.add.collider(characters, [wallsLayer, upperWallsLayer, furnituresLayer, treesLayer])
+      this.gameScene.physics.add.collider(characters, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer])
+      this.gameScene.physics.add.collider(fireball, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer])
       // const coinsLabel = this.gameScene.add.text(100, 100, '0', {
       //   fontSize: '100'
       // })
-      this.gameScene.scene.run('ui-scene')
-
+      this.gameScene.scene.add('ui-scene', UIScene , true, {gameScene: this.gameScene} )
       console.log(this.snake)
     }
 
@@ -235,7 +237,7 @@ export default class extends Controller {
         //this.gameScene.wilhelmSound.play() // :( save wilhelm
         this.knight.setVelocity(0,0);
         this.#saveKnight({x: 0, y: 0, health: 0, score: this.gameScene.score, kills: this.gameScene.kills, coins: this.gameScene.coinCount})
-        this.#saveKnight(this.newStartMc)
+        // this.#saveKnight(this.newStartMc)
 
         // this.play('dead', true)
         setTimeout(() => {
@@ -257,10 +259,10 @@ export default class extends Controller {
         height: 800,
         autoCenter: Phaser.Scale.CENTER_BOTH,
       },
-      scene: [this.gameScene, UIScene, this.pauseScene],
+      scene: [this.gameScene, this.UIScene, this.pauseScene],
       physics: {
         default: 'arcade',
-        arcade: { debug: true }
+        arcade: { debug: false }
       }
     };
     let game = new Phaser.Game(config);
@@ -287,6 +289,7 @@ export default class extends Controller {
         skeleton.addPhysics(this.knight)
         this.skeletons.push(skeleton)
       });
+      this.gameScene.physics.add.collider(newSkeletons, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer])
     }
     return this.skeletons
 

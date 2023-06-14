@@ -41,7 +41,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
   }
 
   moveSkeleton(knight){
-    var skeleton_speed = 30;
+    var skeleton_speed = 20;
     var distance_between = this.#calculateDistance(knight, this)
     // var skeleton_start_distance = Math.sqrt((skeleton_start[0]-this.object.x)**2 + (skeleton_start[1]-this.object.y)**2)
     var skeleton_start_distance = this.#calculateDistance(this.start, this)
