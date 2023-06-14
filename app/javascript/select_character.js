@@ -48,14 +48,27 @@ export class SelectCharacter extends Phaser.Scene
         // arg du setInteractive qui ne marche pas : { hitArea: new Phaser.Geom.Rectangle(100, 400, 300, 700), hitAreaCallback: Phaser.Geom.Rectangle.Contains}
         // labelSelect.visible = false;
 
+        // this.input.keyboard.once('keydown-SPACE', () => {
+        //   // fade to black
+        //   this.cameras.main.fadeOut(1000, 0, 0, 0)
+        // })
+
+        // this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+        //   this.scene.start('phaser-logo')
+        // })
+
         this.input.on('pointerdown', (pointer, obj) =>
         {
           console.log(obj)
           console.log(this.mcWindow)
           if(obj[0].type == this.mcWindow.type){
             console.log("OK")
-            this.scene.start('ui-scene')
-            this.scene.switch('Game'); // Game est la clef de gameScene
+            this.cameras.main.fadeOut(500, 0, 0, 0)
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+              this.scene.start('ui-scene')
+              this.scene.switch('Game'); // Game est la clef de gameScene
+            })
+
           }
         });
 
