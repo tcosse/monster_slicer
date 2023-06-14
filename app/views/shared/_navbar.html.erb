@@ -10,14 +10,20 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto">
-        <% if user_signed_in? %>
           <li class="nav-item active">
             <%= link_to "Play", game_path, class: "nav-link-custom" %>
           </li>
+          <% if  %>
             <li class="nav-item active">
+              <a data-controller='popover' tabindex="0" class="nav-link-custom" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true"
+              data-bs-content="W, A, S, D or Q, Z, S, D to Move player <br> V or click to attack <br> Shift to attack"
+              >How to play</a>
+            </li>
+          <% end %>
+        <% if user_signed_in? %>
+          <li class="nav-item active">
             <%= link_to "LeaderBoard", leaderboard_path, class: "nav-link-custom" %>
           </li>
-          <li class="nav-item">
           <li class="nav-item dropdown">
           <a href="#" class="nav-link-custom" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account
           </a>
@@ -27,9 +33,6 @@
             </div>
           </li>
         <% else %>
-          <li class="nav-item active">
-            <%= link_to "Play", game_path, class: "nav-link-custom" %>
-          </li>
           <li class="nav-item" active>
             <%= link_to "Login", new_user_session_path, class: "nav-link-custom", id:'login' %>
           </li>
