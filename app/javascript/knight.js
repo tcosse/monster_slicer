@@ -81,7 +81,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
               this.play('walk_up', true)
             }
             this.setVelocityY(-speed);
-            this.weapon.setOffset(0,-15)
+            this.weapon.setOffset(0,-10)
           }
           // if(this.anims.currentAnim.key == "skeleton_dead")
 
@@ -93,7 +93,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
               this.play('walk_down', true)
             }
             this.setVelocityY(speed);
-            this.weapon.setOffset(0,20)
+            this.weapon.setOffset(0,8)
           }
         }
         else
@@ -116,7 +116,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
             this.play('walk_side', true)
             this.setVelocityX(speed);
             this.flipX = false
-            this.weapon.setOffset(20,-5)
+            this.weapon.setOffset(18,-5)
           }
         }
         else
@@ -125,9 +125,10 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
         }
         // console.log(this.gameScene.input.manager.activePointer.primaryDown == true)
         if(keyV.isDown || this.gameScene.input.manager.activePointer.primaryDown) {
-
-          this.gameScene.slashSound.play()
-          this.setVelocity(0,0)
+          if(this.anims.currentFrame.frame.name == 37 ||this.anims.currentFrame.frame.name == 43 || this.anims.currentFrame.frame.name == 49){
+            this.gameScene.slashSound.play()
+          }
+          // this.setVelocity(0,0)
           switch(this.anims.currentAnim.key) {
             case "idle_down":
               this.play("attack_down", true)
@@ -193,75 +194,6 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
             this.chain("idle_down", true)
         }
         this.setVelocity(0,0)
-      }
-//  secondary attack
-      if(keyE.isDown) {
-        this.gameScene.spellSound.play()
-        this.setVelocity(0,0)
-        switch(this.anims.currentAnim.key) {
-          case "idle_down":
-            this.play("throw_down", true)
-
-            var spell = new Spell({x: this.x, y: this.y}, this.gameScene).setVelocity(0,50)
-
-
-            break;
-          case "walk_down":
-            this.play("throw_down", true)
-
-            var spell = new Spell({x: this.x, y: this.y}, this.gameScene).setVelocity(0,50)
-            break;
-          case "idle_side":
-            this.play("throw_side", true)
-            if(this.flipX == false){
-              var spell = new Spell({x: this.x, y: this.y}, this.gameScene).setVelocity(50,0)
-            spell.angle = -90
-            }
-            else {
-              var spell = new Spell({x: this.x, y: this.y}, this.gameScene).setVelocity(-50,0)
-              spell.angle = 90
-            }
-            // spell.updateRotation();
-            break;
-          case "walk_side":
-            this.play("throw_side", true)
-            console.log(this.flipX)
-            if(this.flipX == false){
-              var spell = new Spell({x: this.x, y: this.y}, this.gameScene).setVelocity(50,0)
-            spell.angle = -90
-            }
-            else {
-              var spell = new Spell({x: this.x, y: this.y}, this.gameScene).setVelocity(-50,0)
-              spell.angle = 90
-            }
-
-            // spell.updateRotation();
-            break;
-            break;
-          case "idle_up":
-            this.play("throw_up", true)
-
-            var spell = new Spell({x: this.x, y: this.y}, this.gameScene).setVelocity(0,-50)
-            spell.flipY = true
-            break;
-          case "walk_up":
-            this.play("throw_up", true)
-
-            var spell = new Spell({x: this.x, y: this.y}, this.gameScene).setVelocity(0,-50)
-            spell.flipY = true
-            break;
-          case "throw_down":
-            this.chain("idle_down", true)
-            break;
-          case "throw_side":
-            this.chain("idle_side", true)
-            break;
-          case "throw_up":
-            this.chain("idle_up", true)
-            break;
-          default:
-        }
-
       }
     }
   }
