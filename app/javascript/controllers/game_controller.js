@@ -118,7 +118,7 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('skeleton_all', newSkeletonUrl, {frameWidth: 64, frameHeight:64})
 
       this.gameScene.load.spritesheet('fireball', fireballUrl, {frameWidth: 64, frameHeight:64})
-      this.gameScene.load.spritesheet('explosion', explosionUrl, {frameWidth: 190, frameHeight:190})
+      this.gameScene.load.spritesheet('explosion', explosionUrl, {frameWidth: 196, frameHeight:190})
 
       this.gameScene.load.spritesheet('spell', spellUrl, {frameWidth: 16, frameHeight:24})
 
@@ -212,7 +212,8 @@ export default class extends Controller {
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
 
-      this.snake = new Snake({x: (35 * 16), y: (12 * 16)}, this.gameScene)
+      this.snake = new Snake({x: (46 * 16), y: (113 * 16)}, this.gameScene)
+      this.snakeIsDead = false
       // dégats gratuits
       // this.knight.damage(Phaser.Math.Between(8, 9))
 
@@ -252,6 +253,15 @@ export default class extends Controller {
           window.location.replace(this.gameoverUrl);
         }, "1000");
         this.gameScene.physics.world.disableUpdate()
+      }
+
+      if (this.snakeIsDead == false){
+        this.snake.move()
+        this.snake.addPhysics(this.knight)
+        if (this.snake.getHealth() == 0) {
+          this.snakeIsDead = true
+          delete this.snake
+        }
       }
     }
 
