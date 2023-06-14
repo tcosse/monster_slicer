@@ -2,7 +2,6 @@ import * as Phaser from "phaser"
 import {HealthBar} from "healthbar" //"/healthbar.js"
 import PhaserHealth from 'phaser_health';
 import { Weapon } from "weapon";
-import { Spell } from "spell";
 
 var Health = PhaserHealth;
 
@@ -22,7 +21,6 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
     gameScene.add.existing(this);
     this.skeleKilled = 0
     this.isDead = false
-    this.spell = null
 
     // Ici je donne des HP au knight, je crée une barre de vie visuelle, je lie cette barre au knight (pour accéder a ses PV)
     // puis j'attribue cette barre au knight pour pouvoir l'appeler dans la def de knight

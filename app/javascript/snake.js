@@ -17,14 +17,15 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
     this.movement = 'up'
     this.time = new Date() / 1000
     this.lastHit = new Date () / 1000
+    this.timeToHit = new Date () / 1000
     this.blinkTime = new Date () / 1000
     // salle de boss
-    // this.container = { x: [(32 * 16), (60 * 16)], y: [(103 * 16), (124 * 16)]}
+    this.container = { x: [(35 * 16), (55 * 16)], y: [(110 * 16), (115 * 16)]}
 
     // depart pour test
-    this.container = { x: [(29 * 16), (42 * 16)], y: [(9 * 16), (19 * 16)]}
-    this.x = 30 * 16
-    this.y = 15 * 16
+    // this.container = { x: [(29 * 16), (42 * 16)], y: [(9 * 16), (19 * 16)]}
+    // this.x = 30 * 16
+    // this.y = 15 * 16
 
     this.setHealth(150,0,150)
 
@@ -232,12 +233,14 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
   }
 
   blinkingTail() {
-    this.bodyPart9.setTint(0xff6666)
-    if ((new Date() / 1000) - this.blinkTime > 1) {
-      
+    if ((new Date() / 1000) - this.blinkTime > 0.5) {
+      this.bodyPart9.setTint(0xff6666)
+      this.blinkTime = new Date() / 1000
+    } else if ((new Date() / 1000) - this.blinkTime > 0.25){
+      this.bodyPart9.clearTint()
     }
-
   }
+
 
   addPhysics(knight) {
 
@@ -253,7 +256,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
         if (this.getHealth() > 0) {
           // if the skeleton has health left, then apply damage
             if ((new Date() / 1000) - this.lastHit > 1) {
-              this.damage(75)
+              this.damage(30)
               this.clearTint()
               this.lastHit = new Date() / 1000
               console.log('damage')
@@ -297,35 +300,34 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
               }
             })
 
-            const x = this.x
-            const y = this.y + 10
+            // const x = this.x
+            // const y = this.y + 10
 
-            if(Math.random() < 0.05) {
-              let potion = new Potion({ x, y }, this.gameScene)
-              this.gameScene.time.delayedCall(12000, () => potion.destroy());
-              potion.addPhysics(knight)
-              potion.setScale(0.4, 0.4)
-            }
+            // if(Math.random() < 0.05) {
+            //   let potion = new Potion({ x, y }, this.gameScene)
+            //   this.gameScene.time.delayedCall(12000, () => potion.destroy());
+            //   potion.addPhysics(knight)
+            //   potion.setScale(0.4, 0.4)
+            // }
 
             }
           }
         }
       })
-//     this.gameScene.physics.add.overlap(knight, this, (gameObject1, gameObject2) =>
-//     {
-// //       console.log(this.time)
-// //       const invu = (new Date() / 1000) - this.time
-// //       console.log('invu', invu)
-// //       if (invu > 2 ) {
-// //         knight.damage(1)
-// //         this.time = new Date() / 1000
-// //       }
 
-//       this.on('animationcomplete', ()=> {
-//           knight.damage(0.01)
-//       });
+  }
 
-//     });
+  damageKnight(knight) {
+    this.bodyParts.forEach((bodyPart) => {
+      this.gameScene.physics.add.overlap(knight, bodyPart, (gameObject1, gameObject2) => {
+        // console.log(this.timeToHit)
+        if ((new Date() / 1000) - this.timeToHit > 2 ) {
+          knight.damage(15)
+          this.timeToHit = new Date() / 1000
+        }
+      })
+    })
+
   }
 }
 Health.MixinTo(Snake);

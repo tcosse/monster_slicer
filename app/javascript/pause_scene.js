@@ -47,7 +47,10 @@ export class PauseScene extends Phaser.Scene
             this.#saveScene(this.controller.knight, this.gameScene)
           } else if (obj.text == "RESUME"){
             console.log("OK")
-            this.scene.switch('Game'); // Game est la clef de gameScene
+            this.cameras.main.fadeOut(500, 0, 0, 0)
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+              this.scene.switch('Game'); // Game est la clef de gameScene
+            })
           }
         });
     }
