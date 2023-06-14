@@ -13,11 +13,13 @@
           <li class="nav-item active">
             <%= link_to "Play", game_path, class: "nav-link-custom" %>
           </li>
-            <li class="nav-item active">
-              <a data-controller='popover' tabindex="0" class="nav-link-custom" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true"
-              data-bs-content="W, A, S, D or Q, Z, S, D to Move player <br> Left Click (or V) to attack <br> Shift for High Speed <br> P to Pause"
-              >How to play</a>
-            </li>
+        <% if controller_name == 'pages' && action_name == 'game' %>
+          <li class="nav-item active">
+            <a data-controller='popover' tabindex="0" class="nav-link-custom" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true"
+            data-bs-content="W, A, S, D or Q, Z, S, D to Move player <br> Left Click (or V) to attack <br> Shift for High Speed <br> P to Pause"
+            >How to play</a>
+          </li>
+        <% end %>
         <% if user_signed_in? %>
           <li class="nav-item active">
             <%= link_to "LeaderBoard", leaderboard_path, class: "nav-link-custom" %>
