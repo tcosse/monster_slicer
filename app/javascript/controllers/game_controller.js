@@ -245,6 +245,7 @@ export default class extends Controller {
       }
 
       this.snake.move()
+      this.snake.addPhysics(this.knight)
     }
 
     let config = {
