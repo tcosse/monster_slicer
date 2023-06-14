@@ -77,6 +77,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
     this.bodyPart9.depth = 31
     this.bodyParts.push(this.bodyPart9)
 
+
   }
 
   move() {
@@ -147,7 +148,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
         }
         console.log(this.movement)
         this.time = movementTime
-        // console.log(this.deplacements)
+        console.log(this.deplacements)
 
       }
 
@@ -160,7 +161,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
       }
 
 
-      const speed = 30
+      const speed = 20
 
       if (this.movement == 'up') {
         this.setVelocityX(0)
@@ -201,35 +202,38 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
       //   this.bodyPart1.setVelocityY(0)
       // }
 
+      console.log('body head', this.x, this.y)
+      console.log('body part 1', this.bodyPart1.x, this.bodyPart1.y)
+      console.log('body part 2', this.bodyPart2.x, this.bodyPart2.y)
       for (let i = 0; i < this.bodyParts.length; i++) {
-        let temp = 40 + 35 * i
-        let temp2 = temp / 4
+        let temp = 10 * (i + 1)
+        // let temp2 = 10 * (i + 1)
         if (this.deplacements[this.deplacements.length - temp] == 'up') {
           this.bodyParts[i].setVelocityX(0)
           this.bodyParts[i].setVelocityY(-speed);
           if (this.deplacements[this.deplacements.length - temp] == this.deplacements[this.deplacements.length - 1]) {
             this.bodyParts[i].x = this.x
-            this.bodyParts[i].y = this.y + temp2
+            // this.bodyParts[i].y = this.y + temp2
           }
         } else if (this.deplacements[this.deplacements.length - temp] == 'down') {
           this.bodyParts[i].setVelocityX(0)
           this.bodyParts[i].setVelocityY(speed);
           if (this.deplacements[this.deplacements.length - temp] == this.deplacements[this.deplacements.length - 1]) {
             this.bodyParts[i].x = this.x
-            this.bodyParts[i].y = this.y - temp2
+            // this.bodyParts[i].y = this.y - temp2
           }
         } else if (this.deplacements[this.deplacements.length - temp] == 'left') {
           this.bodyParts[i].setVelocityX(-speed);
           this.bodyParts[i].setVelocityY(0)
           if (this.deplacements[this.deplacements.length - temp] == this.deplacements[this.deplacements.length - 1]) {
-            this.bodyParts[i].x = this.x + temp2
+            // this.bodyParts[i].x = this.x + temp2
             this.bodyParts[i].y = this.y
           }
         } else if (this.deplacements[this.deplacements.length - temp] == 'right') {
           this.bodyParts[i].setVelocityX(speed);
           this.bodyParts[i].setVelocityY(0)
           if (this.deplacements[this.deplacements.length - temp] == this.deplacements[this.deplacements.length - 1]) {
-            this.bodyParts[i].x = this.x - temp2
+            // this.bodyParts[i].x = this.x - temp2
             this.bodyParts[i].y = this.y
           }
         }
