@@ -25,7 +25,7 @@ export class Fireball extends Phaser.Physics.Arcade.Sprite {
       this.#dealDamage()
     });
 
-    gameScene.time.delayedCall(1500, () => {
+    gameScene.time.delayedCall(8000, () => {
       this.#explodeAndDestroy()
     });
 
@@ -46,35 +46,35 @@ export class Fireball extends Phaser.Physics.Arcade.Sprite {
     // décide de la direction et la vitesse de la fireball
     switch(direction) {
       case "top":
-        this.setVelocity(0,-100)
+        this.setVelocity(0,-20)
         this.play("fireball_top", true)
         break;
       case "top_right":
-        this.setVelocity(75,-75)
+        this.setVelocity(15,-15)
         this.play("fireball_top_right", true)
         break;
       case "right":
-        this.setVelocity(100,0)
+        this.setVelocity(200,0)
         this.play("fireball_right", true)
         break;
       case "bottom_right":
-        this.setVelocity(75,75)
+        this.setVelocity(15,15)
         this.play("fireball_bottom_right", true)
         break;
       case "bottom":
-        this.setVelocity(0,100)
+        this.setVelocity(0,20)
         this.play("fireball_bottom", true)
         break;
       case "bottom_left":
-        this.setVelocity(-75,75)
+        this.setVelocity(-15,15)
         this.play("fireball_bottom_left", true)
         break;
       case "left":
-        this.setVelocity(-100,0)
+        this.setVelocity(-20,0)
         this.play("fireball_left", true)
         break;
       case "top_left":
-        this.setVelocity(-75,-75)
+        this.setVelocity(-15,-15)
         this.play("fireball_top_left", true)
         break;
       default:
@@ -83,7 +83,8 @@ export class Fireball extends Phaser.Physics.Arcade.Sprite {
 
   #dealDamage() {
     const invu = (new Date() / 1000) - this.time
-    if (invu > 0.1) {
+    if (invu > 0.3) {
+      console.log("Degats")
       this.knight.damage(10)
       this.time = new Date() / 1000
     }
