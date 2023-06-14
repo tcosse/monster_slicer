@@ -104,6 +104,31 @@ const loadAnimations = (gameScene) => {
     frames: gameScene.anims.generateFrameNumbers("player_all", { start: 54, end: 56 }),
     repeat: 0
   })
+  gameScene.anims.create({
+    key: "throw_down",
+    frameRate: 6,
+    frames: gameScene.anims.generateFrameNumbers("player_all", { start: 60, end: 63 }),
+    repeat: 0
+  })
+  gameScene.anims.create({
+    key: "throw_side",
+    frameRate: 6,
+    frames: gameScene.anims.generateFrameNumbers("player_all", { start: 66, end: 69 }),
+    repeat: 0
+  })
+  gameScene.anims.create({
+    key: "throw_up",
+    frameRate: 6,
+    frames: gameScene.anims.generateFrameNumbers("player_all", { start: 72, end: 75 }),
+    repeat: 0
+  })
+  gameScene.anims.create({
+    key: "spell",
+    frameRate: 6,
+    frames: gameScene.anims.generateFrameNumbers("spell", { start: 0, end: 2 }),
+    repeat: -1
+  })
+
 
   //                    //
   /* new Skeleton anims */
@@ -189,7 +214,7 @@ const loadAnimations = (gameScene) => {
   gameScene.anims.create({
     key: "fireball_explosion",
     frameRate: 8,
-    frames: gameScene.anims.generateFrameNumbers("explosion", { start: 2, end: 8 }),
+    frames: gameScene.anims.generateFrameNumbers("explosion", { start: 0, end: 12 }),
     repeat: 0
   })
 
@@ -203,6 +228,8 @@ const loadSounds = (gameScene) => {
   gameScene.coinSound = gameScene.sound.add("coin_sound")
   gameScene.healSound = gameScene.sound.add("heal_sound")
   gameScene.wilhelmSound = gameScene.sound.add("wilhelm_sound")
-
+  gameScene.spellSound = gameScene.sound.add("spell_sound")
+  gameScene.explosionSound = gameScene.sound.add("explosion_sound")
+  gameScene.okSound = gameScene.sound.add("ok_sound")
 }
 export {loadSounds}

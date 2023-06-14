@@ -13,13 +13,11 @@
           <li class="nav-item active">
             <%= link_to "Play", game_path, class: "nav-link-custom" %>
           </li>
-          <% if  %>
             <li class="nav-item active">
               <a data-controller='popover' tabindex="0" class="nav-link-custom" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-html="true"
-              data-bs-content="W, A, S, D or Q, Z, S, D to Move player <br> V or click to attack <br> Shift to attack"
+              data-bs-content="W, A, S, D or Q, Z, S, D to Move player <br> Left Click (or V) to attack <br> Shift for High Speed <br> P to Pause"
               >How to play</a>
             </li>
-          <% end %>
         <% if user_signed_in? %>
           <li class="nav-item active">
             <%= link_to "LeaderBoard", leaderboard_path, class: "nav-link-custom" %>
@@ -28,7 +26,6 @@
           <a href="#" class="nav-link-custom" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account
           </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%#= link_to "Settings", "#", class: "dropdown-item" %>
               <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
             </div>
           </li>
