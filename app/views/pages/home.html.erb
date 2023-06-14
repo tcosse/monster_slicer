@@ -1,5 +1,5 @@
 
-<div class="home-page">
+<div class="home-page" data-controller='vertical-slides'>
   <div class = "banner" style="background-image: linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)), url('<%= asset_url 'background_image_2.jpg' %>'); min-height: 100vh; background-repeat: no-repeat;">
     <div class="home-container">
       <h1 data-controller="typed">
@@ -16,8 +16,22 @@
           </div>
         <% end %>
         </div>
+        <div class='d-flex justify-content-center w-100 btn-round-container mt-5'>
+        <div>
+          <h2 class=''>See syllabus</h2>
+          <button class='btn-round' title='read next' data-action='click->vertical-slides#scrollToSyllabus'><i class="fa-solid fa-chevron-down"></i></button>
+        </div>
+        </div>
       </div>
-
     </div>
+  <div class="slide" id='syllabus'>
+    <h1 class='text-center my-4'>Syllabus</h1>
+    <div class="d-flex justify-content-space-between">
+      <div class='w-50 p-5 d-flex flex-fill align-items-center'>
+      <h2> Monster Slicer is a fun and short game designed with ♥ at Le Wagon<br><br>The goal of the game is to slice as many monsters and pick up coins in order to achieve the highest score</h2>
+      </div>
+      <img id='slimey' class='object-fit-cover bg-dark p-4' src="/images/Slimey-Bouncing.gif" alt="">
+    </div>
+  </div>
   </div>
 </div>
