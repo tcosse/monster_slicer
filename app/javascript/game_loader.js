@@ -279,5 +279,6 @@ const loadSounds = (gameScene) => {
   gameScene.spellSound = gameScene.sound.add("spell_sound")
   gameScene.explosionSound = gameScene.sound.add("explosion_sound")
   gameScene.okSound = gameScene.sound.add("ok_sound")
+  gameScene.minotaurusSound = gameScene.sound.add("minotaurus_sound")
 }
 export {loadSounds}

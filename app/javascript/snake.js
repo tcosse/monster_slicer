@@ -112,7 +112,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
       // faire l'ia de choix de mouvement
 
 
-      console.log('le perso est dans la salle de boss', this.knightInBossRoomValue)
+      // console.log('le perso est dans la salle de boss', this.knightInBossRoomValue)
       const distanceBetweenLastTarget = this.#calculateDistance(this, this.target)
       const lastTarget = this.target
       // (new Date() / 1000) - this.time) > 20 ||
