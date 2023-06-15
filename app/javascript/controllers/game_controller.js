@@ -290,13 +290,13 @@ export default class extends Controller {
           this.snake.blinkingTail()
           this.snake.addPhysics(this.knight)
           this.snake.damageKnight(this.knight)
+          this.snake.knightInBossRoom(this.knight)
           this.#timerThrowFireball()
           if (this.snake.getHealth() == 0) {
             this.snakeIsDead = true
             delete this.snake
           }
         }
-
         if(this.gameScene.keyP.isDown || this.gameScene.keyEchap.isDown){
           this.gameScene.scene.switch('pauseScene');
         }

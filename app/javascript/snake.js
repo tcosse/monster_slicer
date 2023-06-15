@@ -19,13 +19,20 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
     this.lastHit = new Date () / 1000
     this.timeToHit = new Date () / 1000
     this.blinkTime = new Date () / 1000
+
+
     // salle de boss
-    // this.container = { x: [(35 * 16), (55 * 16)], y: [(110 * 16), (115 * 16)]}
+
+    this.container = { x: [483, 1003], y: [1593, 2026]}
+    this.knightInBossRoomValue = false
+
 
     // depart pour test
     this.container = { x: [(29 * 16), (42 * 16)], y: [(9 * 16), (19 * 16)]}
     this.x = 30 * 16
     this.y = 15 * 16
+
+    this.target = {x: (47 * 16), y: (122 * 16), cadrant: 1}
 
     this.setHealth(150,0,150)
 
@@ -77,9 +84,22 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
     this.bodyPart9.depth = 31
     this.bodyParts.push(this.bodyPart9)
 
+
   }
 
-  move() {
+  #calculateDistance(objectA, objectB) {
+    return Math.sqrt((objectA.x-objectB.x)**2 + (objectA.y-objectB.y)**2)
+  }
+
+  knightInBossRoom(knight) {
+    if (knight.x < this.container.x[1] && knight.x > this.container.x[0] && knight.y < this.container.y[1] && knight.y > this.container.y[0] ) {
+      return this.knightInBossRoomValue = true
+    } else {
+      return this.knightInBossRoomValue = false
+    }
+  }
+
+  move(knight) {
     if (this.getHealth() == 0) {
       console.log('the snake is dead')
     } else {
@@ -89,148 +109,129 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
       this.healthBar.bar.setY(this.y - 25)
 
       // faire l'ia de choix de mouvement
-      const movementTime = new Date() / 1000
-      // console.log(movementTime - this.time)
 
-      // console.log(this.time - movementTime, this.x )
 
-      if ((movementTime - this.time) > 1) {
-        // console.log('dans le if')
-        const random = Math.random()
-        const lastMove = this.deplacements[this.deplacements.length - 1]
-        console.log(this.container.x[0])
-        if (random < 0.25 && lastMove != 'down' ) {
-          if (this.y > this.container.y[0]) {
-            this.movement = 'up'
-          } else {
-            if ((this.x - this.container.x[0] > 160) ) {
-              this.movement = 'left'
-            } else {
-              this.movement = 'right'
-            }
+      console.log('le perso est dans la salle de boss', this.knightInBossRoomValue)
+      const distanceBetweenLastTarget = this.#calculateDistance(this, this.target)
+      const lastTarget = this.target
+      // (new Date() / 1000) - this.time) > 20 ||
+      console.log('time', (new Date() / 1000) - this.time,'dist' ,distanceBetweenLastTarget)
+      if (distanceBetweenLastTarget <= 50) {
+        const targetRange = (5 * 16)
+        const noGoZone = targetRange
+        if (this.knightInBossRoomValue) {
+          const array = [1, 2, 3, 4]
+          array.splice(lastTarget.cadrant - 1, 1)
+          const goTo = array[Math.floor(Math.random() * 4)]
+          if (goTo == 4) {
+            this.target.x = knight.x + noGoZone + (Math.random() * targetRange)
+            this.target.y = knight.y + noGoZone + (Math.random() * targetRange)
+            this.target.cadrant = 4
+          } else if (goTo == 1) {
+            this.target.x = knight.x - noGoZone - (Math.random() * targetRange)
+            this.target.y = knight.y - noGoZone - (Math.random() * targetRange)
+            this.target.cadrant = 1
+          } else if (goTo == 3) {
+            this.target.x = knight.x - noGoZone - (Math.random() * targetRange)
+            this.target.y = knight.y + noGoZone + (Math.random() * targetRange)
+            this.target.cadrant = 3
+          } else if (goTo == 2) {
+            this.target.x = knight.x + noGoZone + (Math.random() * targetRange)
+            this.target.y = knight.y - noGoZone - (Math.random() * targetRange)
+            this.target.cadrant = 2
           }
+          // if (Math.random() < 0.5) {
+          //   this.target.x = knight.x + (5 * 16) + (Math.random() * targetRange)
+          // } else {
+          //   this.target.x = knight.x - (5 * 16)  - (Math.random() * targetRange)
+          // }
+          // if (Math.random() < 0.5) {
+          //   this.target.y = knight.y + (5 * 16)  + (Math.random() * targetRange)
+          // } else {
+          //   this.target.y = knight.y + (5 * 16)  - (Math.random() * targetRange)
+          // }
 
-
-        } else if (random < 0.5 && lastMove != 'up') {
-          if (this.y < this.container.y[1]) {
-            this.movement = 'down'
+        } else {
+          const targetRange = (15 * 16)
+          const targetRoom = { x: 752, y: 1792}
+          if (Math.random() < 0.5) {
+            this.target.x = targetRoom.x + (Math.random() * targetRange)
           } else {
-            if ((this.x - this.container.x[0] > 160)) {
-              this.movement = 'left'
-            } else {
-              this.movement = 'right'
-            }
+            this.target.x = targetRoom.x - (Math.random() * targetRange)
           }
-
-        } else if (random < 0.75 && lastMove != 'left') {
-          if (this.x < this.container.x[1]) {
-            this.movement = 'right'
+          if (Math.random() < 0.5) {
+            this.target.y = targetRoom.y + (Math.random() * targetRange)
           } else {
-            if ((this.y - this.container.y[0] > 160)) {
-              this.movement = 'up'
-            } else {
-              this.movement = 'down'
-            }
+            this.target.y = targetRoom.y - (Math.random() * targetRange)
           }
-
-        } else if (random < 1 && lastMove != 'right') {
-          if (this.x > this.container.x[0]) {
-            this.movement = 'left'
-          } else {
-            if ((this.y - this.container.y[0] > 160)) {
-              this.movement = 'up'
-            } else {
-              this.movement = 'down'
-            }
-          }
-
         }
-        console.log(this.movement)
-        this.time = movementTime
-        // console.log(this.deplacements)
+        console.log('knight', knight.x, knight.y)
+        console.log('snake', this.x, this.y)
+        console.log('target', this.target)
 
+        this.time = new Date() / 1000
+        this.deplacements.push(this.target)
       }
 
-
-
-
-      this.deplacements.push(this.movement)
-      if (this.deplacements.length > 600) {
+      if (this.deplacements.length > 10) {
         this.deplacements.splice(0, 1)
       }
 
 
-      const speed = 30
+      const speed = 20
 
-      if (this.movement == 'up') {
-        this.setVelocityX(0)
-        this.setVelocityY(-speed);
-        this.angle = 0
-
-      } else if (this.movement == 'down') {
-        this.setVelocityX(0)
-        this.setVelocityY(speed);
-        this.angle = 180
-
-      } else if (this.movement == 'left') {
-        this.setVelocityX(-speed);
-        this.setVelocityY(0)
-        this.angle = 270
+      // mouvement de la tete
+      const distanceBetween = this.#calculateDistance(this, this.target)
 
 
-      } else if (this.movement == 'right') {
-        this.setVelocityX(speed);
-        this.setVelocityY(0)
-        this.angle = 90
-
+      if (distanceBetween > 10 ) {
+        this.setVelocity(speed * (this.target.x - this.x) / distanceBetween, speed * (this.target.y - this.y) / distanceBetween);
+      } else if( distanceBetween <= 20){
+        if(this.body.newVelocity.x < 0){
+          this.setVelocity(-0.001,0)
+        }
+        else {
+          this.setVelocity(0.001,0)
+        }
       }
 
-      // emplcaement des parties du corps
-      // let temp = 60
-      // if (this.deplacements[this.deplacements.length - temp] == 'up') {
-      //   this.bodyPart1.setVelocityX(0)
-      //   this.bodyPart1.setVelocityY(-speed);
-      // } else if (this.deplacements[this.deplacements.length - temp] == 'down') {
-      //   this.bodyPart1.setVelocityX(0)
-      //   this.bodyPart1.setVelocityY(speed);
-      // } else if (this.deplacements[this.deplacements.length - temp] == 'left') {
-      //   this.bodyPart1.setVelocityX(-speed);
-      //   this.bodyPart1.setVelocityY(0)
-      // } else if (this.deplacements[this.deplacements.length - temp] == 'right') {
-      //   this.bodyPart1.setVelocityX(speed);
-      //   this.bodyPart1.setVelocityY(0)
-      // }
+      // angle du sprite
 
+      // prodscal = u[0] * v[0] + u[1] * v[1]
+      // NormeU = sqrt(u[0]**2 + u[1]**2)
+      // NormeV = sqrt(v[0]**2 + v[1]**2)
+      // arccos( prodscal / (NormeU * NormeV) ) * 180 / pi
+
+
+
+      // les body parts suivent le corps
       for (let i = 0; i < this.bodyParts.length; i++) {
-        let temp = 40 + 35 * i
-        let temp2 = temp / 4
-        if (this.deplacements[this.deplacements.length - temp] == 'up') {
-          this.bodyParts[i].setVelocityX(0)
-          this.bodyParts[i].setVelocityY(-speed);
-          if (this.deplacements[this.deplacements.length - temp] == this.deplacements[this.deplacements.length - 1]) {
-            this.bodyParts[i].x = this.x
-            this.bodyParts[i].y = this.y + temp2
+
+        if (i == 0) {
+          const distanceBetween = this.#calculateDistance(this, this.bodyParts[i])
+
+          if (distanceBetween < 150 && distanceBetween > 10 ) {
+            this.bodyParts[i].setVelocity(speed * (this.x - this.bodyParts[i].x) / distanceBetween, speed * (this.y - this.bodyParts[i].y) / distanceBetween);
+          } else if( distanceBetween <= 20){
+            if(this.bodyParts[i].body.newVelocity.x < 0){
+              this.bodyParts[i].setVelocity(-0.001,0)
+            }
+            else {
+              this.bodyParts[i].setVelocity(0.001,0)
+            }
           }
-        } else if (this.deplacements[this.deplacements.length - temp] == 'down') {
-          this.bodyParts[i].setVelocityX(0)
-          this.bodyParts[i].setVelocityY(speed);
-          if (this.deplacements[this.deplacements.length - temp] == this.deplacements[this.deplacements.length - 1]) {
-            this.bodyParts[i].x = this.x
-            this.bodyParts[i].y = this.y - temp2
-          }
-        } else if (this.deplacements[this.deplacements.length - temp] == 'left') {
-          this.bodyParts[i].setVelocityX(-speed);
-          this.bodyParts[i].setVelocityY(0)
-          if (this.deplacements[this.deplacements.length - temp] == this.deplacements[this.deplacements.length - 1]) {
-            this.bodyParts[i].x = this.x + temp2
-            this.bodyParts[i].y = this.y
-          }
-        } else if (this.deplacements[this.deplacements.length - temp] == 'right') {
-          this.bodyParts[i].setVelocityX(speed);
-          this.bodyParts[i].setVelocityY(0)
-          if (this.deplacements[this.deplacements.length - temp] == this.deplacements[this.deplacements.length - 1]) {
-            this.bodyParts[i].x = this.x - temp2
-            this.bodyParts[i].y = this.y
+        } else {
+          const distanceBetween = this.#calculateDistance(this.bodyParts[i - 1], this.bodyParts[i])
+
+          if (distanceBetween < 150 && distanceBetween > 10 ) {
+            this.bodyParts[i].setVelocity(speed * (this.bodyParts[i - 1].x - this.bodyParts[i].x) / distanceBetween, speed * (this.bodyParts[i - 1].y - this.bodyParts[i].y) / distanceBetween);
+          } else if( distanceBetween <= 20){
+            if(this.bodyParts[i].body.newVelocity.x < 0){
+              this.bodyParts[i].setVelocity(-0.001,0)
+            }
+            else {
+              this.bodyParts[i].setVelocity(0.001,0)
+            }
           }
         }
       }
