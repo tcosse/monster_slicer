@@ -141,6 +141,7 @@ export default class extends Controller {
 
     // const skeleton_start =
     this.gameScene.create = () =>{
+      console.log("loader: ", this)
       // this.gameScene.physics.world.setFPS(10)
       // console.log(this.frameCnt)
       console.log(lastSaveMc)
@@ -245,6 +246,7 @@ export default class extends Controller {
 
 
     this.gameScene.update = () => {
+      this.gameScene.anims.globalTimeScale = 4
       this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
       this.knight.update()
       this.#checkSkeleton()
