@@ -222,6 +222,7 @@ export default class extends Controller {
 
       this.snake = new Snake({x: (46 * 16), y: (113 * 16)}, this.gameScene)
       this.snakeIsDead = false
+      this.lastFireball = new Date() / 1000
       // dégats gratuits
       // this.knight.damage(Phaser.Math.Between(8, 9))
 
@@ -271,6 +272,7 @@ export default class extends Controller {
         this.snake.blinkingTail()
         this.snake.addPhysics(this.knight)
         this.snake.damageKnight(this.knight)
+        this.#timerThrowFireball()
         if (this.snake.getHealth() == 0) {
           this.snakeIsDead = true
           delete this.snake
@@ -290,8 +292,12 @@ export default class extends Controller {
       scene: [this.gameScene, this.UIScene, this.pauseScene, this.SelectCharacter],
       physics: {
         default: 'arcade',
-        arcade: { debug: false }
-      }
+        arcade: { debug: true }
+      },
+      fps: {
+        target: 60,
+        forceSetTimeOut: true
+      },
     };
     let game = new Phaser.Game(config);
   }
@@ -331,10 +337,31 @@ export default class extends Controller {
       console.log("Request complete! response:", res);
     });
   }
-  /* #throwFireball() {
-    this.directionFireball = ["top", "top_right", "right", "bottom_right", "bottom", "bottom_left", "left", "top_left"]
-    const directionSample = directionFireball[Math.floor ( Math.random() * directionFireball.length )]
-    const fireball = new Fireball({x: 485, y: 645}, this.gameScene, directionSample, this)
-  } */
-
+  #throwFireball() {
+    // const previousVelocityX = this.snake.velocityX
+    // const previousVelocityY = this.snake.velocityY
+    this.snake.setTint(0xF24C3D)
+    // this.snake.setVelocity(0,0)
+    if(this.knight.y <= this.snake.y){
+      this.directionFireball = ["top", "top_right", "top_left"]
+    } else {
+      this.directionFireball = ["bottom", "bottom_right", "bottom_left"]
+    }
+    // this.directionFireball = ["top", "top_right", "right", "bottom_right", "bottom", "bottom_left", "left", "top_left"]
+    this.gameScene.time.delayedCall(2000, () => {
+      for(let i=0; i<this.directionFireball.length; i++){
+        const fireball = new Fireball({x: this.snake.x, y: this.snake.y}, this.gameScene, this.directionFireball[i], this)
+        this.gameScene.physics.add.collider(fireball, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer])
+      }
+      this.snake.clearTint()
+      // this.snake.setVelocity(previousVelocityX, previousVelocityY)
+    })
+  }
+  #timerThrowFireball(){
+    const now = new Date() / 1000
+    if (this.lastFireball + 5 < now){
+      this.#throwFireball()
+      this.lastFireball = now
+    }
+  }
 }
