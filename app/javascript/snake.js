@@ -113,7 +113,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
       const distanceBetweenLastTarget = this.#calculateDistance(this, this.target)
       const lastTarget = this.target
       // (new Date() / 1000) - this.time) > 20 ||
-      console.log('time', (new Date() / 1000) - this.time,'dist' ,distanceBetweenLastTarget)
+      // console.log('time', (new Date() / 1000) - this.time,'dist' ,distanceBetweenLastTarget)
       if (distanceBetweenLastTarget <= 50) {
         const targetRange = (5 * 16)
         const noGoZone = targetRange
@@ -194,11 +194,6 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
       }
 
       // angle du sprite
-
-      // prodscal = u[0] * v[0] + u[1] * v[1]
-      // NormeU = sqrt(u[0]**2 + u[1]**2)
-      // NormeV = sqrt(v[0]**2 + v[1]**2)
-      // arccos( prodscal / (NormeU * NormeV) ) * 180 / pi
 
 
 
