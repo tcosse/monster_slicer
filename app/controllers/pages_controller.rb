@@ -40,6 +40,7 @@ class PagesController < ApplicationController
   end
 
   def gameover
+    @your_score = MainCharacter.where(user_id: current_user).first.score
   end
 
   def win

@@ -3,6 +3,7 @@
     <div >
       <div class = "game-over-msg">
         <p data-controller="gameovertyped"></p>
+        <h1 data-controller='delayed-message' data-delayed-message-score-value='<%=@your_score%>'></h1>
       </div>
     </div>
     <div class = "d-flex">
@@ -11,9 +12,9 @@
           <p>Try again !</p>
         </div>
       <% end %>
-      <%= link_to root_path do  %>
+      <%= link_to leaderboard_path do  %>
         <div class = "button-gold-large" style="background-image: url('<%= asset_url 'gold-button-new.png' %>')">
-          <p>Quit</p>
+          <p>LeaderBoard</p>
         </div>
       <% end %>
     </div>
