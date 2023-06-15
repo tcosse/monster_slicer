@@ -208,7 +208,7 @@ export default class extends Controller {
         }
       }
       console.log(lastSaveMc)
-      this.skeleCount = 4
+      this.skeleCount = 8
       this.gameScene.kills = lastSaveMc.kills
       this.gameScene.coinCount = lastSaveMc.coins
       this.gameScene.score = lastSaveMc.score
@@ -220,9 +220,9 @@ export default class extends Controller {
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
 
-      this.snake = new Snake({x: (46 * 16), y: (113 * 16)}, this.gameScene)
-      this.snakeIsDead = false
-      this.lastFireball = new Date() / 1000
+      // this.snake = new Snake({x: (46 * 16), y: (113 * 16)}, this.gameScene)
+      // this.snakeIsDead = false
+      // this.lastFireball = new Date() / 1000
       // dégats gratuits
       // this.knight.damage(Phaser.Math.Between(8, 9))
 
@@ -303,21 +303,46 @@ export default class extends Controller {
   }
 
   #spawnSkeletons(skeleCount){
-    let skeletons = []
+    let skeletons1 = []
     for(let i = 0; i < skeleCount; i++) {
       let randX =  Math.floor(Math.random() * (65*16 - 43*16) + 43*16)
       let randY =  Math.floor(Math.random() * (41*16 - 27*16) + 27*16)
       let skeleton = new Skeleton({x: randX,y:randY}, this.gameScene)
-      skeletons.push(skeleton)
+      skeletons1.push(skeleton)
     }
-    skeletons.forEach(skeleton => skeleton.addPhysics(this.knight))
+    skeletons1.forEach(skeleton => skeleton.addPhysics(this.knight))
+    let skeletons2 = []
+    for(let i = 0; i < skeleCount; i++) {
+      let randX =  Math.floor(Math.random() * (96*16 - 70*16) + 70*16)
+      let randY =  Math.floor(Math.random() * (47*16 - 33*16) + 33*16)
+      let skeleton = new Skeleton({x: randX,y:randY}, this.gameScene)
+      skeletons2.push(skeleton)
+    }
+    skeletons2.forEach(skeleton => skeleton.addPhysics(this.knight))
+    let skeletons3 = []
+    for(let i = 0; i < skeleCount; i++) {
+      let randX =  Math.floor(Math.random() * (78*16 - 65*16) + 65*16)
+      let randY =  Math.floor(Math.random() * (63*16 - 53*16) + 53*16)
+      let skeleton = new Skeleton({x: randX,y:randY}, this.gameScene)
+      skeletons3.push(skeleton)
+    }
+    skeletons3.forEach(skeleton => skeleton.addPhysics(this.knight))
+    let skeletons4 = []
+    for(let i = 0; i < skeleCount*2; i++) {
+      let randX =  Math.floor(Math.random() * (56*16 - 37*16) + 37*16)
+      let randY =  Math.floor(Math.random() * (89*16 - 61*16) + 61*16)
+      let skeleton = new Skeleton({x: randX,y:randY}, this.gameScene)
+      skeletons4.push(skeleton)
+    }
+    skeletons4.forEach(skeleton => skeleton.addPhysics(this.knight))
+    let skeletons = skeletons1.concat(skeletons2).concat(skeletons3).concat(skeletons4)
     return skeletons
   }
   #checkSkeleton(){
     let newSkeletons = []
     while(this.skeletons.length < this.skeleCount + this.knight.skeleKilled*4) {
-      let randX =  Math.floor(Math.random() * (96*16 - 70*16) + 70*16)
-      let randY =  Math.floor(Math.random() * (47*16 - 33*16) + 33*16)
+      let randX =  Math.floor(Math.random() * (39*16 - 22*16) + 22*16)
+      let randY =  Math.floor(Math.random() * (46*16 - 36*16) + 36*16)
       newSkeletons.push(new Skeleton({x: randX,y:randY}, this.gameScene))
       newSkeletons.forEach(skeleton => {
         skeleton.addPhysics(this.knight)
