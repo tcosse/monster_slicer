@@ -102,6 +102,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
 
   move(knight) {
     console.log('le snake bouge')
+    console.log(this.gameScene.physics.world.colliders._active)
     if (this.getHealth() == 0) {
       console.log('the snake is dead')
     } else {
