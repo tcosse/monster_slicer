@@ -19,7 +19,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
     this.lastHit = new Date () / 1000
     this.timeToHit = new Date () / 1000
     this.blinkTime = new Date () / 1000
-
+    this.beginningTime = new Date () / 1000
 
     // salle de boss
 
@@ -297,6 +297,9 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
             })
             this.gameScene.kills += 1
             this.gameScene.score += 500
+            if(new Date() / 1000 - this.beginningTime < 300){
+              this.gameScene.score += Math.round((300 - (new Date() / 1000 - this.beginningTime)) * 2)
+            }
             eventsCenter.emit('update-skeleton-kills', this.gameScene.kills)
             eventsCenter.emit('update-score', this.gameScene.score)
 
