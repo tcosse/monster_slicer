@@ -8,8 +8,10 @@ import { loadSounds } from "game_loader"
 import { UIScene } from 'ui_scene'
 import { Snake } from 'snake'
 import {Fireball} from 'fireball'
+import {Minotaurus} from 'minotaurus'
 import {SelectCharacter} from 'select_character'
 import { eventsCenter } from 'events_center'
+import { Slime } from "slime"
 
 
 
@@ -56,6 +58,8 @@ export default class extends Controller {
     spellSound: String,
     explosionSound: String,
     okSound: String,
+    minotaurusUrl: String,
+    blueslimeUrl: String,
   }
 
   connect() {
@@ -93,7 +97,10 @@ export default class extends Controller {
     const mcWindowUrl = this.mcWindowUrlValue
     const selectMcUrl = this.selectMcUrlValue
     const spellUrl = this.spellUrlValue
+    const minotaurusUrl = this.minotaurusUrlValue
+    const blueslimeUrl = this.blueslimeUrlValue
     this.gameoverUrl = this.gameoverValue
+
 
 
 // window.onload = function() {
@@ -127,6 +134,9 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('fireball', fireballUrl, {frameWidth: 64, frameHeight:64})
       this.gameScene.load.spritesheet('explosion', explosionUrl, {frameWidth: 196, frameHeight:190})
       this.gameScene.load.spritesheet('spell', spellUrl, {frameWidth: 16, frameHeight:24})
+      this.gameScene.load.spritesheet('minotaurus', minotaurusUrl, {frameWidth: 96, frameHeight:96})
+      this.gameScene.load.spritesheet('blue_slime', blueslimeUrl, {frameWidth: 32, frameHeight:32})
+
 
       this.gameScene.load.audio("death_sound", deathSound)
       this.gameScene.load.audio("slash_sound", slashSound)
@@ -141,6 +151,7 @@ export default class extends Controller {
 
     // const skeleton_start =
     this.gameScene.create = () =>{
+      console.log("loader: ", this)
       // this.gameScene.physics.world.setFPS(10)
       // console.log(this.frameCnt)
       console.log(lastSaveMc)
@@ -208,20 +219,28 @@ export default class extends Controller {
         }
       }
       console.log(lastSaveMc)
-      this.skeleCount = 4
+      this.skeleCount = 8
       this.gameScene.kills = lastSaveMc.kills
       this.gameScene.coinCount = lastSaveMc.coins
       this.gameScene.score = lastSaveMc.score
       this.knight = new Knight({x:lastSaveMc.x, y: lastSaveMc.y}, this.gameScene, lastSaveMc.health)
 
+      this.minotaurusOne = new Minotaurus({x: 700, y: 1341}, this.gameScene)
+      this.minotaurusOne.addPhysics(this.knight)
+
+      this.minotaurusTwo = new Minotaurus({x: 800, y: 1341}, this.gameScene)
+      this.minotaurusTwo.addPhysics(this.knight)
+
+      this.slimes = this.#spawnSlimes()
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
       console.log("spawned: ", this)
       console.log(this.knight.x)
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
 
-      this.snake = new Snake({x: (46 * 16), y: (113 * 16)}, this.gameScene)
-      this.snakeIsDead = false
+      // this.snake = new Snake({x: (46 * 16), y: (113 * 16)}, this.gameScene)
+      // this.snakeIsDead = false
+      // this.lastFireball = new Date() / 1000
       // dégats gratuits
       // this.knight.damage(Phaser.Math.Between(8, 9))
 
@@ -229,7 +248,7 @@ export default class extends Controller {
       // this.gameScene.cameras.main.setBounds(0, 0, 2000, 4000)
       this.gameScene.cameras.main.startFollow(this.knight);
       this.gameScene.cameras.main.setZoom(2)
-      const characters = this.skeletons.concat(this.knight)
+      const characters = this.skeletons.concat(this.knight).concat(this.slimes)
       this.gameScene.physics.add.collider(characters, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer])
       // this.gameScene.physics.add.collider(fireball, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer])
       // const coinsLabel = this.gameScene.add.text(100, 100, '0', {
@@ -244,13 +263,7 @@ export default class extends Controller {
 
 
     this.gameScene.update = () => {
-      this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
       this.knight.update()
-      this.#checkSkeleton()
-      if(this.gameScene.keyP.isDown || this.gameScene.keyEchap.isDown){
-        this.gameScene.scene.switch('pauseScene');
-      }
-
       if (this.knight.getHealth() == 0) {
         // je suis mort
         this.knight.isDead = true
@@ -263,18 +276,29 @@ export default class extends Controller {
         setTimeout(() => {
           window.location.replace(this.gameoverUrl);
         }, "1000");
-        this.gameScene.physics.world.disableUpdate()
-      }
-
-      if (this.snakeIsDead == false){
-        this.snake.move(this.knight)
-        this.snake.blinkingTail()
-        this.snake.addPhysics(this.knight)
-        this.snake.damageKnight(this.knight)
-        this.snake.knightInBossRoom(this.knight)
-        if (this.snake.getHealth() == 0) {
-          this.snakeIsDead = true
-          delete this.snake
+        // il faut donc arreter les updates
+        this.gameScene.scene.stop();
+        // this.gameScene.physics.world.disableUpdate()
+      } else {
+        this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
+        this.slimes.forEach(slime => {slime.moveSlime()})
+        this.minotaurusOne.moveMinotaurus(this.knight)
+        this.minotaurusTwo.moveMinotaurus(this.knight)
+        this.#checkSkeleton()
+        if (this.snakeIsDead == false){
+          this.snake.move()
+          this.snake.blinkingTail()
+          this.snake.addPhysics(this.knight)
+          this.snake.damageKnight(this.knight)
+          this.snake.knightInBossRoom(this.knight)
+          this.#timerThrowFireball()
+          if (this.snake.getHealth() == 0) {
+            this.snakeIsDead = true
+            delete this.snake
+          }
+        }
+        if(this.gameScene.keyP.isDown || this.gameScene.keyEchap.isDown){
+          this.gameScene.scene.switch('pauseScene');
         }
       }
     }
@@ -291,33 +315,57 @@ export default class extends Controller {
       scene: [this.gameScene, this.UIScene, this.pauseScene, this.SelectCharacter],
       physics: {
         default: 'arcade',
-        arcade: { debug: true }
+        arcade: { debug: false }
       },
       fps: {
         target: 60,
         forceSetTimeOut: true
       },
-
     };
     let game = new Phaser.Game(config);
   }
 
   #spawnSkeletons(skeleCount){
-    let skeletons = []
+    let skeletons1 = []
     for(let i = 0; i < skeleCount; i++) {
       let randX =  Math.floor(Math.random() * (65*16 - 43*16) + 43*16)
       let randY =  Math.floor(Math.random() * (41*16 - 27*16) + 27*16)
       let skeleton = new Skeleton({x: randX,y:randY}, this.gameScene)
-      skeletons.push(skeleton)
+      skeletons1.push(skeleton)
     }
-    skeletons.forEach(skeleton => skeleton.addPhysics(this.knight))
+    skeletons1.forEach(skeleton => skeleton.addPhysics(this.knight))
+    let skeletons2 = []
+    for(let i = 0; i < skeleCount; i++) {
+      let randX =  Math.floor(Math.random() * (96*16 - 70*16) + 70*16)
+      let randY =  Math.floor(Math.random() * (47*16 - 33*16) + 33*16)
+      let skeleton = new Skeleton({x: randX,y:randY}, this.gameScene)
+      skeletons2.push(skeleton)
+    }
+    skeletons2.forEach(skeleton => skeleton.addPhysics(this.knight))
+    let skeletons3 = []
+    for(let i = 0; i < skeleCount; i++) {
+      let randX =  Math.floor(Math.random() * (78*16 - 65*16) + 65*16)
+      let randY =  Math.floor(Math.random() * (63*16 - 53*16) + 53*16)
+      let skeleton = new Skeleton({x: randX,y:randY}, this.gameScene)
+      skeletons3.push(skeleton)
+    }
+    skeletons3.forEach(skeleton => skeleton.addPhysics(this.knight))
+    let skeletons4 = []
+    for(let i = 0; i < skeleCount-6; i++) {
+      let randX =  Math.floor(Math.random() * (56*16 - 37*16) + 37*16)
+      let randY =  Math.floor(Math.random() * (89*16 - 61*16) + 61*16)
+      let skeleton = new Skeleton({x: randX,y:randY}, this.gameScene)
+      skeletons4.push(skeleton)
+    }
+    skeletons4.forEach(skeleton => skeleton.addPhysics(this.knight))
+    let skeletons = skeletons1.concat(skeletons2).concat(skeletons3).concat(skeletons4)
     return skeletons
   }
   #checkSkeleton(){
     let newSkeletons = []
     while(this.skeletons.length < this.skeleCount + this.knight.skeleKilled*4) {
-      let randX =  Math.floor(Math.random() * (96*16 - 70*16) + 70*16)
-      let randY =  Math.floor(Math.random() * (47*16 - 33*16) + 33*16)
+      let randX =  Math.floor(Math.random() * (39*16 - 22*16) + 22*16)
+      let randY =  Math.floor(Math.random() * (46*16 - 36*16) + 36*16)
       newSkeletons.push(new Skeleton({x: randX,y:randY}, this.gameScene))
       newSkeletons.forEach(skeleton => {
         skeleton.addPhysics(this.knight)
@@ -337,10 +385,41 @@ export default class extends Controller {
       console.log("Request complete! response:", res);
     });
   }
-  /* #throwFireball() {
-    this.directionFireball = ["top", "top_right", "right", "bottom_right", "bottom", "bottom_left", "left", "top_left"]
-    const directionSample = directionFireball[Math.floor ( Math.random() * directionFireball.length )]
-    const fireball = new Fireball({x: 485, y: 645}, this.gameScene, directionSample, this)
-  } */
-
+  #throwFireball() {
+    // const previousVelocityX = this.snake.velocityX
+    // const previousVelocityY = this.snake.velocityY
+    this.snake.setTint(0xF24C3D)
+    // this.snake.setVelocity(0,0)
+    if(this.knight.y <= this.snake.y){
+      this.directionFireball = ["top", "top_right", "top_left"]
+    } else {
+      this.directionFireball = ["bottom", "bottom_right", "bottom_left"]
+    }
+    // this.directionFireball = ["top", "top_right", "right", "bottom_right", "bottom", "bottom_left", "left", "top_left"]
+    this.gameScene.time.delayedCall(2000, () => {
+      for(let i=0; i<this.directionFireball.length; i++){
+        const fireball = new Fireball({x: this.snake.x, y: this.snake.y}, this.gameScene, this.directionFireball[i], this)
+        this.gameScene.physics.add.collider(fireball, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer])
+      }
+      this.snake.clearTint()
+      // this.snake.setVelocity(previousVelocityX, previousVelocityY)
+    })
+  }
+  #timerThrowFireball(){
+    const now = new Date() / 1000
+    if (this.lastFireball + 5 < now){
+      this.#throwFireball()
+      this.lastFireball = now
+    }
+  }
+  #spawnSlimes(){
+    let slimes = []
+    for(let i = 0; i < 5; i++) {
+      let randX =  Math.floor(Math.random() * (64*16 - 40*16) + 40*16)
+      let randY =  Math.floor(Math.random() * (21*16 - 6*16) + 6*16)
+      let slime = new Slime({x: randX,y:randY}, this.gameScene)
+      slimes.push(slime)
+    }
+    return slimes
+  }
 }

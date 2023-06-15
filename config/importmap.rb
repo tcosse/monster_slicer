@@ -24,5 +24,7 @@ pin 'potion', preload: true
 pin 'snake', preload: true
 pin 'fireball', preload: true
 pin 'select_character', preload: true
+pin 'minotaurus', preload: true
+pin 'slime', preload: true
 
 pin "typed.js", to: "https://ga.jspm.io/npm:typed.js@2.0.16/dist/typed.module.js"

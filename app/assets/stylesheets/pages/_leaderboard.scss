@@ -1,10 +1,60 @@
+.bg-cover{
+  background-size: cover ;
+}
+
+.bg-100-100{
+  background-size: 100% 100%;
+}
+
+.bg-no-repeat {
+  background-repeat: no-repeat;
+}
+
 .container-lb{
-  width: 90%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 780px;
+  min-height: 90vh;
+  h1 {
+    color: black;
+  }
 }
-table td{
-  padding-right: 100px;
+
+#leaderboard-title{
+  height: 80px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#leaderboard-bottom{
+  height: 80px;
+  width: 100%;
+}
+
+#leaderboard-body{
+  background-size: 100%;
+  flex-grow: 1;
+}
+
+table{
+  margin: 0 auto;
+  color: black;
+  td {
+    padding: 0px 20px;
+    color: black;
+  }
+  th {
+    padding : 20px;
+    color: black;
+  }
+}
+
+table tr.red{
+  h4 {
+    color: $red;
+  }
 }
