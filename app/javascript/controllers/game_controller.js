@@ -351,7 +351,7 @@ export default class extends Controller {
     }
     skeletons3.forEach(skeleton => skeleton.addPhysics(this.knight))
     let skeletons4 = []
-    for(let i = 0; i < skeleCount*2; i++) {
+    for(let i = 0; i < skeleCount-6; i++) {
       let randX =  Math.floor(Math.random() * (56*16 - 37*16) + 37*16)
       let randY =  Math.floor(Math.random() * (89*16 - 61*16) + 61*16)
       let skeleton = new Skeleton({x: randX,y:randY}, this.gameScene)

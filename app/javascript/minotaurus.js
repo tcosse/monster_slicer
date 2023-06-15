@@ -140,16 +140,20 @@ export class Minotaurus extends Phaser.Physics.Arcade.Sprite {
         if ((this.gameScene.input.keyboard.addKey("V").isDown || this.gameScene.input.manager.activePointer.primaryDown)) {
 
           if(knight.anims.currentFrame.frame.name == 36 ||knight.anims.currentFrame.frame.name == 42 || knight.anims.currentFrame.frame.name == 48){
-            this.setTint(0xff6666) // applies red color to minotaurus when is attacked
+             // applies red color to minotaurus when is attacked
 
-            this.gameScene.time.delayedCall(20000, () => {this.isHit = false});
             if (this.getHealth() > 0) {
-              // if the minotaurus has health left, then apply damage
-              knight.once('animationcomplete', () => {
-                console.log("15 de dmg")
-                this.damage(15)
-                this.clearTint()
-              });
+              if(this.isHit == false){
+                this.setTint(0xff6666)
+                this.isHit = true
+                // if the minotaurus has health left, then apply damage
+                knight.once('animationcomplete', () => {
+                  this.damage(15)
+                  console.log("minotaur health: ", this.getHealth())
+                  this.clearTint()
+                  this.isHit = false
+                });
+              }
             }
             else {
               // if the minotaurus has no life left, then he is considered as dead
