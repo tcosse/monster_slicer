@@ -15,8 +15,9 @@
         </tr>
       </thead>
       <tbody>
+        <% counter = 1 %>
         <% User.order(highscore: :desc).each do |user| %>
-          <% counter = 1 %>
+
           <% if user.highscore != nil %>
               <tr class='<%='red' if user == current_user %>'>
                 <td>
