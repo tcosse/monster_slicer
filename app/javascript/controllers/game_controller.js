@@ -242,6 +242,8 @@ export default class extends Controller {
       // this.gameScene.enemy.setScale(0.5,0.5)
 
       this.snake = new Snake({x: (46 * 16), y: (113 * 16)}, this.gameScene)
+      this.snake.addPhysics(this.knight)
+      this.snake.damageKnight(this.knight)
       this.snakeIsDead = false
 
       this.lastFireball = new Date() / 1000
@@ -297,8 +299,7 @@ export default class extends Controller {
         if (this.snakeIsDead == false){
           this.snake.move(this.knight)
           this.snake.blinkingTail()
-          this.snake.addPhysics(this.knight)
-          this.snake.damageKnight(this.knight)
+
           this.snake.knightInBossRoom(this.knight)
           this.#timerThrowFireball()
           if (this.snake.getHealth() == 0) {
