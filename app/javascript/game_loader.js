@@ -194,7 +194,7 @@ const loadAnimations = (gameScene) => {
     repeat: 0
   })
   gameScene.anims.create({
-    key: "fireball_bottom_rigth",
+    key: "fireball_bottom_right",
     frameRate: 8,
     frames: gameScene.anims.generateFrameNumbers("fireball", { start: 40, end: 47 }),
     repeat: 0
