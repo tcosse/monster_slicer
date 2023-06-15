@@ -11,6 +11,7 @@ import {Fireball} from 'fireball'
 import {Minotaurus} from 'minotaurus'
 import {SelectCharacter} from 'select_character'
 import { eventsCenter } from 'events_center'
+import { Slime } from "slime"
 
 
 
@@ -58,6 +59,7 @@ export default class extends Controller {
     explosionSound: String,
     okSound: String,
     minotaurusUrl: String,
+    blueslimeUrl: String,
   }
 
   connect() {
@@ -96,7 +98,9 @@ export default class extends Controller {
     const selectMcUrl = this.selectMcUrlValue
     const spellUrl = this.spellUrlValue
     const minotaurusUrl = this.minotaurusUrlValue
+    const blueslimeUrl = this.blueslimeUrlValue
     this.gameoverUrl = this.gameoverValue
+
 
 
 // window.onload = function() {
@@ -131,6 +135,8 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('explosion', explosionUrl, {frameWidth: 196, frameHeight:190})
       this.gameScene.load.spritesheet('spell', spellUrl, {frameWidth: 16, frameHeight:24})
       this.gameScene.load.spritesheet('minotaurus', minotaurusUrl, {frameWidth: 96, frameHeight:96})
+      this.gameScene.load.spritesheet('blue_slime', blueslimeUrl, {frameWidth: 32, frameHeight:32})
+
 
       this.gameScene.load.audio("death_sound", deathSound)
       this.gameScene.load.audio("slash_sound", slashSound)
@@ -145,6 +151,7 @@ export default class extends Controller {
 
     // const skeleton_start =
     this.gameScene.create = () =>{
+      console.log("loader: ", this)
       // this.gameScene.physics.world.setFPS(10)
       // console.log(this.frameCnt)
       console.log(lastSaveMc)
@@ -224,6 +231,7 @@ export default class extends Controller {
       this.minotaurusTwo = new Minotaurus({x: 800, y: 1341}, this.gameScene)
       this.minotaurusTwo.addPhysics(this.knight)
 
+      this.slimes = this.#spawnSlimes()
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
       console.log("spawned: ", this)
       console.log(this.knight.x)
@@ -240,7 +248,7 @@ export default class extends Controller {
       // this.gameScene.cameras.main.setBounds(0, 0, 2000, 4000)
       this.gameScene.cameras.main.startFollow(this.knight);
       this.gameScene.cameras.main.setZoom(2)
-      const characters = this.skeletons.concat(this.knight)
+      const characters = this.skeletons.concat(this.knight).concat(this.slimes)
       this.gameScene.physics.add.collider(characters, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer])
       // this.gameScene.physics.add.collider(fireball, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer])
       // const coinsLabel = this.gameScene.add.text(100, 100, '0', {
@@ -273,6 +281,7 @@ export default class extends Controller {
         // this.gameScene.physics.world.disableUpdate()
       } else {
         this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
+        this.slimes.forEach(slime => {slime.moveSlime()})
         this.minotaurusOne.moveMinotaurus(this.knight)
         this.minotaurusTwo.moveMinotaurus(this.knight)
         this.#checkSkeleton()
@@ -306,7 +315,7 @@ export default class extends Controller {
       scene: [this.gameScene, this.UIScene, this.pauseScene, this.SelectCharacter],
       physics: {
         default: 'arcade',
-        arcade: { debug: true }
+        arcade: { debug: false }
       },
       fps: {
         target: 60,
@@ -402,5 +411,15 @@ export default class extends Controller {
       this.#throwFireball()
       this.lastFireball = now
     }
+  }
+  #spawnSlimes(){
+    let slimes = []
+    for(let i = 0; i < 5; i++) {
+      let randX =  Math.floor(Math.random() * (64*16 - 40*16) + 40*16)
+      let randY =  Math.floor(Math.random() * (21*16 - 6*16) + 6*16)
+      let slime = new Slime({x: randX,y:randY}, this.gameScene)
+      slimes.push(slime)
+    }
+    return slimes
   }
 }

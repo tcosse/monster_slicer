@@ -1,10 +1,43 @@
+.bg-cover{
+  background-size: cover ;
+}
+
+.bg-no-repeat {
+  background-repeat: no-repeat;
+}
+
 .container-lb{
-  width: 90%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 50%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 30px 60px;
+  width: 720px;
+  h1 {
+    color: black;
+  }
 }
-table td{
-  padding-right: 100px;
+
+#leaderboard-title{
+  height: 80px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+table{
+  margin-top: 40px;
+  color: black;
+  td {
+    padding: 0px 20px;
+    color: black;
+  }
+  th {
+    padding : 20px;
+    color: black;
+  }
 }
