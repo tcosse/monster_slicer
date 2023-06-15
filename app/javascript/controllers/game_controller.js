@@ -435,7 +435,7 @@ export default class extends Controller {
   #fireballSallePreBoss(){
     const now = new Date() / 1000
     // il suffit de modifier le tableau dessous pour faire spawn les fireballs ailleurs
-    const positionDepart = [[650, 1200, "right"], [650, 1100, "right"], [850, 1200, "left"], [850, 1100, "left"]]
+    const positionDepart = [[600, 1200, "right"], [600, 1100, "right"], [890, 1200, "left"], [890, 1100, "left"]]
     if (this.lastFireballFromBossroom + 1 < now){
       const position = positionDepart[Math.floor ( Math.random() * positionDepart.length )]
       this.lastFireballFromBossroom = now
