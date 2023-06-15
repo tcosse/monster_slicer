@@ -337,7 +337,7 @@ export default class extends Controller {
 
   #spawnSkeletons(skeleCount){
     let skeletons1 = []
-    for(let i = 0; i < skeleCount; i++) {
+    for(let i = 0; i < skeleCount+2; i++) {
       let randX =  Math.floor(Math.random() * (65*16 - 43*16) + 43*16)
       let randY =  Math.floor(Math.random() * (41*16 - 27*16) + 27*16)
       let skeleton = new Skeleton({x: randX,y:randY}, this.gameScene)
@@ -353,7 +353,7 @@ export default class extends Controller {
     }
     skeletons2.forEach(skeleton => skeleton.addPhysics(this.knight))
     let skeletons3 = []
-    for(let i = 0; i < skeleCount; i++) {
+    for(let i = 0; i < skeleCount-2; i++) {
       let randX =  Math.floor(Math.random() * (78*16 - 65*16) + 65*16)
       let randY =  Math.floor(Math.random() * (63*16 - 53*16) + 53*16)
       let skeleton = new Skeleton({x: randX,y:randY}, this.gameScene)
@@ -361,7 +361,7 @@ export default class extends Controller {
     }
     skeletons3.forEach(skeleton => skeleton.addPhysics(this.knight))
     let skeletons4 = []
-    for(let i = 0; i < skeleCount-6; i++) {
+    for(let i = 0; i < skeleCount-8; i++) {
       let randX =  Math.floor(Math.random() * (56*16 - 37*16) + 37*16)
       let randY =  Math.floor(Math.random() * (89*16 - 61*16) + 61*16)
       let skeleton = new Skeleton({x: randX,y:randY}, this.gameScene)
@@ -435,7 +435,7 @@ export default class extends Controller {
   #fireballSallePreBoss(){
     const now = new Date() / 1000
     // il suffit de modifier le tableau dessous pour faire spawn les fireballs ailleurs
-    const positionDepart = [[650, 1200, "right"], [650, 1100, "right"], [850, 1200, "left"], [850, 1100, "left"]]
+    const positionDepart = [[600, 1200, "right"], [600, 1100, "right"], [890, 1200, "left"], [890, 1100, "left"]]
     if (this.lastFireballFromBossroom + 1 < now){
       const position = positionDepart[Math.floor ( Math.random() * positionDepart.length )]
       this.lastFireballFromBossroom = now
