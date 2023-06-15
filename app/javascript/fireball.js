@@ -42,7 +42,7 @@ export class Fireball extends Phaser.Physics.Arcade.Sprite {
       this.setVelocity(0,0)
       this.setOffset(80,72)
       this.play("fireball_explosion", true)
-      console.log(this.#calculateDistance(this, this.knight))
+      // console.log(this.#calculateDistance(this, this.knight))
       if(this.#calculateDistance(this, this.knight) < 200) {
         this.gameScene.explosionSound.play()
       }
@@ -91,7 +91,6 @@ export class Fireball extends Phaser.Physics.Arcade.Sprite {
   #dealDamage() {
     const invu = (new Date() / 1000) - this.time
     if (invu > 0.3) {
-      console.log("Degats")
       this.knight.damage(10)
       this.time = new Date() / 1000
     }
