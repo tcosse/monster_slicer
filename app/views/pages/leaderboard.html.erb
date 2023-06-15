@@ -11,13 +11,13 @@
           <th>Username</th>
           <th>Coins Collected</th>
           <th>Total Kills</th>
+          <th>Number of games</th>
           <th>High Score</th>
         </tr>
       </thead>
       <tbody>
         <% counter = 1 %>
         <% User.order(highscore: :desc).each do |user| %>
-
           <% if user.highscore != nil %>
               <tr class='<%='red' if user == current_user %>'>
                 <td>
@@ -32,6 +32,9 @@
                 </td>
                 <td>
                   <h4> <%=user.total_kills %></h4>
+                </td>
+                <td>
+                  <h4> <%=user.main_characters.count %></h4>
                 </td>
                 <td>
                   <h4> <%=user.highscore %></h4>
