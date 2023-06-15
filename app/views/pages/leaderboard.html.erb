@@ -15,11 +15,13 @@
         </tr>
       </thead>
       <tbody>
-        <% User.order(highscore: :desc).each_with_index do |user, index| %>
+        <% User.order(highscore: :desc).each do |user| %>
+          <% counter = 1 %>
           <% if user.highscore != nil %>
               <tr class='<%='red' if user == current_user %>'>
                 <td>
-                  <h4><%= index + 1 %></h4>
+                  <h4><%= counter %></h4>
+                  <% counter += 1 %>
                 </td>
                 <td>
                   <h4><%= user.username %></h4>

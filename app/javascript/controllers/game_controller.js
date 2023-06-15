@@ -243,8 +243,14 @@ export default class extends Controller {
 
       this.snake = new Snake({x: (46 * 16), y: (113 * 16)}, this.gameScene)
       this.snakeIsDead = false
+
+      this.lastFireball = new Date() / 1000
+      // dégats gratuits
+      // this.knight.damage(Phaser.Math.Between(8, 9))
+
       // this.lastFireball = new Date() / 1000
       this.lastFireballFromBossroom = new Date() / 1000
+
 
       // gestion de la caméra
       // this.gameScene.cameras.main.setBounds(0, 0, 2000, 4000)
@@ -421,6 +427,7 @@ export default class extends Controller {
       let randX =  Math.floor(Math.random() * (64*16 - 40*16) + 40*16)
       let randY =  Math.floor(Math.random() * (21*16 - 6*16) + 6*16)
       let slime = new Slime({x: randX,y:randY}, this.gameScene)
+      slime.addPhysics(this.knight)
       slimes.push(slime)
     }
     return slimes
