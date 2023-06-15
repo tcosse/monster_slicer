@@ -43,7 +43,7 @@ export class Minotaurus extends Phaser.Physics.Arcade.Sprite {
   }
 
   moveMinotaurus(knight){
-    var minotaurus_speed = 20;
+    var minotaurus_speed = 15;
     var distance_between = this.#calculateDistance(knight, this)
     // var skeleton_start_distance = Math.sqrt((skeleton_start[0]-this.object.x)**2 + (skeleton_start[1]-this.object.y)**2)
     var minotaurus_start_distance = this.#calculateDistance(this.start, this)

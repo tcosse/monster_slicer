@@ -190,7 +190,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
                     coin.addPhysics(knight)
                     // console.log(coin)
                   } else {
-                    if(Math.random() < 0.1) {
+                    if(Math.random() < 0.2) {
                       let potion = new Potion({ x, y }, this.gameScene)
                       potion.addPhysics(knight)
                       potion.setScale(0.4, 0.4)
