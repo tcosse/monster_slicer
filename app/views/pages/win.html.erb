@@ -5,17 +5,17 @@
         <p data-controller="typed-win"></p>
         <h1 data-controller='delayed-message' data-delayed-message-score-value='<%=@your_score%>'></h1>
       </div>
-      <div class='d-flex align-items-center'>
-        <%= image_tag 'slime-background-black', {id: 'win-img'} %>
-      </div>
 
     </div>
-    <div class = "d-flex">
+    <div class = "d-flex justify-content-between">
       <%= link_to game_path do  %>
         <div class = "button-gold-large" style="background-image: url('<%= asset_url 'gold-button-new.png' %>')">
           <p>New Game</p>
         </div>
       <% end %>
+      <div class='d-flex align-items-center'>
+          <%= image_tag 'slime-background-black', {id: 'win-img'} %>
+      </div>
       <%= link_to leaderboard_path do  %>
         <div class = "button-gold-large" style="background-image: url('<%= asset_url 'gold-button-new.png' %>')">
           <p>LeaderBoard</p>

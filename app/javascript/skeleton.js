@@ -112,7 +112,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
           this.weapon.setPosition(this.x, this.y)
           console.log(this.anims.currentFrame.frame.name)
           this.gameScene.physics.add.overlap(this.weapon, knight, (gameObject1, gameObject2) => {
-            knight.damage(0.5)
+            knight.damage(0.25)
             knight.setTint(0xff6666)
             console.log("physics added ")
             this.gameScene.time.delayedCall(200, () => {knight.clearTint()});
