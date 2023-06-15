@@ -7,7 +7,7 @@ var Health = PhaserHealth;
 
 export class Knight extends Phaser.Physics.Arcade.Sprite {
   constructor(start, gameScene, startHealth) {
-    super(gameScene, start.x, start.y, 'idle_down')
+    super(gameScene, (30*16), (100*16), 'idle_down')
     this.start = start
     this.gameScene = gameScene
     this.weapon = new Weapon(start, gameScene)
