@@ -327,8 +327,15 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
           knight.damage(15)
           this.timeToHit = new Date() / 1000
         }
-      })
-    })
+      });
+    });
+    
+    this.gameScene.physics.add.overlap(knight, this, (gameObject1, gameObject2) => {
+      if ((new Date() / 1000) - this.timeToHit > 2 ) {
+        knight.damage(15)
+        this.timeToHit = new Date() / 1000
+      }
+    });
 
   }
 }
