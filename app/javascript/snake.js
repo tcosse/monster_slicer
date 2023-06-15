@@ -179,6 +179,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
       }
 
 
+
       const speed = 20
 
       // mouvement de la tete
@@ -196,18 +197,17 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
         }
       }
 
-      // angle du sprite
-
 
 
       // les body parts suivent le corps
+      const speedBody = speed + 5
       for (let i = 0; i < this.bodyParts.length; i++) {
 
         if (i == 0) {
           const distanceBetween = this.#calculateDistance(this, this.bodyParts[i])
 
           if (distanceBetween < 150 && distanceBetween > 10 ) {
-            this.bodyParts[i].setVelocity(speed * (this.x - this.bodyParts[i].x) / distanceBetween, speed * (this.y - this.bodyParts[i].y) / distanceBetween);
+            this.bodyParts[i].setVelocity(speedBody * (this.x - this.bodyParts[i].x) / distanceBetween, speedBody * (this.y - this.bodyParts[i].y) / distanceBetween);
           } else if( distanceBetween <= 20){
             if(this.bodyParts[i].body.newVelocity.x < 0){
               this.bodyParts[i].setVelocity(-0.001,0)
@@ -220,7 +220,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
           const distanceBetween = this.#calculateDistance(this.bodyParts[i - 1], this.bodyParts[i])
 
           if (distanceBetween < 150 && distanceBetween > 10 ) {
-            this.bodyParts[i].setVelocity(speed * (this.bodyParts[i - 1].x - this.bodyParts[i].x) / distanceBetween, speed * (this.bodyParts[i - 1].y - this.bodyParts[i].y) / distanceBetween);
+            this.bodyParts[i].setVelocity(speedBody * (this.bodyParts[i - 1].x - this.bodyParts[i].x) / distanceBetween, speedBody * (this.bodyParts[i - 1].y - this.bodyParts[i].y) / distanceBetween);
           } else if( distanceBetween <= 20){
             if(this.bodyParts[i].body.newVelocity.x < 0){
               this.bodyParts[i].setVelocity(-0.001,0)
