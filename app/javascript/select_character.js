@@ -33,13 +33,13 @@ export class SelectCharacter extends Phaser.Scene
         this.bgImage.displayHeight = this.sys.canvas.height;
 
         this.mcWindow = this.add.image(0, 0, 'mc_window')
-        this.mcWindow.setScale(0.86, 1.1)
-        this.mcWindow.x = 125
-        this.mcWindow.y = 605
+        this.mcWindow.setScale(0.75, 0.85)
+        this.mcWindow.x = 130
+        this.mcWindow.y = 591
         this.mcWindow.setInteractive()
 
 
-        this.knight = new Knight({x:130, y: 650}, this, 50)
+        this.knight = new Knight({x:130, y: 630}, this, 50)
         this.knight.play("idle_down", true)
         this.knight.setScale(5,5)
 
@@ -95,7 +95,7 @@ export class SelectCharacter extends Phaser.Scene
     }
     update(){
       this.knight.x = 130
-      this.knight.y = 650
+      this.knight.y = 630
       this.knight.healthBar.bg.x = 2000
       this.knight.healthBar.bg.y = 2000
       this.knight.healthBar.bar.x = 2000

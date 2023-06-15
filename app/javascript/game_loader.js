@@ -218,6 +218,29 @@ const loadAnimations = (gameScene) => {
     repeat: 0
   })
 
+  //                     //
+  /* Minotaurus anims    */
+  //                     //
+
+  gameScene.anims.create({
+    key: "minotaurus_idle",
+    frameRate: 2,
+    frames: gameScene.anims.generateFrameNumbers("minotaurus", { start: 0, end: 1 }),
+    repeat: -1
+  })
+  gameScene.anims.create({
+    key: "minotaurus_walk",
+    frameRate: 3,
+    frames: gameScene.anims.generateFrameNumbers("minotaurus", { start: 5, end: 8 }),
+    repeat: -1
+  })
+  gameScene.anims.create({
+    key: "minotaurus_attack",
+    frameRate: 3,
+    frames: gameScene.anims.generateFrameNumbers("minotaurus", { start: 10, end: 14 }),
+    repeat: 0
+  })
+
 }
 export {loadAnimations}
 

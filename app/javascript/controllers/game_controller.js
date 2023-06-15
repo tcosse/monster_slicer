@@ -8,6 +8,7 @@ import { loadSounds } from "game_loader"
 import { UIScene } from 'ui_scene'
 import { Snake } from 'snake'
 import {Fireball} from 'fireball'
+import {Minotaurus} from 'minotaurus'
 import {SelectCharacter} from 'select_character'
 import { eventsCenter } from 'events_center'
 
@@ -56,6 +57,7 @@ export default class extends Controller {
     spellSound: String,
     explosionSound: String,
     okSound: String,
+    minotaurusUrl: String,
   }
 
   connect() {
@@ -93,6 +95,7 @@ export default class extends Controller {
     const mcWindowUrl = this.mcWindowUrlValue
     const selectMcUrl = this.selectMcUrlValue
     const spellUrl = this.spellUrlValue
+    const minotaurusUrl = this.minotaurusUrlValue
     this.gameoverUrl = this.gameoverValue
 
 
@@ -127,6 +130,7 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('fireball', fireballUrl, {frameWidth: 64, frameHeight:64})
       this.gameScene.load.spritesheet('explosion', explosionUrl, {frameWidth: 196, frameHeight:190})
       this.gameScene.load.spritesheet('spell', spellUrl, {frameWidth: 16, frameHeight:24})
+      this.gameScene.load.spritesheet('minotaurus', minotaurusUrl, {frameWidth: 96, frameHeight:96})
 
       this.gameScene.load.audio("death_sound", deathSound)
       this.gameScene.load.audio("slash_sound", slashSound)
@@ -213,6 +217,7 @@ export default class extends Controller {
       this.gameScene.coinCount = lastSaveMc.coins
       this.gameScene.score = lastSaveMc.score
       this.knight = new Knight({x:lastSaveMc.x, y: lastSaveMc.y}, this.gameScene, lastSaveMc.health)
+      this.minotaurus = new Minotaurus({x:lastSaveMc.x + 100, y: lastSaveMc.y}, this.gameScene)
 
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
       console.log("spawned: ", this)
@@ -245,13 +250,7 @@ export default class extends Controller {
 
 
     this.gameScene.update = () => {
-      this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
       this.knight.update()
-      this.#checkSkeleton()
-      if(this.gameScene.keyP.isDown || this.gameScene.keyEchap.isDown){
-        this.gameScene.scene.switch('pauseScene');
-      }
-
       if (this.knight.getHealth() == 0) {
         // je suis mort
         this.knight.isDead = true
@@ -265,17 +264,24 @@ export default class extends Controller {
           window.location.replace(this.gameoverUrl);
         }, "1000");
         this.gameScene.physics.world.disableUpdate()
-      }
+      } else {
+        this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
+        this.minotaurus.moveMinotaurus(this.knight)
+        this.#checkSkeleton()
+        if (this.snakeIsDead == false){
+          this.snake.move()
+          this.snake.blinkingTail()
+          this.snake.addPhysics(this.knight)
+          this.snake.damageKnight(this.knight)
+          this.#timerThrowFireball()
+          if (this.snake.getHealth() == 0) {
+            this.snakeIsDead = true
+            delete this.snake
+          }
+        }
 
-      if (this.snakeIsDead == false){
-        this.snake.move()
-        this.snake.blinkingTail()
-        this.snake.addPhysics(this.knight)
-        this.snake.damageKnight(this.knight)
-        this.#timerThrowFireball()
-        if (this.snake.getHealth() == 0) {
-          this.snakeIsDead = true
-          delete this.snake
+        if(this.gameScene.keyP.isDown || this.gameScene.keyEchap.isDown){
+          this.gameScene.scene.switch('pauseScene');
         }
       }
     }
