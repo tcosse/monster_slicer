@@ -218,6 +218,7 @@ export default class extends Controller {
       this.gameScene.score = lastSaveMc.score
       this.knight = new Knight({x:lastSaveMc.x, y: lastSaveMc.y}, this.gameScene, lastSaveMc.health)
       this.minotaurus = new Minotaurus({x:lastSaveMc.x + 100, y: lastSaveMc.y}, this.gameScene)
+      this.minotaurus.addPhysics(this.knight)
 
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
       console.log("spawned: ", this)
@@ -263,7 +264,9 @@ export default class extends Controller {
         setTimeout(() => {
           window.location.replace(this.gameoverUrl);
         }, "1000");
-        this.gameScene.physics.world.disableUpdate()
+        // il faut donc arreter les updates
+        this.gameScene.scene.stop();
+        // this.gameScene.physics.world.disableUpdate()
       } else {
         this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
         this.minotaurus.moveMinotaurus(this.knight)

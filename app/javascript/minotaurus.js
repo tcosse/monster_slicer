@@ -55,7 +55,7 @@ export class Minotaurus extends Phaser.Physics.Arcade.Sprite {
       else {
         this.flipX = false
       }
-      // if(this.anims.currentAnim.key == "minotaurus_death_new") {
+      // if(this.anims.currentAnim.key == "skeleton_death_new") {
       if(this.isDead) {
         this.setVelocity(0,0)
       }
@@ -91,7 +91,7 @@ export class Minotaurus extends Phaser.Physics.Arcade.Sprite {
             }
           }
           else if(this.speed == 0) {
-            if(this.anims.currentAnim.key != "minotaurus_attack_new"){
+            if(this.anims.currentAnim.key != "minotaurus_attack"){
               this.play("minotaurus_idle", true)
             }
             else if(this.anims.nextAnimsQueue.length == 0){
@@ -115,7 +115,7 @@ export class Minotaurus extends Phaser.Physics.Arcade.Sprite {
           this.gameScene.physics.add.overlap(this.weapon, knight, (gameObject1, gameObject2) => {
             knight.damage(0.5)
             knight.setTint(0xff6666)
-            console.log("physics added ")
+            // console.log("physics added ")
             this.gameScene.time.delayedCall(200, () => {knight.clearTint()});
           });
         }
@@ -136,30 +136,31 @@ export class Minotaurus extends Phaser.Physics.Arcade.Sprite {
     console.log('minotaurus x y :', this.x, this.y)
 
       this.gameScene.physics.add.overlap(knight.weapon, this, (gameObject1, gameObject2) => {
-        console.log("Frame name: ", knight.anims.currentFrame.frame.name)
+
         if ((this.gameScene.input.keyboard.addKey("V").isDown || this.gameScene.input.manager.activePointer.primaryDown)) {
 
-          if(knight.anims.currentFrame.frame.name == 37 ||knight.anims.currentFrame.frame.name == 43 || knight.anims.currentFrame.frame.name == 49){
-            this.setTint(0xff6666) // applies red color to skeleton when is attacked
+          if(knight.anims.currentFrame.frame.name == 36 ||knight.anims.currentFrame.frame.name == 42 || knight.anims.currentFrame.frame.name == 48){
+            this.setTint(0xff6666) // applies red color to minotaurus when is attacked
 
             this.gameScene.time.delayedCall(20000, () => {this.isHit = false});
             if (this.getHealth() > 0) {
-              // if the skeleton has health left, then apply damage
+              // if the minotaurus has health left, then apply damage
               knight.once('animationcomplete', () => {
+                console.log("15 de dmg")
                 this.damage(15)
                 this.clearTint()
               });
             }
             else {
-              // if the skeleton has no life left, then he is considered as dead
+              // if the minotaurus has no life left, then he is considered as dead
               if (!this.isDead) {
-                // the skeleton is beeing killed
+                // the minotaurus is beeing killed
                 // prevents from running twice
                 this.isDead = true;
                 this.setVelocity(0,0)
                 this.gameScene.deathSound.play()
                 this.gameScene.time.delayedCall(5000, () => {this.destroy()});
-                // this.play("skeleton_death_new", true) pas d'animation de mort malheureusement
+                this.play("minotaurus_idle", true) // pas d'animation de mort malheureusement
                 knight.skeleKilled += 1
                 this.gameScene.kills += 1
                 this.gameScene.score += 30
