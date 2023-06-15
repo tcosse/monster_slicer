@@ -217,8 +217,29 @@ const loadAnimations = (gameScene) => {
     frames: gameScene.anims.generateFrameNumbers("explosion", { start: 0, end: 12 }),
     repeat: 0
   })
-  gameScene.anims.globalTimeScale=4
-  gameScene.tweens.setFps(120)
+  gameScene.anims.create({
+    key: "slime_idle",
+    frameRate: 2,
+    frames: gameScene.anims.generateFrameNumbers("blue_slime", { start: 0, end: 3 }),
+    repeat: -1
+  })
+  gameScene.anims.create({
+    key: "slime_jump1",
+    frameRate: 3,
+    frames: gameScene.anims.generateFrameNumbers("blue_slime", { start: 7, end: 12 }),
+    repeat: 0
+  })
+  gameScene.anims.create({
+    key: "slime_jump2",
+    frameRate: 3,
+    frames: gameScene.anims.generateFrameNumbers("blue_slime", { start: 14, end: 20 }),
+    repeat: 0
+  })
+
+
+
+  // gameScene.anims.globalTimeScale=4
+  // gameScene.tweens.setFps(120)
 
   //gameScene.anims.setTimeScale(1.25);
 

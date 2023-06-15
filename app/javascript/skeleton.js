@@ -138,7 +138,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
         console.log("Frame name: ", knight.anims.currentFrame.frame.name)
         if ((this.gameScene.input.keyboard.addKey("V").isDown || this.gameScene.input.manager.activePointer.primaryDown)) {
 
-          if(knight.anims.currentFrame.frame.name == 37 ||knight.anims.currentFrame.frame.name == 43 || knight.anims.currentFrame.frame.name == 49){
+          if(knight.anims.currentFrame.frame.name == 36 ||knight.anims.currentFrame.frame.name == 42 || knight.anims.currentFrame.frame.name == 48){
             this.setTint(0xff6666) // applies red color to skeleton when is attacked
 
             this.gameScene.time.delayedCall(20000, () => {this.isHit = false});
