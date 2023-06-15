@@ -34,7 +34,6 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
     this.setSize(16, 22)
     this.setOffset(25, 36)
     this.play('skeleton_idle_new', true);
-    console.log(this)
     // this.object = this.gameScene.physics.add.sprite(start.x, start.y,'enemy_skeleton_idle')
   }
 
@@ -110,7 +109,6 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
           this.weapon = new Weapon(this.start, this.gameScene)
           this.weapon.setSize(43,40).setOffset(-3, 0)
           this.weapon.setPosition(this.x, this.y)
-          console.log(this.anims.currentFrame.frame.name)
           this.gameScene.physics.add.overlap(this.weapon, knight, (gameObject1, gameObject2) => {
             knight.damage(0.25)
             knight.setTint(0xff6666)
@@ -122,7 +120,6 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
       if(this.weapon != null && this.anims.currentAnim.key == "skeleton_attack_new"){
         if(this.anims.currentFrame.frame.name == 16) {
           this.weapon.destroy()
-          console.log("physics removed", this.weapon);
           this.weapon = null
         }
       }
@@ -139,7 +136,6 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
 
           if(knight.anims.currentFrame.frame.name == 36 ||knight.anims.currentFrame.frame.name == 42 || knight.anims.currentFrame.frame.name == 48){
             // applies red color to skeleton when is attacked
-            console.log("health before hit and getHealth check: ", this.getHealth())
             if (this.getHealth() > 0) {
               if(this.isHit == false){
                 this.setTint(0xff6666)
@@ -183,7 +179,6 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
                   const x = this.x
                   const y = this.y + 10
                   if (Math.random() < 0.5) {
-                    console.log('spawn coin')
                     // console.log(x, y)
                     let coin = new Coin({ x, y } , this.gameScene)
                     this.gameScene.time.delayedCall(12000, () => coin.destroy());

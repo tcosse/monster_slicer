@@ -243,6 +243,7 @@ export default class extends Controller {
       this.snakeIsDead = false
 
       this.lastFireball = new Date() / 1000
+      this.debutJeu = new Date() / 1000
       // dégats gratuits
       // this.knight.damage(Phaser.Math.Between(8, 9))
 
@@ -301,11 +302,20 @@ export default class extends Controller {
           if (this.snake.getHealth() == 0) {
             this.snakeIsDead = true
             delete this.snake
-            // redirect to win page
-            setTimeout(() => {
-              window.location.replace(this.winUrlValue);
-            }, "500");
+            if(new Date() / 1000 - this.debutJeu > 10){
+              this.debutJeu = new Date() / 1000
+              setTimeout(() => {
+                this.#saveKnight({x: 0, y: 0, health: 0, score: this.gameScene.score, kills: this.gameScene.kills, coins: this.gameScene.coinCount})
+              }, "100");
+              // redirect to win page
+              setTimeout(() => {
+                window.location.replace(this.winUrlValue);
+              }, "1000");
+            }
           }
+        } else {
+          this.gameScene.cameras.main.fadeOut(400, 0, 0, 0)
+          // this.gameScene.scene.pause();
         }
         if(this.gameScene.keyP.isDown || this.gameScene.keyEchap.isDown){
           this.gameScene.scene.switch('pauseScene');
