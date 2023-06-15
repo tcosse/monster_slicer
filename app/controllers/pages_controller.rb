@@ -41,4 +41,8 @@ class PagesController < ApplicationController
 
   def gameover
   end
+
+  def win
+    
+  end
 end

@@ -1,8 +1,11 @@
 <div class = "background">
-  <div class="wrapper-gameover">
-    <div >
-      <div class = "game-over-msg">
-        <p data-controller="gameovertyped"></p>
+  <div id="wrapper-win">
+    <div id='win-div'>
+      <div class = "win-msg flex-fill">
+        <p data-controller="typed-win"></p>
+      </div>
+      <div class='d-flex align-items-center'>
+        <%= image_tag 'patrick-win', {id: 'win-img'} %>
       </div>
     </div>
     <div class = "d-flex">
