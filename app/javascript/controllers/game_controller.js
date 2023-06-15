@@ -195,8 +195,8 @@ export default class extends Controller {
       //   faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       // });
       this.newStartMc = {
-        x: (50 * 16),
-        y:  (12 * 16),
+        x: (12 * 16),
+        y:  (10 * 16),
         health: 50,
         coins: 0,
         kills: 0,
