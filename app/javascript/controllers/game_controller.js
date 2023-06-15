@@ -47,7 +47,6 @@ export default class extends Controller {
     snakeHeadImageUrl: String,
     snakeBodyImageUrl: String,
     snakeImageUrl: String,
-    spellUrl: String,
     coinSound: String,
     healSound: String,
     wilhelmSound: String,
@@ -98,7 +97,6 @@ export default class extends Controller {
     const explosionUrl = this.explosionUrlValue
     const mcWindowUrl = this.mcWindowUrlValue
     const selectMcUrl = this.selectMcUrlValue
-    const spellUrl = this.spellUrlValue
     const minotaurusUrl = this.minotaurusUrlValue
     const blueslimeUrl = this.blueslimeUrlValue
     this.gameoverUrl = this.gameoverValue
@@ -135,7 +133,6 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('coin', coinImageUrl, { frameWidth: 8 , frameHeight: 8 })
       this.gameScene.load.spritesheet('fireball', fireballUrl, {frameWidth: 64, frameHeight:64})
       this.gameScene.load.spritesheet('explosion', explosionUrl, {frameWidth: 196, frameHeight:190})
-      this.gameScene.load.spritesheet('spell', spellUrl, {frameWidth: 16, frameHeight:24})
       this.gameScene.load.spritesheet('minotaurus', minotaurusUrl, {frameWidth: 96, frameHeight:96})
       this.gameScene.load.spritesheet('blue_slime', blueslimeUrl, {frameWidth: 32, frameHeight:32})
 
@@ -325,7 +322,7 @@ export default class extends Controller {
       scene: [this.gameScene, this.UIScene, this.pauseScene, this.SelectCharacter],
       physics: {
         default: 'arcade',
-        arcade: { debug: false }
+        arcade: { debug: true }
       },
       fps: {
         target: 60,
