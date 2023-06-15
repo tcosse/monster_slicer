@@ -43,7 +43,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
   }
 
   moveSkeleton(knight){
-    var skeleton_speed = 20;
+    var skeleton_speed = 15;
     var distance_between = this.#calculateDistance(knight, this)
     // var skeleton_start_distance = Math.sqrt((skeleton_start[0]-this.object.x)**2 + (skeleton_start[1]-this.object.y)**2)
     var skeleton_start_distance = this.#calculateDistance(this.start, this)
@@ -140,7 +140,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
 
           if(knight.anims.currentFrame.frame.name == 37 ||knight.anims.currentFrame.frame.name == 43 || knight.anims.currentFrame.frame.name == 49){
             this.setTint(0xff6666) // applies red color to skeleton when is attacked
-            
+
             this.gameScene.time.delayedCall(20000, () => {this.isHit = false});
             if (this.getHealth() > 0) {
               // if the skeleton has health left, then apply damage

@@ -46,85 +46,85 @@ const loadAnimations = (gameScene) => {
   //                  //
   gameScene.anims.create({
     key: "idle_down",
-    frameRate: 6,
+    frameRate: 3,
     frames: gameScene.anims.generateFrameNumbers("player_all", { start: 0, end: 5 }),
     repeat: -1
   })
   gameScene.anims.create({
     key: "idle_side",
-    frameRate: 6,
+    frameRate: 3,
     frames: gameScene.anims.generateFrameNumbers("player_all", { start: 6, end: 11 }),
     repeat: -1
   })
   gameScene.anims.create({
     key: "idle_up",
-    frameRate: 6,
+    frameRate:3,
     frames: gameScene.anims.generateFrameNumbers("player_all", { start: 12, end: 17 }),
     repeat: -1
   })
   gameScene.anims.create({
     key: "walk_down",
-    frameRate: 6,
+    frameRate:3,
     frames: gameScene.anims.generateFrameNumbers("player_all", { start: 18, end: 23 }),
     repeat: -1
   })
   gameScene.anims.create({
     key: "walk_side",
-    frameRate: 6,
+    frameRate:3,
     frames: gameScene.anims.generateFrameNumbers("player_all", { start: 24, end: 29 }),
     repeat: -1
   })
   gameScene.anims.create({
     key: "walk_up",
-    frameRate: 6,
+    frameRate:3,
     frames: gameScene.anims.generateFrameNumbers("player_all", { start: 30, end: 35 }),
     repeat: -1
   })
   gameScene.anims.create({
     key: "attack_down",
-    frameRate: 6,
+    frameRate:5,
     frames: gameScene.anims.generateFrameNumbers("player_all", { start: 36, end: 39 }),
     repeat: 0
   })
   gameScene.anims.create({
     key: "attack_side",
-    frameRate: 6,
+    frameRate:5,
     frames: gameScene.anims.generateFrameNumbers("player_all", { start: 42, end: 45 }),
     repeat: 0
   })
   gameScene.anims.create({
     key: "attack_up",
-    frameRate: 6,
+    frameRate:5,
     frames: gameScene.anims.generateFrameNumbers("player_all", { start: 48, end: 51 }),
     repeat: 0
   })
   gameScene.anims.create({
     key: "death",
-    frameRate: 6,
+    frameRate:3,
     frames: gameScene.anims.generateFrameNumbers("player_all", { start: 54, end: 56 }),
     repeat: 0
   })
   gameScene.anims.create({
     key: "throw_down",
-    frameRate: 6,
-    frames: gameScene.anims.generateFrameNumbers("player_all", { start: 60, end: 63 }),
+    frameRate:3,
+    frames: gameScene.anims.generateFrameNumbers("player_all", { start:60, end: 63 }),
     repeat: 0
   })
   gameScene.anims.create({
     key: "throw_side",
-    frameRate: 6,
+    frameRate: 3,
     frames: gameScene.anims.generateFrameNumbers("player_all", { start: 66, end: 69 }),
     repeat: 0
   })
   gameScene.anims.create({
     key: "throw_up",
-    frameRate: 6,
+    frameRate: 3,
     frames: gameScene.anims.generateFrameNumbers("player_all", { start: 72, end: 75 }),
     repeat: 0
   })
   gameScene.anims.create({
     key: "spell",
-    frameRate: 6,
+    frameRate: 3,
     frames: gameScene.anims.generateFrameNumbers("spell", { start: 0, end: 2 }),
     repeat: -1
   })
@@ -136,25 +136,25 @@ const loadAnimations = (gameScene) => {
 
   gameScene.anims.create({
     key: "skeleton_idle_new",
-    frameRate: 6,
+    frameRate: 3,
     frames: gameScene.anims.generateFrameNumbers("skeleton_all", { start: 0, end: 5 }),
     repeat: -1
   })
   gameScene.anims.create({
     key: "skeleton_walk_new",
-    frameRate: 6,
+    frameRate: 3,
     frames: gameScene.anims.generateFrameNumbers("skeleton_all", { start: 6, end: 11 }),
     repeat: -1
   })
   gameScene.anims.create({
     key: "skeleton_attack_new",
-    frameRate: 4,
+    frameRate: 2,
     frames: gameScene.anims.generateFrameNumbers("skeleton_all", { start: 12, end: 16 }),
     repeat: 0
   })
   gameScene.anims.create({
     key: "skeleton_death_new",
-    frameRate: 6,
+    frameRate: 3,
     frames: gameScene.anims.generateFrameNumbers("skeleton_all", { start: 24, end: 28 }),
     repeat: 0
   })
@@ -217,6 +217,10 @@ const loadAnimations = (gameScene) => {
     frames: gameScene.anims.generateFrameNumbers("explosion", { start: 0, end: 12 }),
     repeat: 0
   })
+  gameScene.anims.globalTimeScale=4
+  gameScene.tweens.setFps(120)
+
+  //gameScene.anims.setTimeScale(1.25);
 
 }
 export {loadAnimations}
