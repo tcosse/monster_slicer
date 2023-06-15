@@ -28,7 +28,8 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
 
 
     // depart pour test
-    this.container = { x: [(29 * 16), (42 * 16)], y: [(9 * 16), (19 * 16)]}
+
+    // this.container = { x: [(29 * 16), (42 * 16)], y: [(9 * 16), (19 * 16)]}
     // this.x = 30 * 16
     // this.y = 15 * 16
 
@@ -100,6 +101,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
   }
 
   move(knight) {
+    console.log('le snake bouge')
     if (this.getHealth() == 0) {
       console.log('the snake is dead')
     } else {
@@ -116,11 +118,12 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
       // faire l'ia de choix de mouvement
 
 
-      //console.log('le perso est dans la salle de boss', this.knightInBossRoomValue)
+
+      // console.log('le perso est dans la salle de boss', this.knightInBossRoomValue)
       const distanceBetweenLastTarget = this.#calculateDistance(this, this.target)
       const lastTarget = this.target
       // (new Date() / 1000) - this.time) > 20 ||
-     // console.log('time', (new Date() / 1000) - this.time,'dist' ,distanceBetweenLastTarget)
+      // console.log('time', (new Date() / 1000) - this.time,'dist' ,distanceBetweenLastTarget)
       if (distanceBetweenLastTarget <= 50) {
         const targetRange = (5 * 16)
         const noGoZone = targetRange
@@ -201,11 +204,6 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
       }
 
       // angle du sprite
-
-      // prodscal = u[0] * v[0] + u[1] * v[1]
-      // NormeU = sqrt(u[0]**2 + u[1]**2)
-      // NormeV = sqrt(v[0]**2 + v[1]**2)
-      // arccos( prodscal / (NormeU * NormeV) ) * 180 / pi
 
 
 

@@ -60,6 +60,7 @@ export default class extends Controller {
     okSound: String,
     minotaurusUrl: String,
     blueslimeUrl: String,
+    minotaurusSound: String,
   }
 
   connect() {
@@ -92,6 +93,7 @@ export default class extends Controller {
     const spellSound = this.spellSoundValue
     const explosionSound = this.explosionSoundValue
     const okSound = this.okSoundValue
+    const minotaurusSound = this.minotaurusSoundValue
     const fireballUrl = this.fireballUrlValue
     const explosionUrl = this.explosionUrlValue
     const mcWindowUrl = this.mcWindowUrlValue
@@ -146,6 +148,7 @@ export default class extends Controller {
       this.gameScene.load.audio("spell_sound", spellSound)
       this.gameScene.load.audio("explosion_sound", explosionSound)
       this.gameScene.load.audio("ok_sound", okSound)
+      this.gameScene.load.audio("minotaurus_sound", minotaurusSound)
 
     };
 
@@ -240,9 +243,14 @@ export default class extends Controller {
 
       this.snake = new Snake({x: (46 * 16), y: (113 * 16)}, this.gameScene)
       this.snakeIsDead = false
+
       this.lastFireball = new Date() / 1000
       // dégats gratuits
       // this.knight.damage(Phaser.Math.Between(8, 9))
+
+      // this.lastFireball = new Date() / 1000
+      this.lastFireballFromBossroom = new Date() / 1000
+
 
       // gestion de la caméra
       // this.gameScene.cameras.main.setBounds(0, 0, 2000, 4000)
@@ -285,8 +293,9 @@ export default class extends Controller {
         this.minotaurusOne.moveMinotaurus(this.knight)
         this.minotaurusTwo.moveMinotaurus(this.knight)
         this.#checkSkeleton()
+        this.#fireballSallePreBoss()
         if (this.snakeIsDead == false){
-          this.snake.move()
+          this.snake.move(this.knight)
           this.snake.blinkingTail()
           this.snake.addPhysics(this.knight)
           this.snake.damageKnight(this.knight)
@@ -422,5 +431,14 @@ export default class extends Controller {
       slimes.push(slime)
     }
     return slimes
+  }
+  #fireballSallePreBoss(){
+    const now = new Date() / 1000
+    const positionDepart = [[650, 1200, "right"], [650, 1100, "right"], [850, 1200, "left"], [850, 1100, "left"]]
+    if (this.lastFireballFromBossroom + 1 < now){
+      const position = positionDepart[Math.floor ( Math.random() * positionDepart.length )]
+      this.lastFireballFromBossroom = now
+      const fireball = new Fireball({x: position[0], y: position[1]}, this.gameScene, position[2], this)
+    }
   }
 }

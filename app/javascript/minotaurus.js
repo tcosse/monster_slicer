@@ -162,7 +162,7 @@ export class Minotaurus extends Phaser.Physics.Arcade.Sprite {
                 // prevents from running twice
                 this.isDead = true;
                 this.setVelocity(0,0)
-                this.gameScene.deathSound.play()
+                this.gameScene.minotaurusSound.play()
                 this.gameScene.time.delayedCall(5000, () => {this.destroy()});
                 this.play("minotaurus_idle", true) // pas d'animation de mort malheureusement
                 knight.skeleKilled += 1
@@ -192,7 +192,7 @@ export class Minotaurus extends Phaser.Physics.Arcade.Sprite {
                     coin.addPhysics(knight)
                     // console.log(coin)
                   } else {
-                    if(Math.random() < 0.5) {
+                    if(Math.random() < 0.99) {
                       let potion = new Potion({ x, y }, this.gameScene)
                       this.gameScene.time.delayedCall(12000, () => potion.destroy());
                       potion.addPhysics(knight)
