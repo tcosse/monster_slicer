@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   get 'game', to: 'pages#game'
   get 'gameover', to: 'pages#gameover'
   get 'leaderboard', to: 'pages#leaderboard'
+  get 'win', to: 'pages#win'
 end

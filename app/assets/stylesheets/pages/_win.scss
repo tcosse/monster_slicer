@@ -1,0 +1,30 @@
+.win-msg > p{
+  color: greenyellow;
+  font-size: 100px;
+  height: 300px;
+  font-family: 'VT323', monospace;
+}
+
+#win-img{
+  margin: 40px;
+  width: 400px;
+  height: fit-content;
+}
+
+#win-div{
+  margin-bottom: 30px;
+  display: flex;
+}
+
+#wrapper-win {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: space-evenly;
+  padding: auto;
+  a {
+    text-decoration: none;
+    width: fit-content;
+    margin: auto;
+  }
+}

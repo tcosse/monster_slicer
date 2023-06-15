@@ -1,15 +1,19 @@
 <div class = "background">
-  <div class="wrapper-gameover">
-    <div >
-      <div class = "game-over-msg">
-        <p data-controller="gameovertyped"></p>
+  <div id="wrapper-win">
+    <div id='win-div'>
+      <div class = "win-msg flex-fill">
+        <p data-controller="typed-win"></p>
         <h1 data-controller='delayed-message' data-delayed-message-score-value='<%=@your_score%>'></h1>
       </div>
+      <div class='d-flex align-items-center'>
+        <%= image_tag 'patrick-win', {id: 'win-img'} %>
+      </div>
+
     </div>
     <div class = "d-flex">
       <%= link_to game_path do  %>
         <div class = "button-gold-large" style="background-image: url('<%= asset_url 'gold-button-new.png' %>')">
-          <p>Try again !</p>
+          <p>New Game</p>
         </div>
       <% end %>
       <%= link_to leaderboard_path do  %>
