@@ -7,13 +7,13 @@ var Health = PhaserHealth;
 import { eventsCenter } from 'events_center'
 
 
-export class Skeleton extends Phaser.Physics.Arcade.Sprite {
+export class Minotaurus extends Phaser.Physics.Arcade.Sprite {
   constructor(start, gameScene) {
-    super(gameScene, start.x, start.y, 'skeleton_idle_new')
+    super(gameScene, start.x, start.y, 'minotaurus_idle')
     this.start = start
     this.gameScene = gameScene
     this.isDead = false
-    this.setHealth(15,0,15)
+    this.setHealth(60,0,60)
     this.time = new Date() / 1000
     this.weapon = null
     this.isHit = false
@@ -31,9 +31,9 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
 
     gameScene.physics.add.world.enableBody(this, 0);
     gameScene.add.existing(this);
-    this.setSize(16, 22)
-    this.setOffset(25, 36)
-    this.play('skeleton_idle_new', true);
+    this.setSize(32, 50)
+    this.setOffset(30, 25)
+    this.play('minotaurus_idle', true);
     console.log(this)
     // this.object = this.gameScene.physics.add.sprite(start.x, start.y,'enemy_skeleton_idle')
   }
@@ -42,11 +42,11 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
     return Math.sqrt((objectA.x-objectB.x)**2 + (objectA.y-objectB.y)**2)
   }
 
-  moveSkeleton(knight){
-    var skeleton_speed = 15;
+  moveMinotaurus(knight){
+    var minotaurus_speed = 20;
     var distance_between = this.#calculateDistance(knight, this)
     // var skeleton_start_distance = Math.sqrt((skeleton_start[0]-this.object.x)**2 + (skeleton_start[1]-this.object.y)**2)
-    var skeleton_start_distance = this.#calculateDistance(this.start, this)
+    var minotaurus_start_distance = this.#calculateDistance(this.start, this)
 
     if(this.scene != undefined && this.isDead == false) {
       if(this.body.newVelocity.x < 0){
@@ -55,7 +55,8 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
       else {
         this.flipX = false
       }
-      if(this.anims.currentAnim.key == "skeleton_death_new") {
+      // if(this.anims.currentAnim.key == "skeleton_death_new") {
+      if(this.isDead) {
         this.setVelocity(0,0)
       }
       else
@@ -63,16 +64,16 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
           // console.log("rotation:", this.body.rotation)
           // if(this.body.acceleration["x"])
           if(distance_between < 150 && distance_between > 20) {
-            if(this.anims.currentAnim.key != "skeleton_attack_new"){
-              this.play('skeleton_walk_new', true)
-              this.setVelocity(skeleton_speed*(knight.x-this.x)/distance_between, skeleton_speed*(knight.y-this.y)/distance_between);
+            if(this.anims.currentAnim.key != "minotaurus_attack"){
+              this.play('minotaurus_walk', true)
+              this.setVelocity(minotaurus_speed*(knight.x-this.x)/distance_between, minotaurus_speed*(knight.y-this.y)/distance_between);
             }
             else if(this.anims.nextAnimsQueue.length == 0){
-              this.chain('skeleton_walk_new', true)
+              this.chain('minotaurus_walk', true)
             }
           }
           else if(distance_between <= 20){
-            this.play('skeleton_attack_new', true)
+            this.play('minotaurus_attack', true)
             if(this.body.newVelocity.x < 0){
               this.setVelocity(-0.001,0)
             }
@@ -81,24 +82,24 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
             }
           }
           else if(this.x != this.start.x && this.y != this.start.y) {
-            if(this.anims.currentAnim.key != "skeleton_attack_new"){
-              this.play('skeleton_walk_new', true)
-              this.setVelocity(skeleton_speed*(this.start.x-this.x)/skeleton_start_distance, skeleton_speed*(this.start.y-this.y)/distance_between);
+            if(this.anims.currentAnim.key != "minotaurus_attack"){
+              this.play('minotaurus_walk', true)
+              this.setVelocity(minotaurus_speed*(this.start.x-this.x)/minotaurus_start_distance, minotaurus_speed*(this.start.y-this.y)/distance_between);
             }
             else if(this.anims.nextAnimsQueue.length == 0){
-              this.chain('skeleton_walk_new', true)
+              this.chain('minotaurus_walk', true)
             }
           }
           else if(this.speed == 0) {
-            if(this.anims.currentAnim.key != "skeleton_attack_new"){
-              this.play("skeleton_idle_new", true)
+            if(this.anims.currentAnim.key != "minotaurus_attack"){
+              this.play("minotaurus_idle", true)
             }
             else if(this.anims.nextAnimsQueue.length == 0){
-              this.chain('skeleton_idle_new', true)
+              this.chain('minotaurus_idle', true)
             }
           }
           else if(this.anims.nextAnimsQueue.length == 0){
-              this.chain('skeleton_idle_new', true)
+              this.chain('minotaurus_idle', true)
           }
 
 
@@ -106,7 +107,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
       }
       //managing attack frames
       if(this.weapon == null){
-        if(this.anims.currentFrame.frame.name == 15) { //middle of attack
+        if(this.anims.currentFrame.frame.name == 12) { //middle of attack
           this.weapon = new Weapon(this.start, this.gameScene)
           this.weapon.setSize(43,40).setOffset(-3, 0)
           this.weapon.setPosition(this.x, this.y)
@@ -114,13 +115,13 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
           this.gameScene.physics.add.overlap(this.weapon, knight, (gameObject1, gameObject2) => {
             knight.damage(0.5)
             knight.setTint(0xff6666)
-            console.log("physics added ")
+            // console.log("physics added ")
             this.gameScene.time.delayedCall(200, () => {knight.clearTint()});
           });
         }
       }
-      if(this.weapon != null && this.anims.currentAnim.key == "skeleton_attack_new"){
-        if(this.anims.currentFrame.frame.name == 16) {
+      if(this.weapon != null && this.anims.currentAnim.key == "minotaurus_attack"){
+        if(this.anims.currentFrame.frame.name == 13) {
           this.weapon.destroy()
           console.log("physics removed", this.weapon);
           this.weapon = null
@@ -132,41 +133,41 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
   addPhysics(knight) {
 
     this.depth=1;
-    console.log('skeleton x y :', this.x, this.y)
+    console.log('minotaurus x y :', this.x, this.y)
 
       this.gameScene.physics.add.overlap(knight.weapon, this, (gameObject1, gameObject2) => {
-       // console.log("Frame name: ", knight.anims.currentFrame.frame.name)
+
         if ((this.gameScene.input.keyboard.addKey("V").isDown || this.gameScene.input.manager.activePointer.primaryDown)) {
 
           if(knight.anims.currentFrame.frame.name == 36 ||knight.anims.currentFrame.frame.name == 42 || knight.anims.currentFrame.frame.name == 48){
-            // applies red color to skeleton when is attacked
-            console.log("health before hit and getHealth check: ", this.getHealth())
+             // applies red color to minotaurus when is attacked
+
             if (this.getHealth() > 0) {
               if(this.isHit == false){
                 this.setTint(0xff6666)
                 this.isHit = true
-              // if the skeleton has health left, then apply damage
-                knight.on('animationcomplete', () => {
+                // if the minotaurus has health left, then apply damage
+                knight.once('animationcomplete', () => {
                   this.damage(15)
+                  console.log("minotaur health: ", this.getHealth())
                   this.clearTint()
                   this.isHit = false
                 });
               }
-
             }
             else {
-              // if the skeleton has no life left, then he is considered as dead
+              // if the minotaurus has no life left, then he is considered as dead
               if (!this.isDead) {
-                // the skeleton is beeing killed
+                // the minotaurus is beeing killed
                 // prevents from running twice
                 this.isDead = true;
                 this.setVelocity(0,0)
                 this.gameScene.deathSound.play()
                 this.gameScene.time.delayedCall(5000, () => {this.destroy()});
-                this.play("skeleton_death_new", true)
+                this.play("minotaurus_idle", true) // pas d'animation de mort malheureusement
                 knight.skeleKilled += 1
                 this.gameScene.kills += 1
-                this.gameScene.score += 10
+                this.gameScene.score += 30
                 eventsCenter.emit('update-skeleton-kills', this.gameScene.kills)
                 eventsCenter.emit('update-score', this.gameScene.score)
 
@@ -191,7 +192,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
                     coin.addPhysics(knight)
                     // console.log(coin)
                   } else {
-                    if(Math.random() < 0.1) {
+                    if(Math.random() < 0.5) {
                       let potion = new Potion({ x, y }, this.gameScene)
                       this.gameScene.time.delayedCall(12000, () => potion.destroy());
                       potion.addPhysics(knight)
@@ -206,4 +207,4 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
         })
       }
 }
-Health.MixinTo(Skeleton);
+Health.MixinTo(Minotaurus);

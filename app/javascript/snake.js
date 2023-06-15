@@ -22,13 +22,15 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
 
 
     // salle de boss
+
     this.container = { x: [483, 1003], y: [1593, 2026]}
     this.knightInBossRoomValue = false
 
+
     // depart pour test
-    // this.container = { x: [(29 * 16), (42 * 16)], y: [(9 * 16), (19 * 16)]}
-    // this.x = 30 * 16
-    // this.y = 15 * 16
+    this.container = { x: [(29 * 16), (42 * 16)], y: [(9 * 16), (19 * 16)]}
+    this.x = 30 * 16
+    this.y = 15 * 16
 
     this.target = {x: (47 * 16), y: (122 * 16), cadrant: 1}
 
@@ -204,6 +206,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
 
       // les body parts suivent le corps
       for (let i = 0; i < this.bodyParts.length; i++) {
+
         if (i == 0) {
           const distanceBetween = this.#calculateDistance(this, this.bodyParts[i])
 

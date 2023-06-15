@@ -7,12 +7,12 @@
       <div class = "buttons-container">
         <%= link_to game_path do  %>
           <div class = "button-gold-large" style="background-image: url('<%= asset_url 'gold-button-new.png' %>')">
-            <p>Play!</p>
+            <span>Play!</span>
           </div>
         <% end %>
         <%= link_to leaderboard_path do  %>
           <div class = "button-gold-large" style="background-image: url('<%= asset_url 'gold-button-new.png' %>')">
-            <p>Leaderboard</p>
+            <span>Leaderboard</span>
           </div>
         <% end %>
         </div>
@@ -33,7 +33,7 @@
       Your objective is to slice as many monsters as you can and pick up coins.<br><br>
       Designed with <i class="fa-solid fa-heart" style='color:red'></i> at Le Wagon</h2>
       </div>
-      <%= image_tag 'slime-background-black', class:'object-fit-cover p-4', id:'slimey'%>
+      <%= image_tag 'slime-background-black.gif', class:'object-fit-cover p-4', id:'slimey'%>
     </div>
   </div>
   </div>
