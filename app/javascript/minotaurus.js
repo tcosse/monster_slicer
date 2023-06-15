@@ -191,15 +191,15 @@ export class Minotaurus extends Phaser.Physics.Arcade.Sprite {
                     this.gameScene.time.delayedCall(12000, () => coin.destroy());
                     coin.addPhysics(knight)
                     // console.log(coin)
-                  } else {
-                    if(Math.random() < 0.99) {
-                      let potion = new Potion({ x, y }, this.gameScene)
-                      this.gameScene.time.delayedCall(12000, () => potion.destroy());
-                      potion.addPhysics(knight)
-                      potion.setScale(0.4, 0.4)
-                    }
-
                   }
+                  if(Math.random() < 0.99) {
+                    let potion = new Potion({ x, y }, this.gameScene)
+                    this.gameScene.time.delayedCall(12000, () => potion.destroy());
+                    potion.addPhysics(knight)
+                    potion.setScale(0.4, 0.4)
+                  }
+
+
                 }
               }
             }
