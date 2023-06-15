@@ -57,7 +57,6 @@ export class Slime extends Phaser.Physics.Arcade.Sprite {
     this.gameScene.physics.add.overlap(knight, this, (gameObject1, gameObject2) => {
       knight.damage(0.01)
       knight.setTint(0xff6666)
-      console.log("physics added ")
       this.gameScene.time.delayedCall(200, () => {knight.clearTint()});
     });
   }

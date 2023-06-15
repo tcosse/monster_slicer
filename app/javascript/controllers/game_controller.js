@@ -48,7 +48,6 @@ export default class extends Controller {
     snakeHeadImageUrl: String,
     snakeBodyImageUrl: String,
     snakeImageUrl: String,
-    spellUrl: String,
     coinSound: String,
     healSound: String,
     wilhelmSound: String,
@@ -99,7 +98,6 @@ export default class extends Controller {
     const explosionUrl = this.explosionUrlValue
     const mcWindowUrl = this.mcWindowUrlValue
     const selectMcUrl = this.selectMcUrlValue
-    const spellUrl = this.spellUrlValue
     const minotaurusUrl = this.minotaurusUrlValue
     const blueslimeUrl = this.blueslimeUrlValue
     this.gameoverUrl = this.gameoverValue
@@ -134,7 +132,6 @@ export default class extends Controller {
       this.gameScene.load.spritesheet('coin', coinImageUrl, { frameWidth: 8 , frameHeight: 8 })
       this.gameScene.load.spritesheet('fireball', fireballUrl, {frameWidth: 64, frameHeight:64})
       this.gameScene.load.spritesheet('explosion', explosionUrl, {frameWidth: 196, frameHeight:190})
-      this.gameScene.load.spritesheet('spell', spellUrl, {frameWidth: 16, frameHeight:24})
       this.gameScene.load.spritesheet('minotaurus', minotaurusUrl, {frameWidth: 96, frameHeight:96})
       this.gameScene.load.spritesheet('blue_slime', blueslimeUrl, {frameWidth: 32, frameHeight:32})
 
@@ -197,8 +194,8 @@ export default class extends Controller {
       //   faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       // });
       this.newStartMc = {
-        x: (50 * 16),
-        y:  (12 * 16),
+        x: (12 * 16),
+        y:  (10 * 16),
         health: 50,
         coins: 0,
         kills: 0,
@@ -437,6 +434,7 @@ export default class extends Controller {
   }
   #fireballSallePreBoss(){
     const now = new Date() / 1000
+    // il suffit de modifier le tableau dessous pour faire spawn les fireballs ailleurs
     const positionDepart = [[650, 1200, "right"], [650, 1100, "right"], [850, 1200, "left"], [850, 1100, "left"]]
     if (this.lastFireballFromBossroom + 1 < now){
       const position = positionDepart[Math.floor ( Math.random() * positionDepart.length )]

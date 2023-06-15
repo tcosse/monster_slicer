@@ -122,12 +122,6 @@ const loadAnimations = (gameScene) => {
     frames: gameScene.anims.generateFrameNumbers("player_all", { start: 72, end: 75 }),
     repeat: 0
   })
-  gameScene.anims.create({
-    key: "spell",
-    frameRate: 3,
-    frames: gameScene.anims.generateFrameNumbers("spell", { start: 0, end: 2 }),
-    repeat: -1
-  })
 
 
   //                    //

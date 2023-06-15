@@ -40,10 +40,10 @@ class PagesController < ApplicationController
   end
 
   def gameover
-    @your_score = MainCharacter.where(user_id: current_user).first.score
+    @your_score = MainCharacter.where(user_id: current_user).last.score
   end
 
   def win
-    @your_score = MainCharacter.where(user_id: current_user).first.score
+    @your_score = MainCharacter.where(user_id: current_user).last.score
   end
 end
