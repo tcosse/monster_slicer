@@ -1,33 +1,37 @@
-<div class = "container-lb">
-  <h1>LEADERBOARD</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Username</th>
-        <th>Coins Collected</th>
-        <th>Total Kills</th>
-        <th>High Score</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% User.order(highscore: :desc).each do |user| %>
-        <% if user.highscore != nil %>
-         <tr>
-            <td>
-              <h4> <%= user.username %></h4>
-            </td>
-            <td>
-              <h4> <%=user.total_coins %></h4>
-            </td>
-            <td>
-              <h4> <%=user.total_kills %></h4>
-            </td>
-            <td>
-              <h4> <%=user.highscore %></h4>
-            </td>
-          </tr>
+<div class='w-100 bg-cover bg-no-repeat pt-3' style="background-image: linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)), url('<%= asset_url 'background-wall.jpg' %>'); min-height: 100vh; background-repeat: no-repeat;">
+  <div class = "container-lb" id='leaderboard' style="background-image: url('<%= asset_url "parchement.png" %>'); height: 1000px">
+    <div id='leaderboard-title'>
+      <h1>LEADERBOARD</h1>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Coins Collected</th>
+          <th>Total Kills</th>
+          <th>High Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% User.order(highscore: :desc).each do |user| %>
+          <% if user.highscore != nil %>
+          <tr>
+              <td>
+                <h4><%= user.username %></h4>
+              </td>
+              <td>
+                <h4> <%=user.total_coins %></h4>
+              </td>
+              <td>
+                <h4> <%=user.total_kills %></h4>
+              </td>
+              <td>
+                <h4> <%=user.highscore %></h4>
+              </td>
+            </tr>
+          <% end %>
         <% end %>
-      <% end %>
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
 </div>
