@@ -28,9 +28,9 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
 
 
     // depart pour test
-    this.container = { x: [(29 * 16), (42 * 16)], y: [(9 * 16), (19 * 16)]}
-    this.x = 30 * 16
-    this.y = 15 * 16
+    // this.container = { x: [(29 * 16), (42 * 16)], y: [(9 * 16), (19 * 16)]}
+    // this.x = 30 * 16
+    // this.y = 15 * 16
 
     this.target = {x: (47 * 16), y: (122 * 16), cadrant: 1}
 
@@ -100,6 +100,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
   }
 
   move(knight) {
+    console.log('le snake bouge')
     if (this.getHealth() == 0) {
       console.log('the snake is dead')
     } else {

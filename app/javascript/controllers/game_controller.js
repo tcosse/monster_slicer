@@ -238,8 +238,8 @@ export default class extends Controller {
       // this.gameScene.enemy.depth = 1;
       // this.gameScene.enemy.setScale(0.5,0.5)
 
-      // this.snake = new Snake({x: (46 * 16), y: (113 * 16)}, this.gameScene)
-      // this.snakeIsDead = false
+      this.snake = new Snake({x: (46 * 16), y: (113 * 16)}, this.gameScene)
+      this.snakeIsDead = false
       // this.lastFireball = new Date() / 1000
       // dégats gratuits
       // this.knight.damage(Phaser.Math.Between(8, 9))
@@ -286,7 +286,7 @@ export default class extends Controller {
         this.minotaurusTwo.moveMinotaurus(this.knight)
         this.#checkSkeleton()
         if (this.snakeIsDead == false){
-          this.snake.move()
+          this.snake.move(this.knight)
           this.snake.blinkingTail()
           this.snake.addPhysics(this.knight)
           this.snake.damageKnight(this.knight)
