@@ -36,6 +36,7 @@ export default class extends Controller {
     skeletonDeathImageUrl: String,
     emptyUrl: String,
     gameover: String,
+    winUrl: String,
     bgpauseUrl: String,
     coinImageUrl: String,
     newPlayerUrl: String,
@@ -100,8 +101,6 @@ export default class extends Controller {
     const minotaurusUrl = this.minotaurusUrlValue
     const blueslimeUrl = this.blueslimeUrlValue
     this.gameoverUrl = this.gameoverValue
-
-
 
 // window.onload = function() {
 //   var game = new Phaser.Game();
@@ -302,6 +301,10 @@ export default class extends Controller {
           if (this.snake.getHealth() == 0) {
             this.snakeIsDead = true
             delete this.snake
+            // redirect to win page
+            setTimeout(() => {
+              window.location.replace(this.winUrlValue);
+            }, "500");
           }
         }
         if(this.gameScene.keyP.isDown || this.gameScene.keyEchap.isDown){
@@ -381,7 +384,6 @@ export default class extends Controller {
       this.gameScene.physics.add.collider(newSkeletons, [this.wallsLayer, this.upperWallsLayer, this.furnituresLayer, this.treesLayer])
     }
     return this.skeletons
-
   }
   #saveKnight(newStartMc){
     fetch("/main_characters", {

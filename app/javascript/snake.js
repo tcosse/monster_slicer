@@ -312,17 +312,6 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
                   }
               }
             })
-
-            // const x = this.x
-            // const y = this.y + 10
-
-            // if(Math.random() < 0.05) {
-            //   let potion = new Potion({ x, y }, this.gameScene)
-            //   this.gameScene.time.delayedCall(12000, () => potion.destroy());
-            //   potion.addPhysics(knight)
-            //   potion.setScale(0.4, 0.4)
-            // }
-
             }
           }
         }
