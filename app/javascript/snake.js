@@ -29,8 +29,8 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
 
     // depart pour test
     this.container = { x: [(29 * 16), (42 * 16)], y: [(9 * 16), (19 * 16)]}
-    this.x = 30 * 16
-    this.y = 15 * 16
+    // this.x = 30 * 16
+    // this.y = 15 * 16
 
     this.target = {x: (47 * 16), y: (122 * 16), cadrant: 1}
 
@@ -50,7 +50,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
 
     gameScene.physics.add.world.enableBody(this, 0);
     gameScene.add.existing(this);
-    console.log(this)
+
 
     // this.setSize(20, 20)
     // this.setOffset(0,0)
@@ -107,15 +107,20 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
       this.healthBar.bg.setY(this.y - 26)
       this.healthBar.bar.setX(this.x - 75)
       this.healthBar.bar.setY(this.y - 25)
-
+      if(this.body.newVelocity.x < 0) {
+        this.angle = Math.atan(this.body.newVelocity.y/this.body.newVelocity.x)*(180/Math.PI) - 90
+      }
+      else {
+        this.angle = Math.atan(this.body.newVelocity.y/this.body.newVelocity.x)*(180/Math.PI) + 90
+      }
       // faire l'ia de choix de mouvement
 
 
-      console.log('le perso est dans la salle de boss', this.knightInBossRoomValue)
+      //console.log('le perso est dans la salle de boss', this.knightInBossRoomValue)
       const distanceBetweenLastTarget = this.#calculateDistance(this, this.target)
       const lastTarget = this.target
       // (new Date() / 1000) - this.time) > 20 ||
-      console.log('time', (new Date() / 1000) - this.time,'dist' ,distanceBetweenLastTarget)
+     // console.log('time', (new Date() / 1000) - this.time,'dist' ,distanceBetweenLastTarget)
       if (distanceBetweenLastTarget <= 50) {
         const targetRange = (5 * 16)
         const noGoZone = targetRange
@@ -165,9 +170,9 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
             this.target.y = targetRoom.y - (Math.random() * targetRange)
           }
         }
-        console.log('knight', knight.x, knight.y)
-        console.log('snake', this.x, this.y)
-        console.log('target', this.target)
+        // console.log('knight', knight.x, knight.y)
+        // console.log('snake', this.x, this.y)
+        // console.log('target', this.target)
 
         this.time = new Date() / 1000
         this.deplacements.push(this.target)
@@ -284,7 +289,7 @@ export class Snake extends Phaser.Physics.Arcade.Sprite {
             //     this.gameScene.deathSound.play()
             this.gameScene.time.delayedCall(5000, () => {this.destroy()});
             this.play("fireball_explosion", true)
-            console.log(this.healthBar)
+           // console.log(this.healthBar)
 
             this.bodyParts.forEach((bodyPart) => {
               bodyPart.setVelocity(0, 0)

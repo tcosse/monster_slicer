@@ -132,7 +132,6 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
   addPhysics(knight) {
 
     this.depth=1;
-    console.log('skeleton x y :', this.x, this.y)
 
       this.gameScene.physics.add.overlap(knight.weapon, this, (gameObject1, gameObject2) => {
        // console.log("Frame name: ", knight.anims.currentFrame.frame.name)
@@ -193,7 +192,6 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
                   } else {
                     if(Math.random() < 0.1) {
                       let potion = new Potion({ x, y }, this.gameScene)
-                      this.gameScene.time.delayedCall(12000, () => potion.destroy());
                       potion.addPhysics(knight)
                       potion.setScale(0.4, 0.4)
                     }
