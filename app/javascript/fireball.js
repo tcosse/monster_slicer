@@ -32,13 +32,20 @@ export class Fireball extends Phaser.Physics.Arcade.Sprite {
     gameScene.add.existing(this);
   }
 
+  #calculateDistance(objectA, objectB) {
+    return Math.sqrt((objectA.x-objectB.x)**2 + (objectA.y-objectB.y)**2)
+  }
+
   #explodeAndDestroy() {
     if(!this.exploding){
       this.exploding = true
       this.setVelocity(0,0)
       this.setOffset(80,72)
-      this.gameScene.explosionSound.play()
       this.play("fireball_explosion", true)
+      console.log(this.#calculateDistance(this, this.knight))
+      if(this.#calculateDistance(this, this.knight) < 200) {
+        this.gameScene.explosionSound.play()
+      }
       this.gameScene.time.delayedCall(500, () => {this.destroy()})
     }
   }
@@ -54,7 +61,7 @@ export class Fireball extends Phaser.Physics.Arcade.Sprite {
         this.play("fireball_top_right", true)
         break;
       case "right":
-        this.setVelocity(200,0)
+        this.setVelocity(20,0)
         this.play("fireball_right", true)
         break;
       case "bottom_right":
