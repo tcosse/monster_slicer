@@ -316,6 +316,7 @@ export default class extends Controller {
               }, "100");
               // redirect to win page
               setTimeout(() => {
+                this.gameScene.scene.stop()
                 window.location.replace(this.winUrlValue);
               }, "1000");
             }
