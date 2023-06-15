@@ -8,11 +8,11 @@ export default class extends Controller {
   connect() {
 
     new Typed(this.element, {
-      // strings: ['Congratulations! <br> You WON!'],
       strings: ['Congratulations! <br> You WON!'],
       typeSpeed: 80,
       showCursor: false,
       smartBackspace: true
     });
+
   }
 }
