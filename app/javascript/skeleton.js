@@ -13,7 +13,7 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
     this.start = start
     this.gameScene = gameScene
     this.isDead = false
-    this.setHealth(30,0,30)
+    this.setHealth(15,0,15)
     this.time = new Date() / 1000
     this.weapon = null
     this.isHit = false
@@ -135,19 +135,24 @@ export class Skeleton extends Phaser.Physics.Arcade.Sprite {
     console.log('skeleton x y :', this.x, this.y)
 
       this.gameScene.physics.add.overlap(knight.weapon, this, (gameObject1, gameObject2) => {
-        console.log("Frame name: ", knight.anims.currentFrame.frame.name)
+       // console.log("Frame name: ", knight.anims.currentFrame.frame.name)
         if ((this.gameScene.input.keyboard.addKey("V").isDown || this.gameScene.input.manager.activePointer.primaryDown)) {
 
           if(knight.anims.currentFrame.frame.name == 36 ||knight.anims.currentFrame.frame.name == 42 || knight.anims.currentFrame.frame.name == 48){
-            this.setTint(0xff6666) // applies red color to skeleton when is attacked
-
-            this.gameScene.time.delayedCall(20000, () => {this.isHit = false});
+            // applies red color to skeleton when is attacked
+            console.log("health before hit and getHealth check: ", this.getHealth())
             if (this.getHealth() > 0) {
+              if(this.isHit == false){
+                this.setTint(0xff6666)
+                this.isHit = true
               // if the skeleton has health left, then apply damage
-              knight.once('animationcomplete', () => {
-                this.damage(15)
-                this.clearTint()
-              });
+                knight.on('animationcomplete', () => {
+                  this.damage(15)
+                  this.clearTint()
+                  this.isHit = false
+                });
+              }
+
             }
             else {
               // if the skeleton has no life left, then he is considered as dead

@@ -45,8 +45,6 @@ export class Slime extends Phaser.Physics.Arcade.Sprite {
           this.play('slime_jump2', true)
         }
         this.chain('slime_idle')
-        console.log(this)
-
       }
       else{
         this.setVelocity(0,0)
