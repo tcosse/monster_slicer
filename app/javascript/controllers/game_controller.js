@@ -217,8 +217,12 @@ export default class extends Controller {
       this.gameScene.coinCount = lastSaveMc.coins
       this.gameScene.score = lastSaveMc.score
       this.knight = new Knight({x:lastSaveMc.x, y: lastSaveMc.y}, this.gameScene, lastSaveMc.health)
-      this.minotaurus = new Minotaurus({x:lastSaveMc.x + 100, y: lastSaveMc.y}, this.gameScene)
-      this.minotaurus.addPhysics(this.knight)
+
+      this.minotaurusOne = new Minotaurus({x: 700, y: 1341}, this.gameScene)
+      this.minotaurusOne.addPhysics(this.knight)
+
+      this.minotaurusTwo = new Minotaurus({x: 800, y: 1341}, this.gameScene)
+      this.minotaurusTwo.addPhysics(this.knight)
 
       this.skeletons = this.#spawnSkeletons(this.skeleCount)
       console.log("spawned: ", this)
@@ -269,7 +273,8 @@ export default class extends Controller {
         // this.gameScene.physics.world.disableUpdate()
       } else {
         this.skeletons.forEach(skeleton => skeleton.moveSkeleton(this.knight))
-        this.minotaurus.moveMinotaurus(this.knight)
+        this.minotaurusOne.moveMinotaurus(this.knight)
+        this.minotaurusTwo.moveMinotaurus(this.knight)
         this.#checkSkeleton()
         if (this.snakeIsDead == false){
           this.snake.move()
