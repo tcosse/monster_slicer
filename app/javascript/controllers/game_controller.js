@@ -61,6 +61,7 @@ export default class extends Controller {
     minotaurusUrl: String,
     blueslimeUrl: String,
     minotaurusSound: String,
+    backgroundSound: String,
   }
 
   connect() {
@@ -101,6 +102,7 @@ export default class extends Controller {
     const minotaurusUrl = this.minotaurusUrlValue
     const blueslimeUrl = this.blueslimeUrlValue
     this.gameoverUrl = this.gameoverValue
+    const backgroundSound = this.backgroundSoundValue
 
 // window.onload = function() {
 //   var game = new Phaser.Game();
@@ -145,6 +147,7 @@ export default class extends Controller {
       this.gameScene.load.audio("explosion_sound", explosionSound)
       this.gameScene.load.audio("ok_sound", okSound)
       this.gameScene.load.audio("minotaurus_sound", minotaurusSound)
+      this.gameScene.load.audio("background_sound", backgroundSound)
 
     };
 
@@ -266,6 +269,10 @@ export default class extends Controller {
       this.gameScene.scene.add('ui-scene', UIScene , true, {gameScene: this.gameScene} )
 
       console.log(this.snake)
+
+      // bg music
+      this.gameScene.backgroundSound.play()
+      this.gameScene.backgroundSound.setLoop(true);
     }
 
 
