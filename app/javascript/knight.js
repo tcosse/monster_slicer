@@ -125,7 +125,7 @@ export class Knight extends Phaser.Physics.Arcade.Sprite {
           if(this.anims.currentFrame.frame.name == 36 ||this.anims.currentFrame.frame.name == 42 || this.anims.currentFrame.frame.name == 48){
             this.gameScene.slashSound.play()
           }
-          // this.setVelocity(0,0)
+          this.setVelocity(0,0)
           switch(this.anims.currentAnim.key) {
             case "idle_down":
               this.play("attack_down", true)
