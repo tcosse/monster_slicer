@@ -1,1 +1,5 @@
-Rails app generated with [lewagon/rails-templates](https://github.com/lewagon/rails-templates), created by the [Le Wagon coding bootcamp](https://www.lewagon.com) team.
+Monster Slicer is a fun and short game designed for casual gamers.
+
+Your objective is to slice as many monsters as you can and pick up coins.
+
+Developped at Le Wagon by @tcosse, Eno Leroy, Arnaud Toulorge et Eliott Regnier
