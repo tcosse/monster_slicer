@@ -1,4 +1,4 @@
-Monster Slicer is a fun and short online game designed for casual gamers.
+Monster Slicer is a fun and quick online game designed for casual gamers.
 
 The game was hosted at https://www.monsterslicer.games/, but the site is now down.
 
