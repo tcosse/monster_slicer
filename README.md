@@ -11,10 +11,14 @@ The project is developped using the Ruby On Rails framework, JavaScript and the 
 It was developped at Le Wagon by Eno Leroy, Arnaud Toulorge, Eliott Regnier and Thomas Cossé.
 
 
-
-
-
 ## Install instructions
-If you wish to play the game and you do not have Rails installed, follow [these](https://guides.rubyonrails.org/getting_started.html) instructions.
+If you wish to play the game, you need to have rails installed. If you need to do so, follow [these](https://guides.rubyonrails.org/getting_started.html) instructions.
 
-Once that's donne, clone the repo, create the database (`rails db:create db:migrate`) and launch the game ( `rails s` command)
+Once that's ok, clone the repo, create the database (`rails db:create db:migrate`) and launch the game ( `rails s` command)
+
+
+### Happy slicing !!  
+
+<p align="center">
+  <img src="app/assets/images/slime.gif" height=300, width=300>
+</p>
